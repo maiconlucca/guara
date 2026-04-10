@@ -141,12 +141,12 @@ input[type="password"]::placeholder { letter-spacing:0; font-size:14px; }
 .slot-chip.recuperacao { color:var(--info); border-color:#0a2a40; background:var(--info-bg); }
 
 /* LOGIN */
-.overlay { position:fixed; inset:0; background:var(--black); display:flex; align-items:center; justify-content:center; z-index:999; overflow-y:auto; padding:20px; }
+.overlay { position:fixed; inset:0; background:var(--black); display:flex; align-items:flex-start; justify-content:center; z-index:999; overflow-y:auto; padding:32px 20px 40px; }
 .overlay.hidden { display:none; }
 .overlay::before { content:''; position:fixed; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,transparent,var(--orange),transparent); }
 .login-wrap { width:100%; max-width:400px; }
 .login-logo-block { text-align:center; margin-bottom:28px; position:relative; }
-.login-wolf-img { width:120px; height:120px; object-fit:contain; position:relative; filter:drop-shadow(0 0 24px rgba(255,60,0,0.6)); animation:glow-pulse 3s ease-in-out infinite; }
+.login-wolf-img { width:120px; height:120px; object-fit:contain; position:relative; filter:drop-shadow(0 0 22px rgba(255,60,0,0.55)); }
 @keyframes glow-pulse { 0%,100%{filter:drop-shadow(0 0 18px rgba(255,60,0,0.5))} 50%{filter:drop-shadow(0 0 32px rgba(255,60,0,0.85))} }
 .login-brand-name { font-family:var(--font-display); font-size:36px; letter-spacing:0.18em; text-transform:uppercase; color:var(--text); line-height:1; margin-top:12px; }
 .login-brand-name span { color:var(--orange); }
@@ -404,6 +404,26 @@ input[type="checkbox"] { accent-color:var(--orange); }
   font-family:var(--font-mono); font-size:11px;
   color:var(--text3); letter-spacing:.06em;
   text-align:center; padding:14px 0;
+}
+
+/* ── PRÓXIMA AULA — glow pulsante ── */
+.aula-card-pub.proxima-aula {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 1px var(--orange-dim), 0 0 18px rgba(255,60,0,0.25);
+  animation: card-glow 2.5s ease-in-out infinite;
+}
+@keyframes card-glow {
+  0%,100% { box-shadow: 0 0 0 1px var(--orange-dim), 0 0 14px rgba(255,60,0,0.2); }
+  50%      { box-shadow: 0 0 0 1px var(--orange),     0 0 28px rgba(255,60,0,0.45); }
+}
+.aula-card-pub.proxima-aula .aula-card-hora { color: var(--orange); }
+.proxima-badge {
+  display:inline-flex; align-items:center;
+  font-family:var(--font-mono); font-size:9px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--orange);
+  background:var(--orange-bg2); border:1px solid var(--orange-dim);
+  padding:2px 8px; border-radius:3px; margin-left:8px;
+  vertical-align:middle;
 }
 </style>
 </head>
@@ -1569,6 +1589,46 @@ function toggleAulaExp(idx) {
 }
 window.toggleAulaExp = toggleAulaExp;
 
+function marcarProximaAula() {
+  // Pega hora atual no formato HH:MM para comparar com t.hora
+  const agora = new Date();
+  const horaAtual = String(agora.getHours()).padStart(2,'0') + ':' + String(agora.getMinutes()).padStart(2,'0');
+  const dow = agora.getDay();
+  const dstr = ds(agora);
+
+  // Turmas de hoje ordenadas por hora
+  const turmasHoje = S.turmas
+    .filter(t => t.dias && t.dias.includes(dow))
+    .sort((a,b) => a.hora.localeCompare(b.hora));
+
+  // Encontra a próxima (primeira com horário >= agora)
+  let proximaIdx = -1;
+  for(let i = 0; i < turmasHoje.length; i++) {
+    if(turmasHoje[i].hora >= horaAtual) {
+      proximaIdx = i; // índice no buildAulasSection começa em offsetIdx=0
+      break;
+    }
+  }
+
+  if(proximaIdx === -1) return; // todas as aulas de hoje já passaram
+
+  // O card tem id="aula-pub-{idx}" onde idx = offsetIdx + i
+  // Para hoje offsetIdx = 0, então idx = proximaIdx
+  const cardEl = document.getElementById('aula-pub-' + proximaIdx);
+  if(!cardEl) return;
+
+  cardEl.classList.add('proxima-aula');
+
+  // Adiciona badge "próxima" ao lado do horário
+  const horaEl = cardEl.querySelector('.aula-card-hora');
+  if(horaEl && !horaEl.querySelector('.proxima-badge')) {
+    const badge = document.createElement('span');
+    badge.className = 'proxima-badge';
+    badge.textContent = 'próxima';
+    horaEl.appendChild(badge);
+  }
+}
+
 async function init() {
   loadLocal();
   try {
@@ -1577,6 +1637,7 @@ async function init() {
     console.error('Sync error:', e);
   }
   renderLoginAulas();
+  marcarProximaAula();
   // Renderiza painel público com dados (mesmo que vazios)
   viewDate = new Date();
   document.getElementById('tab-aluno-btn').addEventListener('click', () => switchLoginTab('aluno'));
