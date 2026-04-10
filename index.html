@@ -425,125 +425,131 @@ input[type="checkbox"] { accent-color:var(--orange); }
   padding:2px 8px; border-radius:3px; margin-left:8px;
   vertical-align:middle;
 }
+
+/* ── ALUNO NAV TABS ── */
+.nav-tab-aluno { display:none; }
+
+/* ── INNER TABS (aluno) ── */
+.inner-tab-row { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:20px; }
+.inner-tab { font-family:var(--font-display); font-size:11px; letter-spacing:.12em; text-transform:uppercase; padding:10px 16px 8px; cursor:pointer; color:var(--text3); border-bottom:2px solid transparent; margin-bottom:-1px; transition:all .15s; }
+.inner-tab:hover { color:var(--text2); }
+.inner-tab.active { color:var(--orange); border-bottom-color:var(--orange); }
+.inner-panel { display:none; }
+.inner-panel.active { display:block; }
+
+/* ── RANKING ── */
+.rank-medal { font-size:18px; }
+
+/* ── PROFESSOR COR ── */
+.prof-swatch { width:28px; height:28px; border-radius:50%; cursor:pointer; transition:border-color .15s; }
+
+/* ── PRÓXIMA AULA ── */
+.aula-card-pub.proxima-aula { border-color:var(--orange); box-shadow:0 0 0 1px var(--orange-dim),0 0 18px rgba(255,60,0,.25); animation:card-glow 2.5s ease-in-out infinite; }
+@keyframes card-glow { 0%,100%{box-shadow:0 0 0 1px var(--orange-dim),0 0 14px rgba(255,60,0,.2)} 50%{box-shadow:0 0 0 1px var(--orange),0 0 28px rgba(255,60,0,.45)} }
+.aula-card-pub.proxima-aula .aula-card-hora { color:var(--orange); }
+.proxima-badge { display:inline-flex;align-items:center;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);background:var(--orange-bg2);border:1px solid var(--orange-dim);padding:2px 8px;border-radius:3px;margin-left:8px;vertical-align:middle; }
 </style>
 </head>
 <body>
 <div class="overlay" id="loginOverlay">
-  <div class="login-wrap">
-    <div class="login-logo-block">
-      <img src="data:image/png;base64,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" class="login-wolf-img" alt="Guará"/>
-      <div class="login-brand-name">GUARÁ <span>CALISTENIA</span></div>
-      <div class="login-brand-sub">Sistema de Gestão de Turmas</div>
-    </div>
-    <div class="login-box">
-      <div class="login-tab-row">
-        <div class="login-tab active" id="tab-aluno-btn">Aluno</div>
-        <div class="login-tab" id="tab-admin-btn">Admin</div>
-      </div>
-      <div class="login-panels">
-        <div class="login-panel active" id="panel-aluno">
-          <div class="form-group"><label class="form-label">CPF</label>
-            <input class="form-input" type="text" id="loginCPF" placeholder="000.000.000-00"
-              maxlength="14" oninput="maskCPF(this)" onkeydown="if(event.key==='Enter')doLoginAluno()"/></div>
-          <div class="form-group"><label class="form-label">Senha</label>
-            <input class="form-input" type="password" id="loginSenhaAluno" placeholder="Sua senha"
-              onkeydown="if(event.key==='Enter')doLoginAluno()"/></div>
-          <button class="btn btn-orange btn-full" style="margin-top:4px" onclick="doLoginAluno()">Entrar</button>
-        </div>
-        <div class="login-panel" id="panel-admin">
-          <div class="form-group"><label class="form-label">Senha administrativa</label>
-            <input class="form-input" type="password" id="loginSenhaAdmin" placeholder="••••••••"
-              onkeydown="if(event.key==='Enter')doLoginAdmin()"/></div>
-          <button class="btn btn-orange btn-full" style="margin-top:4px" onclick="doLoginAdmin()">Acessar painel</button>
-        </div>
-      </div>
-      <div class="login-footer">Guará Calistenia 2026 · Desenvolvido por Maicon Lucca</div>
-    </div>
-      <div class="login-aulas-panel" id="loginAulasPanel">
-        <div class="login-aulas-titulo">Aulas de hoje <span id="loginAulasCount"></span></div>
-        <div id="loginAulasList"></div>
-      </div>
-  </div>
+<div class="login-wrap">
+<div class="login-logo-block">
+<img src="data:image/png;base64,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" class="login-wolf-img" alt="Guará"/>
+<div class="login-brand-name">GUARÁ <span>CALISTENIA</span></div>
+<div class="login-brand-sub">Sistema de Gestão de Turmas</div>
+</div>
+<div class="login-box">
+<div class="login-tab-row">
+<div class="login-tab active" id="tab-aluno-btn">Aluno</div>
+<div class="login-tab" id="tab-admin-btn">Admin</div>
+</div>
+<div class="login-panels">
+<div class="login-panel active" id="panel-aluno">
+<div class="form-group"><label class="form-label">CPF</label>
+<input class="form-input" type="text" id="loginCPF" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" onkeydown="if(event.key==='Enter')doLoginAluno()"/></div>
+<div class="form-group"><label class="form-label">Senha</label>
+<input class="form-input" type="password" id="loginSenhaAluno" placeholder="Sua senha" onkeydown="if(event.key==='Enter')doLoginAluno()"/></div>
+<button class="btn btn-orange btn-full" style="margin-top:4px" onclick="doLoginAluno()">Entrar</button>
+</div>
+<div class="login-panel" id="panel-admin">
+<div class="form-group"><label class="form-label">Senha administrativa</label>
+<input class="form-input" type="password" id="loginSenhaAdmin" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLoginAdmin()"/></div>
+<button class="btn btn-orange btn-full" style="margin-top:4px" onclick="doLoginAdmin()">Acessar painel</button>
+</div>
+</div>
+<div class="login-footer">Guará Calistenia 2026 · Desenvolvido por Maicon Lucca</div>
+</div>
+<div class="login-aulas-panel" id="loginAulasPanel">
+<div class="login-aulas-titulo">Aulas de hoje <span id="loginAulasCount"></span></div>
+<div id="loginAulasList"></div>
+</div>
+</div>
 </div>
 <div class="modal-overlay hidden" id="modalOverlay">
-  <div class="modal-box">
-    <div class="modal-title" id="modalTitle"></div>
-    <div id="modalBody"></div>
-    <div style="display:flex;gap:8px;margin-top:20px;justify-content:flex-end" id="modalFooter"></div>
-  </div>
+<div class="modal-box">
+<div class="modal-title" id="modalTitle"></div>
+<div id="modalBody"></div>
+<div style="display:flex;gap:8px;margin-top:20px;justify-content:flex-end" id="modalFooter"></div>
+</div>
 </div>
 <div class="header">
-  <div class="logo-wrap">
-    <img src="data:image/png;base64,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" class="logo-img" alt="Guará"/>
-    <div class="logo-text">
-      <div class="logo-name">GUARÁ <span>CALISTENIA</span></div>
-      <div class="logo-sub">gestão de turmas</div>
-    </div>
-  </div>
-  <div class="user-badge" id="userBadge" onclick="logout()">
-    <span class="user-dot"></span>
-    <span id="userLabel">—</span>
-    <span style="opacity:.35;margin-left:2px">×</span>
-  </div>
+<div class="logo-wrap">
+<img src="data:image/png;base64,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" class="logo-img" alt="Guará"/>
+<div class="logo-text"><div class="logo-name">GUARÁ <span>CALISTENIA</span></div><div class="logo-sub">gestão de turmas</div></div>
+</div>
+<div class="user-badge" id="userBadge" onclick="logout()"><span class="user-dot"></span><span id="userLabel">—</span><span style="opacity:.35;margin-left:2px">×</span></div>
 </div>
 <div class="nav">
-  <div class="nav-tab active" data-view="turmas" onclick="switchView('turmas')">Turmas</div>
-  <div class="nav-tab" data-view="agenda"  onclick="switchView('agenda')">Agenda</div>
-  <div class="nav-tab" data-view="alunos"  onclick="switchView('alunos')">Alunos</div>
-  <div class="nav-tab" data-view="admin"   onclick="switchView('admin')">Admin</div>
+<div class="nav-tab active" data-view="turmas" onclick="switchView('turmas')">Turmas</div>
+<div class="nav-tab" data-view="agenda" onclick="switchView('agenda')">Agenda</div>
+<div class="nav-tab" data-view="alunos" onclick="switchView('alunos')">Alunos</div>
+<div class="nav-tab" data-view="config-turmas" onclick="switchView('config-turmas')">Turmas</div>
+<div class="nav-tab" data-view="admin" onclick="switchView('admin')">Admin</div>
+<div class="nav-tab-aluno" data-view="aluno-agenda" onclick="switchView('aluno-agenda')">Agenda</div>
+<div class="nav-tab-aluno" data-view="aluno-cal" onclick="switchView('aluno-cal')">Calendário</div>
+<div class="nav-tab-aluno" data-view="aluno-ranking" onclick="switchView('aluno-ranking')">Ranking</div>
 </div>
 <div class="main">
-  <div class="view active" id="view-turmas">
-    <div class="section-header">
-      <div><div class="section-title">TURMAS <span class="hl">DO DIA</span></div><div class="section-sub" id="turmasDateLabel"></div></div>
-      <div class="flex-row">
-        <button class="btn btn-sm" onclick="changeDay(-1)">&#8592; ANT</button>
-        <button class="btn btn-sm" onclick="goToday()">HOJE</button>
-        <button class="btn btn-sm" onclick="changeDay(1)">PR&#211;X &#8594;</button>
-      </div>
-    </div>
-    <div id="turmasContainer"></div>
-  </div>
-  <div class="view" id="view-agenda">
-    <div class="section-header">
-      <div><div class="section-title">AGENDA <span class="hl">MENSAL</span></div>
-      <div class="section-sub">Clique em um dia para ver turmas e alunos</div></div>
-    </div>
-    <div class="grid-2" style="align-items:start;gap:24px">
-      <div>
-        <div class="cal-header">
-          <button class="btn btn-sm" onclick="changeMonth(-1)">&#8592;</button>
-          <div class="cal-month" id="calMonthLabel"></div>
-          <button class="btn btn-sm" onclick="changeMonth(1)">&#8594;</button>
-        </div>
-        <div class="cal-grid" id="calGrid"></div>
-      </div>
-      <div id="agendaDayDetail"><div class="empty-state"><div class="empty-icon">&#128197;</div>Selecione um dia</div></div>
-    </div>
-  </div>
-  <div class="view" id="view-alunos">
-    <div class="section-header">
-      <div><div class="section-title">ALUNOS</div><div class="section-sub" id="alunosCount"></div></div>
-      <button class="btn btn-orange btn-sm" onclick="openModalNovoAluno()">+ NOVO ALUNO</button>
-    </div>
-    <div id="alunosContainer"></div>
-  </div>
-  <div class="view" id="view-admin">
-    <div class="section-header">
-      <div><div class="section-title">CONFIGURA&#199;&#213;ES</div><div class="section-sub">Gerenciar turmas e sistema</div></div>
-      <button class="btn btn-orange btn-sm" onclick="openModalNovaTurma()">+ NOVA TURMA</button>
-    </div>
-    <div id="adminTurmasContainer"></div>
-    <div class="divider"></div>
-    <div class="flex-between">
-      <div>
-        <div style="font-family:var(--font-display);font-size:16px;letter-spacing:.08em;margin-bottom:3px">SENHA ADMINISTRATIVA</div>
-        <div class="text-muted">Alterar senha de acesso ao painel admin</div>
-      </div>
-      <button class="btn btn-sm" onclick="openModalSenha()">Alterar</button>
-    </div>
-  </div>
-  <div class="view" id="view-aluno-link"><div id="alunoLinkContent"></div></div>
+<div class="view active" id="view-turmas">
+<div class="section-header"><div><div class="section-title">TURMAS <span class="hl">DO DIA</span></div><div class="section-sub" id="turmasDateLabel"></div></div>
+<div class="flex-row"><button class="btn btn-sm" onclick="changeDay(-1)">&#8592; ANT</button><button class="btn btn-sm" onclick="goToday()">HOJE</button><button class="btn btn-sm" onclick="changeDay(1)">PR&#211;X &#8594;</button></div></div>
+<div id="turmasContainer"></div>
+</div>
+<div class="view" id="view-agenda">
+<div class="section-header"><div><div class="section-title">AGENDA <span class="hl">MENSAL</span></div><div class="section-sub">Clique em um dia — veja turmas e alunos</div></div></div>
+<div class="grid-2" style="align-items:start;gap:24px">
+<div><div class="cal-header"><button class="btn btn-sm" onclick="changeMonth(-1)">&#8592;</button><div class="cal-month" id="calMonthLabel"></div><button class="btn btn-sm" onclick="changeMonth(1)">&#8594;</button></div><div class="cal-grid" id="calGrid"></div></div>
+<div id="agendaDayDetail"><div class="empty-state"><div class="empty-icon">📅</div>Selecione um dia</div></div>
+</div>
+</div>
+<div class="view" id="view-alunos">
+<div class="section-header"><div><div class="section-title">ALUNOS</div><div class="section-sub" id="alunosCount"></div></div><button class="btn btn-orange btn-sm" onclick="openModalNovoAluno()">+ NOVO ALUNO</button></div>
+<div id="alunosContainer"></div>
+</div>
+<div class="view" id="view-config-turmas">
+<div class="section-header"><div><div class="section-title">TURMAS</div><div class="section-sub">Cadastro e configuração</div></div><button class="btn btn-orange btn-sm" onclick="openModalNovaTurma()">+ NOVA TURMA</button></div>
+<div id="configTurmasContainer"></div>
+</div>
+<div class="view" id="view-admin">
+<div class="section-header"><div><div class="section-title">ADMIN</div><div class="section-sub">Professores e configurações</div></div><button class="btn btn-orange btn-sm" onclick="openModalNovoProfessor()">+ NOVO PROFESSOR</button></div>
+<div id="professoresContainer"></div>
+<div class="divider"></div>
+<div class="flex-between"><div><div style="font-family:var(--font-display);font-size:16px;letter-spacing:.08em;margin-bottom:3px">SENHA ADMINISTRATIVA</div><div class="text-muted">Alterar senha de acesso</div></div><button class="btn btn-sm" onclick="openModalSenha()">Alterar</button></div>
+</div>
+<div class="view" id="view-aluno-agenda">
+<div id="alunoAgendaContent"></div>
+</div>
+<div class="view" id="view-aluno-cal">
+<div class="section-header"><div><div class="section-title">CALENDÁRIO</div><div class="section-sub">Reserve e cancele aulas</div></div></div>
+<div class="grid-2" style="align-items:start;gap:24px">
+<div><div class="cal-header"><button class="btn btn-sm" onclick="alunoChangeMonth(-1)">&#8592;</button><div class="cal-month" id="alunoCalMonthLabel"></div><button class="btn btn-sm" onclick="alunoChangeMonth(1)">&#8594;</button></div><div class="cal-grid" id="alunoCalGrid"></div></div>
+<div id="alunoCalDetail"><div class="empty-state"><div class="empty-icon">📅</div>Selecione um dia</div></div>
+</div>
+</div>
+<div class="view" id="view-aluno-ranking">
+<div class="section-header"><div><div class="section-title">RANKING</div><div class="section-sub">Frequência dos últimos 90 dias</div></div></div>
+<div id="rankingContent"></div>
+</div>
 </div>
 <div class="toast" id="toast"></div>
 <script type="module">
@@ -588,57 +594,67 @@ async function fbDel(col, id) {
 
 // ── STATE ─────────────────────────────────────
 let S = {
-  turmas:    [],   // { id, nome, hora, dias[], vagas, repetir }
-  alunos:    [],   // { id, nome, cpf, senha, turmasIds[] }
-  presencas: [],   // { id, alunoId, turmaId, data, status }
-  config:    { senha: 'admin123' },
-  logado:    false,
-  alunoAtivo: null
+  turmas:      [],  // { id, nome, hora, dias[], vagas, repetir, professorId }
+  alunos:      [],  // { id, nome, cpf, senha, turmasIds[] }
+  professores: [],  // { id, nome, cor }
+  presencas:   [],  // { id, alunoId, turmaId, data, status }
+  config:      { senha: 'admin123' },
+  logado:      false,
+  alunoAtivo:  null
 };
 
 function saveLocal() {
   try {
-    localStorage.setItem('guara_v5', JSON.stringify({
-      turmas: S.turmas, alunos: S.alunos,
+    localStorage.setItem('guara_v6', JSON.stringify({
+      turmas: S.turmas, alunos: S.alunos, professores: S.professores,
       presencas: S.presencas, config: S.config
     }));
   } catch(e) {}
 }
 function loadLocal() {
   try {
-    const r = localStorage.getItem('guara_v5');
+    const r = localStorage.getItem('guara_v6');
     if(r) {
       const p = JSON.parse(r);
-      S.turmas    = p.turmas    || [];
-      S.alunos    = p.alunos    || [];
-      S.presencas = p.presencas || [];
-      S.config    = p.config    || { senha: 'admin123' };
+      S.turmas      = p.turmas      || [];
+      S.alunos      = p.alunos      || [];
+      S.professores = p.professores || [];
+      S.presencas   = p.presencas   || [];
+      S.config      = p.config      || { senha: 'admin123' };
     }
   } catch(e) {}
 }
 async function syncAll() {
-  const [turmas, alunos, presencas, configs] = await Promise.all([
-    fbGetAll('turmas'), fbGetAll('alunos'), fbGetAll('presencas'), fbGetAll('config')
+  const [turmas, alunos, professores, presencas, configs] = await Promise.all([
+    fbGetAll('turmas'), fbGetAll('alunos'), fbGetAll('professores'),
+    fbGetAll('presencas'), fbGetAll('config')
   ]);
-  S.turmas    = turmas;
-  S.alunos    = alunos;
-  S.presencas = presencas;
+  S.turmas      = turmas;
+  S.alunos      = alunos;
+  S.professores = professores;
+  S.presencas   = presencas;
   if(configs.length) S.config = configs[0];
   saveLocal();
 }
-async function fbSaveTurma(t)    { await fbSet('turmas',    t.id, t); saveLocal(); }
-async function fbSaveAluno(a)    { await fbSet('alunos',    a.id, a); saveLocal(); }
-async function fbSavePresenca(p) { await fbSet('presencas', p.id, p); saveLocal(); }
-async function fbSaveConfig()    { await fbSet('config', 'main', S.config); saveLocal(); }
+async function fbSaveTurma(t)      { await fbSet('turmas',      t.id, t); saveLocal(); }
+async function fbSaveAluno(a)      { await fbSet('alunos',      a.id, a); saveLocal(); }
+async function fbSaveProfessor(p)  { await fbSet('professores', p.id, p); saveLocal(); }
+async function fbSavePresenca(p)   { await fbSet('presencas',   p.id, p); saveLocal(); }
+async function fbSaveConfig()      { await fbSet('config', 'main', S.config); saveLocal(); }
 
 // ── DATAS ─────────────────────────────────────
 const DOW   = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const DOW_FULL = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
                'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 let viewDate = new Date();
 let calYear  = new Date().getFullYear();
 let calMonth = new Date().getMonth();
 let calSel   = null;
+// Calendário do aluno
+let alunoCalYear  = new Date().getFullYear();
+let alunoCalMonth = new Date().getMonth();
+let alunoCalSel   = null;
 
 const pad     = n => String(n).padStart(2,'0');
 const ds      = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
@@ -681,9 +697,10 @@ async function doLoginAluno() {
     S.alunoAtivo = aluno; S.logado = false;
     document.getElementById('loginOverlay').classList.add('hidden');
     document.getElementById('userLabel').textContent = aluno.nome.split(' ')[0].toUpperCase();
-    document.querySelectorAll('.nav-tab:not([data-view="agenda"])').forEach(el => el.style.display='none');
-    switchView('aluno-link');
-    renderAlunoLink();
+    // Nav do aluno: apenas Agenda, Calendário, Ranking
+    document.querySelectorAll('.nav-tab').forEach(el => el.style.display='none');
+    document.querySelectorAll('.nav-tab-aluno').forEach(el => el.style.display='');
+    switchView('aluno-agenda');
   } else {
     toast('CPF ou senha incorretos','error');
   }
@@ -697,6 +714,7 @@ function doLoginAdmin() {
     document.getElementById('loginOverlay').classList.add('hidden');
     document.getElementById('userLabel').textContent = 'ADMIN';
     document.querySelectorAll('.nav-tab').forEach(el => el.style.display='');
+    document.querySelectorAll('.nav-tab-aluno').forEach(el => el.style.display='none');
     renderTurmas();
     toast('Bem-vindo, admin!','success');
   } else {
@@ -712,25 +730,31 @@ function logout() {
   ['loginCPF','loginSenhaAluno','loginSenhaAdmin'].forEach(id => {
     const el = document.getElementById(id); if(el) el.value = '';
   });
-  document.querySelectorAll('.nav-tab').forEach(el => el.style.display = '');
+  document.querySelectorAll('.nav-tab').forEach(el => el.style.display='');
+  document.querySelectorAll('.nav-tab-aluno').forEach(el => el.style.display='none');
   switchLoginTab('aluno');
+  renderLoginAulas();
 }
 window.logout = logout;
 
 // ── VIEWS ─────────────────────────────────────
 function switchView(v) {
   document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab, .nav-tab-aluno').forEach(el => el.classList.remove('active'));
   const ve = document.getElementById('view-'+v); if(ve) ve.classList.add('active');
   const te = document.querySelector('[data-view="'+v+'"]'); if(te) te.classList.add('active');
-  if(v==='turmas') renderTurmas();
-  if(v==='agenda') { calSel=null; renderCalendar(); document.getElementById('agendaDayDetail').innerHTML='<div class="empty-state"><div class="empty-icon">📅</div>Selecione um dia</div>'; }
-  if(v==='alunos') renderAlunos();
-  if(v==='admin')  renderAdmin();
+  if(v==='turmas')       renderTurmas();
+  if(v==='agenda')       { calSel=null; renderCalendar(); document.getElementById('agendaDayDetail').innerHTML='<div class="empty-state"><div class="empty-icon">📅</div>Selecione um dia</div>'; }
+  if(v==='alunos')       renderAlunos();
+  if(v==='config-turmas') renderConfigTurmas();
+  if(v==='admin')        renderAdmin();
+  if(v==='aluno-agenda') renderAlunoAgenda();
+  if(v==='aluno-cal')    { alunoCalSel=null; renderAlunoCalendar(); document.getElementById('alunoCalDetail').innerHTML='<div class="empty-state"><div class="empty-icon">📅</div>Selecione um dia</div>'; }
+  if(v==='aluno-ranking') renderRanking();
 }
 window.switchView = switchView;
 
-// ── TURMAS VIEW ───────────────────────────────
+// ── TURMAS VIEW (admin) ───────────────────────
 function changeDay(n) { viewDate=new Date(viewDate); viewDate.setDate(viewDate.getDate()+n); renderTurmas(); }
 function goToday()    { viewDate=new Date(); renderTurmas(); }
 window.changeDay = changeDay;
@@ -752,65 +776,66 @@ function renderTurmas() {
   c.innerHTML = lista.map(t => buildTurmaCard(t, d)).join('');
 }
 
+function getProfColor(professorId) {
+  if(!professorId) return 'var(--orange)';
+  const p = S.professores.find(x=>x.id===professorId);
+  return p ? p.cor : 'var(--orange)';
+}
+
 function buildTurmaCard(turma, d) {
-  const fixos = S.alunos.filter(a => a.turmasIds && a.turmasIds.includes(turma.id));
-  const precs = S.presencas.filter(p => p.turmaId===turma.id && p.data===d);
-  const lista = fixos.map(a => {
-    const p = precs.find(x => x.alunoId===a.id);
-    return { ...a, status: p ? p.status : 'confirmado' };
+  const fixos    = S.alunos.filter(a => a.turmasIds && a.turmasIds.includes(turma.id));
+  const precs    = S.presencas.filter(p => p.turmaId===turma.id && p.data===d);
+  const lista    = fixos.map(a => { const p=precs.find(x=>x.alunoId===a.id); return {...a, status:p?p.status:'confirmado'}; });
+  precs.filter(p=>p.status==='recuperacao').forEach(p => {
+    const a=S.alunos.find(x=>x.id===p.alunoId);
+    if(a&&!lista.find(x=>x.id===a.id)) lista.push({...a,status:'recuperacao'});
   });
-  precs.filter(p => p.status==='recuperacao').forEach(p => {
-    const a = S.alunos.find(x => x.id===p.alunoId);
-    if(a && !lista.find(x => x.id===a.id)) lista.push({ ...a, status:'recuperacao' });
-  });
-  const conf   = lista.filter(a => a.status!=='ausente').length;
-  const max    = turma.vagas || 8;
-  const livres = max - conf;
-  const pct    = Math.round((conf/max)*100);
-  const barCls = pct>=100 ? 'cheio' : pct>=75 ? 'quase' : '';
-  const corV   = livres<=0 ? 'var(--danger)' : livres<=2 ? '#ff9900' : 'var(--orange)';
-  const isFut  = d >= today();
-  const isAdm  = S.logado;
+  const conf    = lista.filter(a=>a.status!=='ausente').length;
+  const max     = turma.vagas||8;
+  const livres  = max-conf;
+  const pct     = Math.round((conf/max)*100);
+  const barCls  = pct>=100?'cheio':pct>=75?'quase':'';
+  const corV    = livres<=0?'var(--danger)':livres<=2?'#ff9900':'var(--orange)';
+  const isFut   = d>=today();
+  const isAdm   = S.logado;
   const diasStr = (turma.dias||[]).map(x=>DOW[x]).join(' · ');
-  const nomeStr = turma.nome ? ' — '+turma.nome : '';
-  const repStr  = turma.repetir === false ? ' · Aula única' : ' · Semanal';
+  const nomeStr = turma.nome?' — '+turma.nome:'';
+  const repStr  = turma.repetir===false?' · Única':' · Semanal';
+  const prof    = turma.professorId ? S.professores.find(x=>x.id===turma.professorId) : null;
+  const profBadge = prof
+    ? '<span style="display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:9px;padding:2px 8px;border-radius:3px;background:rgba(0,0,0,.3);border:1px solid '+prof.cor+'20;color:'+prof.cor+';margin-top:4px"><span style="width:6px;height:6px;border-radius:50%;background:'+prof.cor+';display:inline-block"></span>'+prof.nome+'</span>'
+    : '';
 
   let alunosHtml = '';
   if(!lista.length) {
     alunosHtml = '<div class="text-muted" style="padding:8px 0">Nenhum aluno nesta turma</div>';
   } else {
     alunosHtml = lista.map(a => {
-      const sc  = a.status==='ausente' ? 'ausente' : a.status==='recuperacao' ? 'recuperacao' : '';
-      const bdg = a.status==='ausente'
-        ? '<span class="badge badge-red">AUSENTE</span>'
-        : a.status==='recuperacao'
-          ? '<span class="badge badge-info">RECUPERAÇÃO</span>'
-          : '<span class="badge badge-green">CONFIRMADO</span>';
-      let btns = '';
-      if(isAdm && isFut) {
-        if(a.status !== 'ausente')
-          btns += '<button class="btn btn-sm btn-danger" onclick="setStatus(\''+turma.id+'\',\''+a.id+'\',\''+d+'\',\'ausente\')">FALTA</button>';
-        if(a.status === 'ausente')
-          btns += '<button class="btn btn-sm btn-orange" onclick="setStatus(\''+turma.id+'\',\''+a.id+'\',\''+d+'\',\'confirmado\')">CONFIRMAR</button>';
-        if(a.status === 'recuperacao')
-          btns += '<button class="btn btn-sm btn-danger" onclick="rmRecup(\''+turma.id+'\',\''+a.id+'\',\''+d+'\')">REMOVER</button>';
+      const sc  = a.status==='ausente'?'ausente':a.status==='recuperacao'?'recuperacao':'';
+      const bdg = a.status==='ausente'?'<span class="badge badge-red">AUSENTE</span>'
+        :a.status==='recuperacao'?'<span class="badge badge-info">RECUPERAÇÃO</span>'
+        :'<span class="badge badge-green">CONFIRMADO</span>';
+      let btns='';
+      if(isAdm&&isFut) {
+        if(a.status!=='ausente') btns+='<button class="btn btn-sm btn-danger" onclick="setStatus(\''+turma.id+'\',\''+a.id+'\',\''+d+'\',\'ausente\')">FALTA</button>';
+        if(a.status==='ausente') btns+='<button class="btn btn-sm btn-orange" onclick="setStatus(\''+turma.id+'\',\''+a.id+'\',\''+d+'\',\'confirmado\')">CONFIRMAR</button>';
+        if(a.status==='recuperacao') btns+='<button class="btn btn-sm btn-danger" onclick="rmRecup(\''+turma.id+'\',\''+a.id+'\',\''+d+'\')">REMOVER</button>';
       }
       return '<div class="aluno-row"><div><div class="aluno-name '+sc+'">'+a.nome+'</div><div class="aluno-tipo">'+(a.status==='recuperacao'?'recuperação':'fixo')+'</div></div><div class="flex-row">'+bdg+btns+'</div></div>';
     }).join('');
   }
-
-  let footer = '';
-  if(isAdm && isFut) {
-    footer = '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap">';
-    if(livres > 0)
-      footer += '<button class="btn btn-sm btn-orange" onclick="openReserva(\''+turma.id+'\',\''+d+'\')">+ RECUPERAÇÃO</button>';
-    footer += '<button class="btn btn-sm" onclick="compartilhar(\''+turma.id+'\',\''+d+'\')">📲 COMPARTILHAR</button></div>';
+  let footer='';
+  if(isAdm&&isFut) {
+    footer='<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap">';
+    if(livres>0) footer+='<button class="btn btn-sm btn-orange" onclick="openReserva(\''+turma.id+'\',\''+d+'\')">+ RECUPERAÇÃO</button>';
+    footer+='<button class="btn btn-sm" onclick="compartilhar(\''+turma.id+'\',\''+d+'\')">📲 COMPARTILHAR</button></div>';
   }
-
-  return '<div class="turma-card">'
-    +'<div class="turma-header">'
+  const profColor = getProfColor(turma.professorId);
+  return '<div class="turma-card" style="border-left-color:'+profColor+'">'
+    +'<div class="turma-header" style="background:linear-gradient(90deg,'+profColor+'18 0%,transparent 60%)">'
     +'<div><div class="turma-time">'+turma.hora+'</div>'
-    +'<div class="turma-meta">'+diasStr+nomeStr+repStr+'</div></div>'
+    +'<div class="turma-meta">'+diasStr+nomeStr+repStr+'</div>'
+    +profBadge+'</div>'
     +'<div class="vagas-display">'
     +'<div class="vagas-num" style="color:'+corV+'">'+livres+'</div>'
     +'<div class="vagas-lbl">vagas livres</div>'
@@ -825,161 +850,153 @@ window.rmRecup      = rmRecup;
 window.openReserva  = openReserva;
 window.compartilhar = compartilhar;
 
-// ── CALENDÁRIO ────────────────────────────────
+// ── CALENDÁRIO ADMIN ──────────────────────────
 function changeMonth(n) {
-  calMonth += n;
-  if(calMonth < 0)  { calMonth=11; calYear--; }
-  if(calMonth > 11) { calMonth=0;  calYear++; }
+  calMonth+=n;
+  if(calMonth<0){calMonth=11;calYear--;}
+  if(calMonth>11){calMonth=0;calYear++;}
   renderCalendar();
 }
 window.changeMonth = changeMonth;
 
 function renderCalendar() {
   document.getElementById('calMonthLabel').textContent = MESES[calMonth]+' '+calYear;
-  const first    = new Date(calYear, calMonth, 1).getDay();
-  const days     = new Date(calYear, calMonth+1, 0).getDate();
-  const todayStr = today();
-  let html = DOW.map(d => '<div class="cal-dow">'+d+'</div>').join('');
-  for(let i=0; i<first; i++) html += '<div class="cal-cell empty-cell"></div>';
-  for(let day=1; day<=days; day++) {
-    const dstr = calYear+'-'+pad(calMonth+1)+'-'+pad(day);
-    const dow  = new Date(calYear, calMonth, day).getDay();
-    const ha   = S.turmas.some(t => t.dias && t.dias.includes(dow));
-    const iT   = dstr === todayStr;
-    const iP   = dstr < todayStr;
-    const iS   = dstr === calSel;
-    const hV   = ha && !iP && checkVaga(dstr, dow);
-    let cls    = 'cal-cell';
-    if(iS)        cls += ' selected-cell';
-    else if(iT)   cls += ' today-cell';
-    if(ha)        cls += ' has-aula';
-    if(iP)        cls += ' past';
-    if(hV && !iS) cls += ' has-vagas';
-    html += '<div class="'+cls+'" onclick="selDay(\''+dstr+'\','+dow+','+iP+')">'+day+'</div>';
+  const first=new Date(calYear,calMonth,1).getDay();
+  const days=new Date(calYear,calMonth+1,0).getDate();
+  const todayStr=today();
+  let html=DOW.map(d=>'<div class="cal-dow">'+d+'</div>').join('');
+  for(let i=0;i<first;i++) html+='<div class="cal-cell empty-cell"></div>';
+  for(let day=1;day<=days;day++) {
+    const dstr=calYear+'-'+pad(calMonth+1)+'-'+pad(day);
+    const dow=new Date(calYear,calMonth,day).getDay();
+    const ha=S.turmas.some(t=>t.dias&&t.dias.includes(dow));
+    const iT=dstr===todayStr,iP=dstr<todayStr,iS=dstr===calSel;
+    const hV=ha&&!iP&&checkVaga(dstr,dow);
+    let cls='cal-cell';
+    if(iS) cls+=' selected-cell'; else if(iT) cls+=' today-cell';
+    if(ha) cls+=' has-aula'; if(iP) cls+=' past'; if(hV&&!iS) cls+=' has-vagas';
+    html+='<div class="'+cls+'" onclick="selDay(\''+dstr+'\','+dow+','+iP+')">'+day+'</div>';
   }
-  document.getElementById('calGrid').innerHTML = html;
+  document.getElementById('calGrid').innerHTML=html;
 }
 
-function checkVaga(dstr, dow) {
-  return S.turmas.some(t => {
-    if(!t.dias || !t.dias.includes(dow)) return false;
-    const fixos = S.alunos.filter(a => a.turmasIds && a.turmasIds.includes(t.id));
-    const precs = S.presencas.filter(p => p.turmaId===t.id && p.data===dstr);
-    const conf  = fixos.filter(a => { const p=precs.find(x=>x.alunoId===a.id); return !p||p.status!=='ausente'; }).length
-                + precs.filter(p => p.status==='recuperacao').length;
-    return conf < (t.vagas||8);
+function checkVaga(dstr,dow) {
+  return S.turmas.some(t=>{
+    if(!t.dias||!t.dias.includes(dow)) return false;
+    const fixos=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(t.id));
+    const precs=S.presencas.filter(p=>p.turmaId===t.id&&p.data===dstr);
+    const conf=fixos.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length
+              +precs.filter(p=>p.status==='recuperacao').length;
+    return conf<(t.vagas||8);
   });
 }
+function selDay(dstr,dow,isPast) { calSel=dstr; renderCalendar(); renderAgendaDay(dstr,dow,false); }
+window.selDay=selDay;
 
-function selDay(dstr, dow, isPast) {
-  calSel = dstr;
-  renderCalendar();
-  renderAgendaDay(dstr, dow);
-}
-window.selDay = selDay;
-
-// ── AGENDA DIA — mostra todas as turmas + alunos vinculados ──
-function renderAgendaDay(dstr, dow) {
-  const turmas = S.turmas
-    .filter(t => t.dias && t.dias.includes(dow))
-    .sort((a,b) => a.hora.localeCompare(b.hora));
-  const dobj   = parseDS(dstr);
-  const isPast = dstr < today();
-  const lbl    = DOW[dow]+', '+dobj.getDate()+' de '+MESES[dobj.getMonth()];
-  const det    = document.getElementById('agendaDayDetail');
-
-  if(!turmas.length) {
-    det.innerHTML = '<div class="card"><div style="font-family:var(--font-display);font-size:18px;letter-spacing:.06em;text-transform:uppercase">'+lbl+'</div><div class="text-muted" style="margin-top:6px">Nenhuma turma neste dia</div></div>';
+// Agenda dia — admin (com alunos expandíveis)
+function renderAgendaDay(dstr,dow,isAluno) {
+  const turmas=S.turmas.filter(t=>t.dias&&t.dias.includes(dow)).sort((a,b)=>a.hora.localeCompare(b.hora));
+  const dobj=parseDS(dstr),isPast=dstr<today();
+  const lbl=DOW[dow]+', '+dobj.getDate()+' de '+MESES[dobj.getMonth()];
+  const detId = isAluno ? 'alunoCalDetail' : 'agendaDayDetail';
+  const det=document.getElementById(detId);
+  if(!turmas.length){
+    det.innerHTML='<div class="card"><div style="font-family:var(--font-display);font-size:18px;letter-spacing:.06em;text-transform:uppercase">'+lbl+'</div><div class="text-muted" style="margin-top:6px">Nenhuma turma</div></div>';
     return;
   }
-
-  let html = '<div class="text-muted" style="margin-bottom:14px;text-transform:uppercase;letter-spacing:.08em">'+lbl+'</div>';
-
-  turmas.forEach(t => {
-    // Alunos fixos vinculados a esta turma
-    const fixos = S.alunos.filter(a => a.turmasIds && a.turmasIds.includes(t.id));
-    const precs = S.presencas.filter(p => p.turmaId===t.id && p.data===dstr);
-
-    // Monta lista completa: fixos + recuperações
-    const lista = fixos.map(a => {
-      const p = precs.find(x => x.alunoId===a.id);
-      return { nome: a.nome, status: p ? p.status : 'confirmado', tipo: 'fixo' };
+  let html='<div class="text-muted" style="margin-bottom:14px;text-transform:uppercase;letter-spacing:.08em">'+lbl+'</div>';
+  turmas.forEach((t,ti) => {
+    const fixos=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(t.id));
+    const precs=S.presencas.filter(p=>p.turmaId===t.id&&p.data===dstr);
+    const lista=fixos.map(a=>{const p=precs.find(x=>x.alunoId===a.id);return{nome:a.nome,id:a.id,status:p?p.status:'confirmado',tipo:'fixo'};});
+    precs.filter(p=>p.status==='recuperacao').forEach(p=>{
+      const a=S.alunos.find(x=>x.id===p.alunoId);
+      if(a&&!fixos.find(x=>x.id===a.id)) lista.push({nome:a.nome,id:a.id,status:'recuperacao',tipo:'extra'});
     });
-    precs.filter(p => p.status==='recuperacao').forEach(p => {
-      const a = S.alunos.find(x => x.id===p.alunoId);
-      if(a && !fixos.find(x => x.id===a.id)) lista.push({ nome: a.nome, status:'recuperacao', tipo:'recuperação' });
-    });
+    const conf=lista.filter(a=>a.status!=='ausente').length;
+    const max=t.vagas||8,livres=max-conf;
+    const corV=livres<=0?'var(--danger)':livres<=2?'#ff9900':'var(--orange)';
+    const prof=t.professorId?S.professores.find(x=>x.id===t.professorId):null;
+    const profDot=prof?'<span style="width:8px;height:8px;border-radius:50%;background:'+prof.cor+';display:inline-block;margin-right:6px"></span>'+prof.nome:'';
+    const nomeStr=t.nome?'<span style="font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-left:6px">'+t.nome+'</span>':'';
+    // Chips alunos
+    const chipsFixo=fixos.map(a=>{
+      const p=precs.find(x=>x.alunoId===a.id);
+      const aus=p&&p.status==='ausente';
+      return '<span class="aluno-chip-pub fixo'+(aus?' ausente':'')+'">'+(aus?'✕ ':'✓ ')+a.nome+'</span>';
+    }).join('');
+    const chipsExtra=precs.filter(p=>p.status==='recuperacao').map(p=>{
+      const a=S.alunos.find(x=>x.id===p.alunoId);
+      if(!a||fixos.find(x=>x.id===a.id)) return '';
+      return '<span class="aluno-chip-pub extra">↺ '+a.nome+'</span>';
+    }).filter(Boolean).join('');
+    const chipsHtml=(chipsFixo||chipsExtra)
+      ?'<div class="aula-alunos-grid">'+chipsFixo+chipsExtra+'</div>'
+      :'<div class="aula-alunos-empty">Sem alunos</div>';
 
-    const conf   = lista.filter(a => a.status!=='ausente').length;
-    const max    = t.vagas || 8;
-    const livres = max - conf;
-    const corV   = livres<=0 ? 'var(--danger)' : livres<=2 ? '#ff9900' : 'var(--orange)';
-    const nomeStr = t.nome ? '<span style="font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-left:6px">'+t.nome+'</span>' : '';
-    const repStr  = t.repetir===false ? '<span class="badge badge-gray" style="margin-left:8px;font-size:9px">ÚNICA</span>' : '';
-
-    // Chips dos alunos com status visual
-    let chips = '';
-    if(lista.length === 0) {
-      chips = '<span style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">sem alunos vinculados</span>';
-    } else {
-      chips = lista.map(a => {
-        const cls = a.status==='ausente' ? 'ausente' : a.status==='recuperacao' ? 'recuperacao' : '';
-        const icon = a.status==='ausente' ? '✕ ' : a.status==='recuperacao' ? '↺ ' : '✓ ';
-        return '<span class="slot-chip '+cls+'">'+icon+a.nome+'</span>';
-      }).join('');
+    // Botão reservar para aluno
+    let btnAluno='';
+    if(isAluno&&!isPast&&livres>0) {
+      const al=S.alunoAtivo;
+      const ehFixo=al&&al.turmasIds&&al.turmasIds.includes(t.id);
+      if(!ehFixo&&al) {
+        const jaRes=!!precs.find(p=>p.alunoId===al.id&&p.status==='recuperacao');
+        if(jaRes) {
+          btnAluno='<button class="btn btn-sm" style="background:#0a2010;border-color:#0a4020;color:#22cc44" onclick="alunoReservarCal(\''+t.id+'\',\''+dstr+'\')">✓ CANCELAR</button>';
+        } else {
+          btnAluno='<button class="btn btn-sm btn-orange" onclick="alunoReservarCal(\''+t.id+'\',\''+dstr+'\')">RESERVAR</button>';
+        }
+      }
     }
-
-    // Botão reservar (só para admin, dias futuros, com vaga)
-    const btnRes = (!isPast && livres>0 && S.logado)
-      ? '<button class="btn btn-sm btn-orange" style="margin-top:8px;width:100%" onclick="openReserva(\''+t.id+'\',\''+dstr+'\')">+ RECUPERAÇÃO</button>'
-      : '';
-
-    html += '<div class="agenda-slot" style="flex-direction:column;align-items:stretch">'
-      +'<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">'
-      +'<div>'
-      +'<div style="font-family:var(--font-display);font-size:22px;letter-spacing:.06em">'+t.hora+nomeStr+repStr+'</div>'
-      +'<div class="text-muted">'+( t.dias||[]).map(x=>DOW[x]).join(' · ')+'</div>'
+    // Botão reservar admin
+    const btnAdmin=(!isAluno&&!isPast&&livres>0&&S.logado)
+      ?'<button class="btn btn-sm btn-orange" onclick="openReserva(\''+t.id+'\',\''+dstr+'\')">+ RECUP.</button>'
+      :'';
+    const cardId='ag-card-'+(isAluno?'a':'')+(ti);
+    const listId='ag-list-'+(isAluno?'a':'')+(ti);
+    const iconId='ag-icon-'+(isAluno?'a':'')+(ti);
+    html+='<div class="agenda-slot" style="flex-direction:column;align-items:stretch;padding:0;overflow:hidden">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:14px 18px;cursor:pointer" onclick="toggleAgSlot(\''+listId+'\',\''+iconId+'\')">'
+      +'<div><div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap"><span style="font-family:var(--font-display);font-size:22px;letter-spacing:.06em">'+t.hora+'</span>'+nomeStr+'</div>'
+      +(prof?'<div style="font-size:10px;font-family:var(--font-mono);color:var(--text3);margin-top:3px">'+profDot+'</div>':'')
       +'</div>'
-      +'<div style="text-align:right">'
-      +'<div style="font-family:var(--font-display);font-size:28px;color:'+corV+'">'+livres+'</div>'
-      +'<div class="vagas-lbl">de '+max+' vagas</div>'
-      +'</div>'
-      +'</div>'
-      +'<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">'
-      +'<div class="text-muted" style="margin-bottom:6px">ALUNOS</div>'
-      +'<div class="slot-alunos">'+chips+'</div>'
-      +'</div>'
-      +btnRes
-      +'</div>';
+      +'<div style="display:flex;align-items:center;gap:10px">'
+      +(btnAdmin||btnAluno?'<div>'+btnAdmin+btnAluno+'</div>':'')
+      +'<div style="text-align:right"><div style="font-family:var(--font-display);font-size:26px;color:'+corV+'">'+livres+'</div><div class="vagas-lbl">de '+max+'</div></div>'
+      +'<div class="aula-expand-icon" id="'+iconId+'">▾</div>'
+      +'</div></div>'
+      +'<div class="aula-alunos-list" id="'+listId+'" style="padding:10px 18px 14px">'
+      +'<div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">Alunos · '+conf+'/'+max+'</div>'
+      +chipsHtml+'</div></div>';
   });
-
-  det.innerHTML = html;
+  det.innerHTML=html;
 }
+
+function toggleAgSlot(listId,iconId) {
+  const l=document.getElementById(listId),ic=document.getElementById(iconId);
+  if(!l||!ic) return;
+  const open=l.classList.contains('open');
+  l.classList.toggle('open',!open);
+  ic.classList.toggle('open',!open);
+}
+window.toggleAgSlot=toggleAgSlot;
 
 // ── ALUNOS VIEW ───────────────────────────────
 function renderAlunos() {
-  document.getElementById('alunosCount').textContent = S.alunos.length+' alunos cadastrados';
-  const c = document.getElementById('alunosContainer');
-  if(!S.alunos.length) {
-    c.innerHTML = '<div class="empty-state"><div class="empty-icon">👤</div>Nenhum aluno cadastrado</div>';
-    return;
-  }
-  c.innerHTML = S.alunos.map(a => {
-    const nomeTurmas = (a.turmasIds||[]).map(tid => {
-      const t = S.turmas.find(x => x.id===tid);
-      if(!t) return '';
-      return t.hora + (t.nome ? ' · '+t.nome : '') + ' ('+( t.dias||[]).map(x=>DOW[x]).join('/')+')';
-    }).filter(Boolean).join('<br>');
-    const cpfFmt = fmtCPF(a.cpf);
-    const initials = a.nome.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+  document.getElementById('alunosCount').textContent=S.alunos.length+' alunos';
+  const c=document.getElementById('alunosContainer');
+  if(!S.alunos.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">👤</div>Nenhum aluno</div>';return;}
+  c.innerHTML=S.alunos.map(a=>{
+    const nt=(a.turmasIds||[]).map(tid=>{const t=S.turmas.find(x=>x.id===tid);return t?t.hora+(t.nome?' · '+t.nome:''):'';}).filter(Boolean).join('<br>');
+    const ini=a.nome.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
     return '<div class="card card-accent" style="margin-bottom:10px">'
       +'<div class="flex-between" style="align-items:flex-start">'
       +'<div style="display:flex;align-items:center;gap:14px;flex:1">'
-      +'<div class="aluno-avatar" style="width:44px;height:44px;font-size:16px;border-radius:6px;flex-shrink:0">'+initials+'</div>'
+      +'<div class="aluno-avatar" style="width:44px;height:44px;font-size:16px;border-radius:6px;flex-shrink:0">'+ini+'</div>'
       +'<div style="flex:1;min-width:0">'
       +'<div style="font-family:var(--font-display);font-size:16px;letter-spacing:.06em;text-transform:uppercase">'+a.nome+'</div>'
-      +'<div class="text-muted" style="margin-top:2px">'+cpfFmt+'</div>'
-      +'<div style="font-size:12px;color:var(--text2);margin-top:6px;line-height:1.6">'+(nomeTurmas||'<span style="color:var(--text3)">Sem turma fixa</span>')+'</div>'
+      +'<div class="text-muted" style="margin-top:2px">'+fmtCPF(a.cpf)+'</div>'
+      +'<div style="font-size:12px;color:var(--text2);margin-top:6px;line-height:1.6">'+(nt||'<span style="color:var(--text3)">Sem turma fixa</span>')+'</div>'
       +'</div></div>'
       +'<div class="flex-row" style="flex-shrink:0;margin-left:8px">'
       +'<button class="btn btn-sm" onclick="openEditAluno(\''+a.id+'\')">EDITAR</button>'
@@ -987,661 +1004,677 @@ function renderAlunos() {
       +'</div></div></div>';
   }).join('');
 }
-window.openEditAluno = openEditAluno;
-window.delAluno      = delAluno;
+window.openEditAluno=openEditAluno;
+window.delAluno=delAluno;
 
-// ── ADMIN VIEW ────────────────────────────────
-function renderAdmin() {
-  const c = document.getElementById('adminTurmasContainer');
-  if(!S.turmas.length) {
-    c.innerHTML = '<div class="empty-state"><div class="empty-icon">⏱️</div>Nenhuma turma cadastrada<br><span style="font-size:11px;margin-top:8px;display:block">Use o botão + NOVA TURMA acima</span></div>';
-    return;
-  }
-  let html = '<div class="text-muted" style="margin-bottom:12px">TURMAS CADASTRADAS — '+S.turmas.length+' turma'+( S.turmas.length>1?'s':'')+' ativa'+( S.turmas.length>1?'s':'')+'</div>';
-  S.turmas.sort((a,b)=>a.hora.localeCompare(b.hora)).forEach(t => {
-    const diasStr  = (t.dias||[]).map(d=>DOW[d]).join(' · ');
-    const alunosNaTurma = S.alunos.filter(a => a.turmasIds && a.turmasIds.includes(t.id));
-    const repBadge = t.repetir===false
-      ? '<span class="badge badge-warn" style="font-size:9px;margin-left:6px">ÚNICA</span>'
-      : '<span class="badge badge-green" style="font-size:9px;margin-left:6px">SEMANAL</span>';
-    html += '<div class="card" style="margin-bottom:10px">'
+// ── CONFIG TURMAS (ex-admin de turmas) ───────
+function renderConfigTurmas() {
+  const c=document.getElementById('configTurmasContainer');
+  if(!S.turmas.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">⏱️</div>Nenhuma turma<br><span style="font-size:11px;margin-top:8px;display:block">Use o botão + NOVA TURMA acima</span></div>';return;}
+  let html='<div class="text-muted" style="margin-bottom:12px">'+S.turmas.length+' turma'+(S.turmas.length>1?'s':'')+' cadastrada'+(S.turmas.length>1?'s':'')+'</div>';
+  S.turmas.sort((a,b)=>a.hora.localeCompare(b.hora)).forEach(t=>{
+    const diasStr=(t.dias||[]).map(d=>DOW[d]).join(' · ');
+    const alnTurma=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(t.id));
+    const prof=t.professorId?S.professores.find(x=>x.id===t.professorId):null;
+    const repB=t.repetir===false?'<span class="badge badge-warn" style="font-size:9px;margin-left:6px">ÚNICA</span>':'<span class="badge badge-green" style="font-size:9px;margin-left:6px">SEMANAL</span>';
+    const profBadge=prof?'<span style="display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:9px;padding:2px 8px;border-radius:3px;background:rgba(0,0,0,.3);border:1px solid '+prof.cor+'30;color:'+prof.cor+'"><span style="width:6px;height:6px;border-radius:50%;background:'+prof.cor+';display:inline-block"></span>'+prof.nome+'</span>':'';
+    html+='<div class="card" style="margin-bottom:10px;border-left:3px solid '+(prof?prof.cor:'var(--orange)')+'">'
       +'<div class="flex-between" style="flex-wrap:wrap;gap:10px">'
       +'<div>'
-      +'<div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px">'
+      +'<div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px">'
       +'<span style="font-family:var(--font-display);font-size:22px;letter-spacing:.06em">'+t.hora+'</span>'
-      +(t.nome?'<span style="font-size:14px;color:var(--text2);margin-left:6px">'+t.nome+'</span>':'')
-      +repBadge+'</div>'
-      +'<div class="text-muted" style="margin-top:4px">'+diasStr+' · '+( t.vagas||8)+' vagas · '+(alunosNaTurma.length)+' aluno'+( alunosNaTurma.length!==1?'s':'')+' vinculado'+(alunosNaTurma.length!==1?'s':'')+'</div>'
-      +(alunosNaTurma.length?'<div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">'+alunosNaTurma.map(a=>'<span class="slot-chip">'+a.nome+'</span>').join('')+'</div>':'')
+      +(t.nome?'<span style="font-size:14px;color:var(--text2)">'+t.nome+'</span>':'')
+      +repB+(profBadge?'<span> </span>'+profBadge:'')+'</div>'
+      +'<div class="text-muted" style="margin-top:4px">'+diasStr+' · '+(t.vagas||8)+' vagas · '+alnTurma.length+' aluno'+(alnTurma.length!==1?'s':'')+'</div>'
+      +(alnTurma.length?'<div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">'+alnTurma.map(a=>'<span class="slot-chip">'+a.nome+'</span>').join('')+'</div>':'')
       +'</div>'
       +'<div class="flex-row">'
       +'<button class="btn btn-sm" onclick="openEditTurma(\''+t.id+'\')">EDITAR</button>'
       +'<button class="btn btn-sm btn-danger" onclick="delTurma(\''+t.id+'\')">×</button>'
       +'</div></div></div>';
   });
-  c.innerHTML = html;
+  c.innerHTML=html;
 }
-window.openEditTurma = openEditTurma;
-window.delTurma      = delTurma;
+window.openEditTurma=openEditTurma;
+window.delTurma=delTurma;
+
+// ── ADMIN (senha + professores) ───────────────
+function renderAdmin() {
+  renderProfessores();
+}
+
+function renderProfessores() {
+  const c=document.getElementById('professoresContainer');
+  if(!c) return;
+  if(!S.professores.length){c.innerHTML='<div class="empty-state" style="padding:24px 0"><div class="empty-icon">👨‍🏫</div>Nenhum professor</div>';return;}
+  c.innerHTML=S.professores.map(p=>'<div class="card" style="margin-bottom:8px;border-left:3px solid '+p.cor+'">'
+    +'<div class="flex-between">'
+    +'<div style="display:flex;align-items:center;gap:12px">'
+    +'<div style="width:36px;height:36px;border-radius:50%;background:'+p.cor+';flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:16px;color:#000">'+p.nome.charAt(0).toUpperCase()+'</div>'
+    +'<div>'
+    +'<div style="font-family:var(--font-display);font-size:16px;letter-spacing:.06em">'+p.nome+'</div>'
+    +'<div style="font-size:11px;font-family:var(--font-mono);color:'+p.cor+'">'+p.cor+'</div>'
+    +'</div></div>'
+    +'<div class="flex-row">'
+    +'<button class="btn btn-sm" onclick="openEditProfessor(\''+p.id+'\')">EDITAR</button>'
+    +'<button class="btn btn-sm btn-danger" onclick="delProfessor(\''+p.id+'\')">×</button>'
+    +'</div></div></div>'
+  ).join('');
+}
+window.openEditProfessor=openEditProfessor;
+window.delProfessor=delProfessor;
 
 // ── ÁREA DO ALUNO ─────────────────────────────
-function renderAlunoLink() {
-  const al = S.alunoAtivo;
-  if(!al) return;
-  const turmasFixas = (al.turmasIds||[]).map(tid=>S.turmas.find(t=>t.id===tid)).filter(Boolean);
-  let proximas = [];
-  for(let i=0; i<30; i++) {
-    const dt   = new Date(); dt.setDate(dt.getDate()+i);
-    const dstr = ds(dt);
-    const dow  = dt.getDay();
-    turmasFixas.filter(t=>t.dias&&t.dias.includes(dow)).forEach(t => {
-      const p = S.presencas.find(x=>x.alunoId===al.id&&x.turmaId===t.id&&x.data===dstr);
-      proximas.push({ turma:t, dstr, status: p?p.status:'confirmado' });
+// Aba 1: Agenda 10 dias
+function renderAlunoAgenda() {
+  const al=S.alunoAtivo; if(!al) return;
+  const turmasFixas=(al.turmasIds||[]).map(tid=>S.turmas.find(t=>t.id===tid)).filter(Boolean);
+  let proximas=[];
+  for(let i=0;i<10;i++) {
+    const dt=new Date(); dt.setDate(dt.getDate()+i);
+    const dstr=ds(dt),dow=dt.getDay();
+    turmasFixas.filter(t=>t.dias&&t.dias.includes(dow)).forEach(t=>{
+      const p=S.presencas.find(x=>x.alunoId===al.id&&x.turmaId===t.id&&x.data===dstr);
+      proximas.push({turma:t,dstr,status:p?p.status:'confirmado'});
     });
   }
-  let vagas = [];
-  for(let i=1; i<=30; i++) {
-    const dt   = new Date(); dt.setDate(dt.getDate()+i);
-    const dstr = ds(dt);
-    const dow  = dt.getDay();
-    S.turmas.forEach(t => {
+  // Vagas para recuperação nos próximos 30 dias
+  let vagas=[];
+  for(let i=1;i<=30;i++) {
+    const dt=new Date(); dt.setDate(dt.getDate()+i);
+    const dstr=ds(dt),dow=dt.getDay();
+    S.turmas.forEach(t=>{
       if((al.turmasIds||[]).includes(t.id)||!t.dias||!t.dias.includes(dow)) return;
-      const fixos = S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(t.id));
-      const precs = S.presencas.filter(p=>p.turmaId===t.id&&p.data===dstr);
-      const conf  = fixos.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length
-                  + precs.filter(p=>p.status==='recuperacao').length;
-      if(conf < (t.vagas||8)) {
-        const jaRes = !!precs.find(p=>p.alunoId===al.id&&p.status==='recuperacao');
-        vagas.push({ turma:t, dstr, livres:(t.vagas||8)-conf, jaRes });
+      const fixos=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(t.id));
+      const precs=S.presencas.filter(p=>p.turmaId===t.id&&p.data===dstr);
+      const conf=fixos.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length
+                +precs.filter(p=>p.status==='recuperacao').length;
+      if(conf<(t.vagas||8)) {
+        const jaRes=!!precs.find(p=>p.alunoId===al.id&&p.status==='recuperacao');
+        vagas.push({turma:t,dstr,livres:(t.vagas||8)-conf,jaRes});
       }
     });
   }
-  const turmasLabel = turmasFixas.map(t=>t.hora+(t.nome?' · '+t.nome:'')).join(' / ')||'Sem turma fixa';
-  const initials = al.nome.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
-
-  let html = '<div class="aluno-hero">'
-    +'<div class="aluno-avatar">'+initials+'</div>'
+  const turmasLabel=turmasFixas.map(t=>t.hora+(t.nome?' · '+t.nome:'')).join(' / ')||'Sem turma fixa';
+  const ini=al.nome.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+  let html='<div class="aluno-hero">'
+    +'<div class="aluno-avatar">'+ini+'</div>'
     +'<div><div class="aluno-hero-name">'+al.nome.toUpperCase()+'</div>'
     +'<div class="aluno-hero-sub">'+turmasLabel+'</div></div></div>'
-    +'<div class="text-muted" style="margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em">Próximas aulas</div>';
-
+    +'<div class="text-muted" style="margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em">Próximos 10 dias</div>';
   if(!proximas.length) {
-    html += '<div class="empty-state"><div class="empty-icon">📅</div>Sem aulas nos próximos dias</div>';
+    html+='<div class="empty-state"><div class="empty-icon">📅</div>Sem aulas nos próximos dias</div>';
   } else {
-    proximas.slice(0,8).forEach(({turma, dstr, status}) => {
-      const dobj   = parseDS(dstr);
-      const lbl    = DOW[dobj.getDay()]+', '+dobj.getDate()+'/'+pad(dobj.getMonth()+1);
-      const corBrd = status==='ausente' ? 'var(--danger)' : 'var(--orange)';
-      const nExtra = turma.nome ? '<span style="font-size:11px;font-family:var(--font-mono);color:var(--text3)">'+turma.nome+'</span>' : '';
-      const btns   = status==='ausente'
-        ? '<span class="badge badge-red">AUSENTE</span><button class="btn btn-sm btn-orange" onclick="alunoConfirmar(\''+turma.id+'\',\''+dstr+'\')">VOU!</button>'
-        : '<span class="badge badge-green">CONFIRMADO</span><button class="btn btn-sm btn-danger" onclick="alunoFaltar(\''+turma.id+'\',\''+dstr+'\')">NÃO IREI</button>';
-      html += '<div class="card card-accent" style="margin-bottom:8px;border-left-color:'+corBrd+'">'
-        +'<div class="flex-between">'
-        +'<div><div style="font-family:var(--font-display);font-size:18px;letter-spacing:.06em">'+turma.hora+' '+nExtra+'</div>'
+    proximas.forEach(({turma,dstr,status})=>{
+      const dobj=parseDS(dstr),lbl=DOW[dobj.getDay()]+', '+dobj.getDate()+'/'+pad(dobj.getMonth()+1);
+      const corBrd=status==='ausente'?'var(--danger)':'var(--orange)';
+      const nE=turma.nome?'<span style="font-size:11px;font-family:var(--font-mono);color:var(--text3)">'+turma.nome+'</span>':'';
+      const btns=status==='ausente'
+        ?'<span class="badge badge-red">AUSENTE</span><button class="btn btn-sm btn-orange" onclick="alunoConfirmar(\''+turma.id+'\',\''+dstr+'\')">VOU!</button>'
+        :'<span class="badge badge-green">CONFIRMADO</span><button class="btn btn-sm btn-danger" onclick="alunoFaltar(\''+turma.id+'\',\''+dstr+'\')">NÃO IREI</button>';
+      html+='<div class="card card-accent" style="margin-bottom:8px;border-left-color:'+corBrd+'">'
+        +'<div class="flex-between"><div>'
+        +'<div style="font-family:var(--font-display);font-size:18px;letter-spacing:.06em">'+turma.hora+' '+nE+'</div>'
         +'<div class="text-muted">'+lbl+'</div></div>'
         +'<div class="flex-row">'+btns+'</div></div></div>';
     });
   }
-
-  html += '<div class="divider"></div>'
+  html+='<div class="divider"></div>'
     +'<div class="text-muted" style="margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em">Vagas para recuperação</div>';
-
   if(!vagas.length) {
-    html += '<div class="empty-state"><div class="empty-icon">✓</div>Nenhuma vaga disponível</div>';
+    html+='<div class="empty-state"><div class="empty-icon">✓</div>Nenhuma vaga disponível</div>';
   } else {
-    vagas.slice(0,10).forEach(({turma, dstr, livres, jaRes}) => {
-      const dobj  = parseDS(dstr);
-      const lbl   = DOW[dobj.getDay()]+', '+dobj.getDate()+'/'+pad(dobj.getMonth()+1);
-      const pl    = livres > 1 ? 's' : '';
-      const nExtra = turma.nome ? '<span style="font-size:11px;font-family:var(--font-mono);color:var(--text3)">'+turma.nome+'</span>' : '';
-      const btn   = jaRes
-        ? '<span class="badge badge-orange">RESERVADO</span>'
-        : '<button class="btn btn-sm btn-orange" onclick="alunoReservar(\''+turma.id+'\',\''+dstr+'\')">RESERVAR</button>';
-      html += '<div class="card" style="margin-bottom:8px">'
-        +'<div class="flex-between">'
-        +'<div><div style="font-family:var(--font-display);font-size:18px;letter-spacing:.06em">'+turma.hora+' '+nExtra+'</div>'
+    vagas.slice(0,15).forEach(({turma,dstr,livres,jaRes})=>{
+      const dobj=parseDS(dstr),lbl=DOW[dobj.getDay()]+', '+dobj.getDate()+'/'+pad(dobj.getMonth()+1);
+      const pl=livres>1?'s':'';
+      const nE=turma.nome?'<span style="font-size:11px;font-family:var(--font-mono);color:var(--text3)">'+turma.nome+'</span>':'';
+      // Botão: verde se reservado (permite cancelar), laranja se disponível
+      const btn=jaRes
+        ?'<button class="btn btn-sm" style="background:#0a2010;border-color:#0a4020;color:#22cc44" onclick="alunoReservar(\''+turma.id+'\',\''+dstr+'\')">✓ CANCELAR</button>'
+        :'<button class="btn btn-sm btn-orange" onclick="alunoReservar(\''+turma.id+'\',\''+dstr+'\')">RESERVAR</button>';
+      html+='<div class="card" style="margin-bottom:8px">'
+        +'<div class="flex-between"><div>'
+        +'<div style="font-family:var(--font-display);font-size:18px;letter-spacing:.06em">'+turma.hora+' '+nE+'</div>'
         +'<div class="text-muted">'+lbl+' · '+livres+' vaga'+pl+' livre'+pl+'</div></div>'+btn+'</div></div>';
     });
   }
-  document.getElementById('alunoLinkContent').innerHTML = html;
+  document.getElementById('alunoAgendaContent').innerHTML=html;
 }
-window.renderAlunoLink = renderAlunoLink;
 window.alunoFaltar     = alunoFaltar;
 window.alunoConfirmar  = alunoConfirmar;
 window.alunoReservar   = alunoReservar;
 
-// ── AÇÕES ─────────────────────────────────────
-async function setStatus(turmaId, alunoId, d, status) {
-  await setPresenca(alunoId, turmaId, d, status);
-  renderTurmas();
+// Aba 2: Calendário do aluno
+function alunoChangeMonth(n) {
+  alunoCalMonth+=n;
+  if(alunoCalMonth<0){alunoCalMonth=11;alunoCalYear--;}
+  if(alunoCalMonth>11){alunoCalMonth=0;alunoCalYear++;}
+  renderAlunoCalendar();
 }
-async function rmRecup(turmaId, alunoId, d) {
-  const p = S.presencas.find(x=>x.alunoId===alunoId&&x.turmaId===turmaId&&x.data===d);
-  if(p) { await fbDel('presencas',p.id); S.presencas=S.presencas.filter(x=>x.id!==p.id); saveLocal(); }
-  renderTurmas();
+window.alunoChangeMonth=alunoChangeMonth;
+
+function renderAlunoCalendar() {
+  document.getElementById('alunoCalMonthLabel').textContent=MESES[alunoCalMonth]+' '+alunoCalYear;
+  const first=new Date(alunoCalYear,alunoCalMonth,1).getDay();
+  const days=new Date(alunoCalYear,alunoCalMonth+1,0).getDate();
+  const todayStr=today();
+  let html=DOW.map(d=>'<div class="cal-dow">'+d+'</div>').join('');
+  for(let i=0;i<first;i++) html+='<div class="cal-cell empty-cell"></div>';
+  for(let day=1;day<=days;day++) {
+    const dstr=alunoCalYear+'-'+pad(alunoCalMonth+1)+'-'+pad(day);
+    const dow=new Date(alunoCalYear,alunoCalMonth,day).getDay();
+    const ha=S.turmas.some(t=>t.dias&&t.dias.includes(dow));
+    const iT=dstr===todayStr,iP=dstr<todayStr,iS=dstr===alunoCalSel;
+    let cls='cal-cell';
+    if(iS) cls+=' selected-cell'; else if(iT) cls+=' today-cell';
+    if(ha) cls+=' has-aula'; if(iP) cls+=' past';
+    html+='<div class="'+cls+'" onclick="alunoSelDay(\''+dstr+'\','+dow+','+iP+')">'+day+'</div>';
+  }
+  document.getElementById('alunoCalGrid').innerHTML=html;
 }
-async function setPresenca(alunoId, turmaId, d, status) {
-  const idx = S.presencas.findIndex(p=>p.alunoId===alunoId&&p.turmaId===turmaId&&p.data===d);
-  if(idx >= 0) {
-    if(status==='confirmado') {
-      const pid = S.presencas[idx].id;
-      S.presencas.splice(idx,1);
-      await fbDel('presencas',pid);
-    } else {
-      S.presencas[idx].status = status;
-      await fbSavePresenca(S.presencas[idx]);
+
+function alunoSelDay(dstr,dow,isPast) {
+  alunoCalSel=dstr; renderAlunoCalendar();
+  renderAgendaDay(dstr,dow,true);
+}
+window.alunoSelDay=alunoSelDay;
+
+// Cancelar/fazer reserva direto do calendário do aluno
+async function alunoReservarCal(turmaId,dstr) {
+  const al=S.alunoAtivo; if(!al) return;
+  const precs=S.presencas.filter(p=>p.turmaId===turmaId&&p.data===dstr);
+  const jaRes=precs.find(p=>p.alunoId===al.id&&p.status==='recuperacao');
+  if(jaRes) {
+    // Cancela reserva
+    await fbDel('presencas',jaRes.id);
+    S.presencas=S.presencas.filter(x=>x.id!==jaRes.id);
+    saveLocal(); toast('Reserva cancelada','success');
+  } else {
+    const t=S.turmas.find(x=>x.id===turmaId);
+    const fixos=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(turmaId));
+    const conf=fixos.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length
+              +precs.filter(p=>p.status==='recuperacao').length;
+    if(conf>=(t.vagas||8)){toast('Turma lotada!','error');return;}
+    await setPresenca(al.id,turmaId,dstr,'recuperacao');
+    toast('Vaga reservada!','success');
+  }
+  const dow=parseDS(dstr).getDay();
+  renderAgendaDay(dstr,dow,true);
+  renderAlunoCalendar();
+}
+window.alunoReservarCal=alunoReservarCal;
+
+// Aba 3: Ranking
+function renderRanking() {
+  const c=document.getElementById('rankingContent');
+  // Conta presenças confirmadas (não marcou ausente) de cada aluno
+  const scores=S.alunos.map(a=>{
+    // Turmas fixas do aluno
+    const turmasIds=a.turmasIds||[];
+    // Conta dias em que tinha aula E não foi marcado ausente
+    let count=0;
+    const todayStr=today();
+    // Para cada presença de ausência: desconta
+    const ausencias=S.presencas.filter(p=>p.alunoId===a.id&&p.status==='ausente').length;
+    // Total de aulas que o aluno tinha (turmas fixas × ocorrências desde cadastro)
+    // Heurística: conta dias nos últimos 90 dias em que o aluno tinha aula
+    for(let i=90;i>=0;i--) {
+      const dt=new Date(); dt.setDate(dt.getDate()-i);
+      const dstr=ds(dt);
+      if(dstr>todayStr) continue;
+      const dow=dt.getDay();
+      turmasIds.forEach(tid=>{
+        const t=S.turmas.find(x=>x.id===tid);
+        if(!t||!t.dias||!t.dias.includes(dow)) return;
+        const p=S.presencas.find(x=>x.alunoId===a.id&&x.turmaId===tid&&x.data===dstr);
+        // Confirmado = não tem registro de ausente
+        if(!p||p.status!=='ausente') count++;
+      });
     }
-  } else if(status !== 'confirmado') {
-    const p = { id:uid(), alunoId, turmaId, data:d, status };
-    S.presencas.push(p);
-    await fbSavePresenca(p);
+    return {aluno:a, count};
+  }).filter(x=>x.count>0).sort((a,b)=>b.count-a.count);
+
+  if(!scores.length){
+    c.innerHTML='<div class="empty-state"><div class="empty-icon">🏆</div>Nenhum dado de presença ainda</div>';
+    return;
+  }
+  const max=scores[0].count;
+  let html='<div class="text-muted" style="margin-bottom:16px;text-transform:uppercase;letter-spacing:.08em">Frequência — últimos 90 dias</div>';
+  scores.forEach(({aluno,count},i)=>{
+    const pct=Math.round((count/max)*100);
+    const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    const ini=aluno.nome.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+    const corBrd=i===0?'#ffd700':i===1?'#c0c0c0':i===2?'#cd7f32':'var(--border)';
+    html+='<div class="card" style="margin-bottom:8px;border-left:3px solid '+corBrd+'">'
+      +'<div class="flex-between" style="gap:12px">'
+      +'<div style="display:flex;align-items:center;gap:12px;flex:1">'
+      +'<div style="font-family:var(--font-display);font-size:20px;color:var(--text3);width:28px;text-align:center;flex-shrink:0">'+(medal||'#'+(i+1))+'</div>'
+      +'<div class="aluno-avatar" style="width:36px;height:36px;font-size:14px;border-radius:6px;flex-shrink:0">'+ini+'</div>'
+      +'<div style="flex:1;min-width:0">'
+      +'<div style="font-family:var(--font-display);font-size:15px;letter-spacing:.06em;text-transform:uppercase">'+aluno.nome+'</div>'
+      +'<div style="height:4px;background:var(--black4);border-radius:999px;margin-top:6px;overflow:hidden">'
+      +'<div style="height:100%;width:'+pct+'%;background:'+(i===0?'#ffd700':i===1?'#c0c0c0':i===2?'#cd7f32':'var(--orange)')+';border-radius:999px;transition:width .4s"></div>'
+      +'</div></div></div>'
+      +'<div style="text-align:right;flex-shrink:0">'
+      +'<div style="font-family:var(--font-display);font-size:24px;color:var(--orange)">'+count+'</div>'
+      +'<div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);text-transform:uppercase">aulas</div>'
+      +'</div></div></div>';
+  });
+  c.innerHTML=html;
+}
+
+// ── AÇÕES ─────────────────────────────────────
+async function setStatus(turmaId,alunoId,d,status) {
+  await setPresenca(alunoId,turmaId,d,status); renderTurmas();
+}
+async function rmRecup(turmaId,alunoId,d) {
+  const p=S.presencas.find(x=>x.alunoId===alunoId&&x.turmaId===turmaId&&x.data===d);
+  if(p){await fbDel('presencas',p.id);S.presencas=S.presencas.filter(x=>x.id!==p.id);saveLocal();}
+  renderTurmas();
+}
+async function setPresenca(alunoId,turmaId,d,status) {
+  const idx=S.presencas.findIndex(p=>p.alunoId===alunoId&&p.turmaId===turmaId&&p.data===d);
+  if(idx>=0) {
+    if(status==='confirmado'){const pid=S.presencas[idx].id;S.presencas.splice(idx,1);await fbDel('presencas',pid);}
+    else{S.presencas[idx].status=status;await fbSavePresenca(S.presencas[idx]);}
+  } else if(status!=='confirmado') {
+    const p={id:uid(),alunoId,turmaId,data:d,status};
+    S.presencas.push(p);await fbSavePresenca(p);
   }
   saveLocal();
 }
-async function alunoFaltar(tid, d) {
-  await setPresenca(S.alunoAtivo.id, tid, d, 'ausente');
+async function alunoFaltar(tid,d) {
+  await setPresenca(S.alunoAtivo.id,tid,d,'ausente');
   toast('Falta registrada — vaga liberada','success');
-  renderAlunoLink();
+  renderAlunoAgenda();
 }
-async function alunoConfirmar(tid, d) {
-  await setPresenca(S.alunoAtivo.id, tid, d, 'confirmado');
+async function alunoConfirmar(tid,d) {
+  await setPresenca(S.alunoAtivo.id,tid,d,'confirmado');
   toast('Presença confirmada!','success');
-  renderAlunoLink();
+  renderAlunoAgenda();
 }
-async function alunoReservar(tid, d) {
-  const t     = S.turmas.find(x=>x.id===tid);
-  const precs = S.presencas.filter(p=>p.turmaId===tid&&p.data===d);
-  const fixos = S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(tid));
-  const conf  = fixos.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length
-              + precs.filter(p=>p.status==='recuperacao').length;
-  if(conf >= (t.vagas||8)) { toast('Turma lotada!','error'); return; }
-  await setPresenca(S.alunoAtivo.id, tid, d, 'recuperacao');
-  toast('Vaga reservada!','success');
-  renderAlunoLink();
+async function alunoReservar(tid,d) {
+  const al=S.alunoAtivo;
+  const precs=S.presencas.filter(p=>p.turmaId===tid&&p.data===d);
+  const jaRes=precs.find(p=>p.alunoId===al.id&&p.status==='recuperacao');
+  if(jaRes) {
+    // Cancela
+    await fbDel('presencas',jaRes.id);
+    S.presencas=S.presencas.filter(x=>x.id!==jaRes.id);
+    saveLocal(); toast('Reserva cancelada','success');
+  } else {
+    const t=S.turmas.find(x=>x.id===tid);
+    const fixos=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(tid));
+    const conf=fixos.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length
+              +precs.filter(p=>p.status==='recuperacao').length;
+    if(conf>=(t.vagas||8)){toast('Turma lotada!','error');return;}
+    await setPresenca(al.id,tid,d,'recuperacao');
+    toast('Vaga reservada!','success');
+  }
+  renderAlunoAgenda();
 }
-function compartilhar(tid, d) {
-  const t   = S.turmas.find(x=>x.id===tid);
-  const msg = '🐺 *Guará Calistenia — Vaga Disponível!*\n'
-            + 'Turma: '+t.hora+(t.nome?' ('+t.nome+')':'')+'\n'
-            + 'Data: '+d+'\n\n'
-            + 'Entre com seu CPF no sistema para reservar!';
-  if(navigator.share) navigator.share({ text:msg });
+function compartilhar(tid,d) {
+  const t=S.turmas.find(x=>x.id===tid);
+  const msg='🐺 *Guará Calistenia — Vaga Disponível!*\nTurma: '+t.hora+(t.nome?' ('+t.nome+')':'')+'\nData: '+d+'\n\nEntre com seu CPF para reservar!';
+  if(navigator.share) navigator.share({text:msg});
   else navigator.clipboard.writeText(msg).then(()=>toast('Mensagem copiada!','success'));
 }
 
-// ── MODAL TURMA — com campo repetir ──────────
+// ── MODAL TURMA ───────────────────────────────
 function openModalNovaTurma() {
-  openModal('NOVA <span>TURMA</span>', buildFormTurma(null), [
-    { label:'Cancelar', cls:'',           action: closeModal },
-    { label:'Salvar',   cls:'btn-orange', action: ()=>saveTurma(null) }
+  openModal('NOVA <span>TURMA</span>',buildFormTurma(null),[
+    {label:'Cancelar',cls:'',action:closeModal},
+    {label:'Salvar',cls:'btn-orange',action:()=>saveTurma(null)}
   ]);
 }
-window.openModalNovaTurma = openModalNovaTurma;
-
+window.openModalNovaTurma=openModalNovaTurma;
 function openEditTurma(id) {
-  openModal('EDITAR <span>TURMA</span>', buildFormTurma(S.turmas.find(x=>x.id===id)), [
-    { label:'Cancelar', cls:'',           action: closeModal },
-    { label:'Salvar',   cls:'btn-orange', action: ()=>saveTurma(id) }
+  openModal('EDITAR <span>TURMA</span>',buildFormTurma(S.turmas.find(x=>x.id===id)),[
+    {label:'Cancelar',cls:'',action:closeModal},
+    {label:'Salvar',cls:'btn-orange',action:()=>saveTurma(id)}
   ]);
 }
-
 function buildFormTurma(t) {
-  const dias     = t ? (t.dias||[]) : [];
-  const repetir  = t ? (t.repetir !== false) : true; // padrão: semanal
-  const dayBtns  = DOW.map((d,i) => {
-    const sel = dias.includes(i) ? ' selected' : '';
-    return '<div class="day-btn'+sel+'" onclick="this.classList.toggle(\'selected\')" data-day="'+i+'">'+d+'</div>';
-  }).join('');
-
+  const dias=t?(t.dias||[]):[];
+  const repetir=t?(t.repetir!==false):true;
+  const dayBtns=DOW.map((d,i)=>'<div class="day-btn'+(dias.includes(i)?' selected':'')+'" onclick="this.classList.toggle(\'selected\')" data-day="'+i+'">'+d+'</div>').join('');
+  const profOpts=S.professores.map(p=>'<option value="'+p.id+'"'+(t&&t.professorId===p.id?' selected':'')+'>'+p.nome+'</option>').join('');
   return '<div class="form-group">'
     +'<label class="form-label">Nome / Nível (opcional)</label>'
-    +'<input class="form-input" id="fTNome" placeholder="Ex: Iniciante, Avançado, Turma A..." value="'+(t&&t.nome?t.nome:'')+'" /></div>'
-
+    +'<input class="form-input" id="fTNome" placeholder="Iniciante, Avançado..." value="'+(t&&t.nome?t.nome:'')+'" /></div>'
     +'<div class="form-group">'
-    +'<label class="form-label">Horário de início</label>'
+    +'<label class="form-label">Horário</label>'
     +'<input class="form-input" id="fTHora" type="time" value="'+(t?t.hora:'07:00')+'" /></div>'
-
     +'<div class="form-group">'
     +'<label class="form-label">Dias da semana</label>'
     +'<div class="days-grid">'+dayBtns+'</div></div>'
-
     +'<div class="form-group">'
-    +'<label class="form-label">Vagas máximas por aula</label>'
+    +'<label class="form-label">Vagas máximas</label>'
     +'<input class="form-input" id="fTVagas" type="number" min="1" max="100" value="'+(t?(t.vagas||8):8)+'" /></div>'
-
+    +'<div class="form-group">'
+    +'<label class="form-label">Professor responsável</label>'
+    +'<select class="form-select" id="fTProfessor"><option value="">— sem professor —</option>'+profOpts+'</select></div>'
     +'<div class="form-group">'
     +'<label class="form-label">Frequência</label>'
     +'<div style="display:flex;gap:10px;flex-wrap:wrap">'
-    +'<label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;padding:10px 14px;border-radius:6px;border:1px solid var(--border);background:var(--black3);flex:1;transition:all .15s" id="lbl-semanal">'
+    +'<label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;padding:10px 14px;border-radius:6px;border:1px solid var(--border);background:var(--black3);flex:1" id="lbl-semanal">'
     +'<input type="radio" name="fTRepetir" id="fTRepetirSim" value="sim" '+(repetir?'checked':'')+' onchange="highlightRepetir()" style="accent-color:var(--orange)">'
-    +'<div><div style="font-weight:600">🔁 Semanal</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Repete toda semana nos dias selecionados</div></div></label>'
-    +'<label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;padding:10px 14px;border-radius:6px;border:1px solid var(--border);background:var(--black3);flex:1;transition:all .15s" id="lbl-unica">'
+    +'<div><div style="font-weight:600">🔁 Semanal</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Repete toda semana</div></div></label>'
+    +'<label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;padding:10px 14px;border-radius:6px;border:1px solid var(--border);background:var(--black3);flex:1" id="lbl-unica">'
     +'<input type="radio" name="fTRepetir" id="fTRepetirNao" value="nao" '+(!repetir?'checked':'')+' onchange="highlightRepetir()" style="accent-color:var(--orange)">'
-    +'<div><div style="font-weight:600">📅 Aula única</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Ocorre apenas uma vez</div></div></label>'
+    +'<div><div style="font-weight:600">📅 Única</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Ocorre apenas uma vez</div></div></label>'
     +'</div></div>';
 }
-
 function highlightRepetir() {
-  const sim = document.getElementById('fTRepetirSim');
-  const lblS = document.getElementById('lbl-semanal');
-  const lblU = document.getElementById('lbl-unica');
-  if(!sim || !lblS || !lblU) return;
-  if(sim.checked) {
-    lblS.style.borderColor = 'var(--orange-dim)'; lblS.style.background = 'var(--orange-bg2)';
-    lblU.style.borderColor = 'var(--border)';     lblU.style.background = 'var(--black3)';
-  } else {
-    lblU.style.borderColor = 'var(--orange-dim)'; lblU.style.background = 'var(--orange-bg2)';
-    lblS.style.borderColor = 'var(--border)';     lblS.style.background = 'var(--black3)';
-  }
+  const sim=document.getElementById('fTRepetirSim');
+  const lS=document.getElementById('lbl-semanal'),lU=document.getElementById('lbl-unica');
+  if(!sim||!lS||!lU) return;
+  if(sim.checked){lS.style.borderColor='var(--orange-dim)';lS.style.background='var(--orange-bg2)';lU.style.borderColor='var(--border)';lU.style.background='var(--black3)';}
+  else{lU.style.borderColor='var(--orange-dim)';lU.style.background='var(--orange-bg2)';lS.style.borderColor='var(--border)';lS.style.background='var(--black3)';}
 }
-window.highlightRepetir = highlightRepetir;
-
+window.highlightRepetir=highlightRepetir;
 async function saveTurma(id) {
-  const nome  = document.getElementById('fTNome').value.trim();
-  const hora  = document.getElementById('fTHora').value;
-  const vagas = parseInt(document.getElementById('fTVagas').value)||8;
-  const dias  = [...document.querySelectorAll('.day-btn.selected')].map(el=>+el.dataset.day);
-  const rep   = document.querySelector('input[name="fTRepetir"]:checked');
-  const repetir = rep ? rep.value === 'sim' : true;
-
-  if(!hora)        { toast('Defina o horário','error'); return; }
-  if(!dias.length) { toast('Selecione ao menos um dia','error'); return; }
-
-  if(id) {
-    Object.assign(S.turmas.find(x=>x.id===id), { nome, hora, dias, vagas, repetir });
-    await fbSaveTurma(S.turmas.find(x=>x.id===id));
-  } else {
-    const t = { id:uid(), nome, hora, dias, vagas, repetir };
-    S.turmas.push(t);
-    await fbSaveTurma(t);
-  }
-  closeModal(); renderAdmin(); renderTurmas();
-  toast('Turma salva!','success');
+  const nome=document.getElementById('fTNome').value.trim();
+  const hora=document.getElementById('fTHora').value;
+  const vagas=parseInt(document.getElementById('fTVagas').value)||8;
+  const dias=[...document.querySelectorAll('.day-btn.selected')].map(el=>+el.dataset.day);
+  const rep=document.querySelector('input[name="fTRepetir"]:checked');
+  const repetir=rep?rep.value==='sim':true;
+  const professorId=document.getElementById('fTProfessor').value||null;
+  if(!hora){toast('Defina o horário','error');return;}
+  if(!dias.length){toast('Selecione ao menos um dia','error');return;}
+  if(id){Object.assign(S.turmas.find(x=>x.id===id),{nome,hora,dias,vagas,repetir,professorId});await fbSaveTurma(S.turmas.find(x=>x.id===id));}
+  else{const t={id:uid(),nome,hora,dias,vagas,repetir,professorId};S.turmas.push(t);await fbSaveTurma(t);}
+  closeModal();renderConfigTurmas();renderTurmas();toast('Turma salva!','success');
 }
 async function delTurma(id) {
-  if(!confirm('Excluir esta turma e todos os dados relacionados?')) return;
-  const pIds = S.presencas.filter(p=>p.turmaId===id).map(p=>p.id);
-  S.turmas    = S.turmas.filter(t=>t.id!==id);
-  S.presencas = S.presencas.filter(p=>p.turmaId!==id);
-  S.alunos.forEach(a => { if(a.turmasIds) a.turmasIds=a.turmasIds.filter(x=>x!==id); });
-  await fbDel('turmas',id);
-  for(const pid of pIds) await fbDel('presencas',pid);
-  // atualiza alunos no firebase
-  for(const a of S.alunos) await fbSaveAluno(a);
-  saveLocal(); renderAdmin(); renderTurmas(); toast('Turma excluída');
+  if(!confirm('Excluir esta turma?')) return;
+  const pIds=S.presencas.filter(p=>p.turmaId===id).map(p=>p.id);
+  S.turmas=S.turmas.filter(t=>t.id!==id);S.presencas=S.presencas.filter(p=>p.turmaId!==id);
+  S.alunos.forEach(a=>{if(a.turmasIds)a.turmasIds=a.turmasIds.filter(x=>x!==id);});
+  await fbDel('turmas',id);for(const pid of pIds)await fbDel('presencas',pid);
+  for(const a of S.alunos)await fbSaveAluno(a);
+  saveLocal();renderConfigTurmas();renderTurmas();toast('Turma excluída');
 }
 
-// ── MODAL ALUNO — CPF mascarado + múltiplas turmas ──
+// ── MODAL ALUNO ───────────────────────────────
 function openModalNovoAluno() {
-  openModal('NOVO <span>ALUNO</span>', buildFormAluno(null), [
-    { label:'Cancelar', cls:'',           action: closeModal },
-    { label:'Salvar',   cls:'btn-orange', action: ()=>saveAluno(null) }
+  openModal('NOVO <span>ALUNO</span>',buildFormAluno(null),[
+    {label:'Cancelar',cls:'',action:closeModal},
+    {label:'Salvar',cls:'btn-orange',action:()=>saveAluno(null)}
   ]);
 }
-window.openModalNovoAluno = openModalNovoAluno;
-
+window.openModalNovoAluno=openModalNovoAluno;
 function openEditAluno(id) {
-  openModal('EDITAR <span>ALUNO</span>', buildFormAluno(S.alunos.find(x=>x.id===id)), [
-    { label:'Cancelar', cls:'',           action: closeModal },
-    { label:'Salvar',   cls:'btn-orange', action: ()=>saveAluno(id) }
+  openModal('EDITAR <span>ALUNO</span>',buildFormAluno(S.alunos.find(x=>x.id===id)),[
+    {label:'Cancelar',cls:'',action:closeModal},
+    {label:'Salvar',cls:'btn-orange',action:()=>saveAluno(id)}
   ]);
 }
-
 function buildFormAluno(a) {
-  const ids    = a ? (a.turmasIds||[]) : [];
-  const cpfVal = a && a.cpf ? fmtCPF(a.cpf) : '';
-
-  const turmasList = S.turmas.length === 0
-    ? '<div class="text-muted" style="padding:8px 0">Nenhuma turma cadastrada ainda.<br>Crie turmas na aba Admin primeiro.</div>'
-    : S.turmas.sort((x,y)=>x.hora.localeCompare(y.hora)).map(t => {
-        const checked = ids.includes(t.id) ? ' checked' : '';
-        const diasStr = (t.dias||[]).map(d=>DOW[d]).join(', ');
-        const nomeStr = t.nome ? ' · '+t.nome : '';
-        const repStr  = t.repetir===false ? ' · Única' : ' · Semanal';
-        const alunosNaTurma = S.alunos.filter(x=>x.turmasIds&&x.turmasIds.includes(t.id)&&x.id!==(a&&a.id)).length;
-        const vagasLivres = (t.vagas||8) - alunosNaTurma;
-        const corV = vagasLivres<=0?'var(--danger)':vagasLivres<=2?'#ff9900':'var(--success)';
-        return '<label class="turma-check-row" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:6px;border:1px solid var(--border);background:var(--black3);margin-bottom:6px;cursor:pointer;transition:all .15s">'
+  const ids=a?(a.turmasIds||[]):[];
+  const cpfVal=a&&a.cpf?fmtCPF(a.cpf):'';
+  const turmasList=S.turmas.length===0
+    ?'<div class="text-muted" style="padding:8px 0">Cadastre turmas primeiro.</div>'
+    :S.turmas.sort((x,y)=>x.hora.localeCompare(y.hora)).map(t=>{
+        const checked=ids.includes(t.id)?' checked':'';
+        const prof=t.professorId?S.professores.find(x=>x.id===t.professorId):null;
+        const dot=prof?'<span style="width:6px;height:6px;border-radius:50%;background:'+prof.cor+';display:inline-block;margin-right:4px"></span>':'';
+        const alnTurma=S.alunos.filter(x=>x.turmasIds&&x.turmasIds.includes(t.id)&&x.id!==(a&&a.id)).length;
+        const vl=(t.vagas||8)-alnTurma;
+        const corV=vl<=0?'var(--danger)':vl<=2?'#ff9900':'var(--success)';
+        return '<label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:6px;border:1px solid var(--border);background:var(--black3);margin-bottom:6px;cursor:pointer">'
           +'<input type="checkbox"'+checked+' value="'+t.id+'" class="atch" style="accent-color:var(--orange);width:16px;height:16px;flex-shrink:0">'
           +'<div style="flex:1;min-width:0">'
-          +'<div style="font-family:var(--font-display);font-size:15px;letter-spacing:.06em">'+t.hora+nomeStr+'</div>'
-          +'<div style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">'+diasStr+repStr+'</div>'
-          +'</div>'
-          +'<div style="text-align:right;flex-shrink:0">'
-          +'<div style="font-family:var(--font-display);font-size:18px;color:'+corV+'">'+vagasLivres+'</div>'
-          +'<div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">VAGAS</div>'
-          +'</div></label>';
+          +'<div style="font-family:var(--font-display);font-size:15px;letter-spacing:.06em">'+t.hora+(t.nome?' · '+t.nome:'')+'</div>'
+          +'<div style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">'+dot+(t.dias||[]).map(d=>DOW[d]).join(', ')+'</div></div>'
+          +'<div style="text-align:right;flex-shrink:0"><div style="font-family:var(--font-display);font-size:18px;color:'+corV+'">'+vl+'</div>'
+          +'<div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">VAGAS</div></div></label>';
       }).join('');
-
-  return '<div class="form-group">'
-    +'<label class="form-label">Nome completo</label>'
+  return '<div class="form-group"><label class="form-label">Nome completo</label>'
     +'<input class="form-input" id="fANome" placeholder="Nome do aluno" value="'+(a?a.nome:'')+'" /></div>'
-
-    +'<div class="form-group">'
-    +'<label class="form-label">CPF</label>'
+    +'<div class="form-group"><label class="form-label">CPF</label>'
     +'<input class="form-input" id="fACPF" type="text" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" value="'+cpfVal+'" /></div>'
-
-    +'<div class="form-group">'
-    +'<label class="form-label">'+(a?'Nova senha (deixe vazio para manter)':'Senha de acesso')+'</label>'
-    +'<input class="form-input" id="fASenha" type="password" placeholder="'+(a?'••••••••  (não alterado)':'Mínimo 4 caracteres')+'" /></div>'
-
-    +'<div class="form-group">'
-    +'<label class="form-label">Turmas fixas — selecione uma ou mais</label>'
-    +turmasList
-    +'</div>';
+    +'<div class="form-group"><label class="form-label">'+(a?'Nova senha (vazio = manter)':'Senha de acesso')+'</label>'
+    +'<input class="form-input" id="fASenha" type="password" placeholder="'+(a?'••••••••':'Mínimo 4 caracteres')+'" /></div>'
+    +'<div class="form-group"><label class="form-label">Turmas fixas</label>'+turmasList+'</div>';
 }
-
 async function saveAluno(id) {
-  const nome  = document.getElementById('fANome').value.trim();
-  const cpf   = rawCPF(document.getElementById('fACPF').value);
-  const senha = document.getElementById('fASenha').value;
-  if(!nome)                { toast('Nome obrigatório','error'); return; }
-  if(!cpf||cpf.length!==11){ toast('CPF inválido — informe os 11 dígitos','error'); return; }
-  const ids = [...document.querySelectorAll('.atch:checked')].map(el=>el.value);
-  const dup = S.alunos.find(a=>a.cpf===cpf&&a.id!==id);
-  if(dup) { toast('CPF já cadastrado para '+dup.nome,'error'); return; }
-  if(id) {
-    const a = S.alunos.find(x=>x.id===id);
-    Object.assign(a, { nome, cpf, turmasIds:ids });
-    if(senha) { if(senha.length<4){toast('Senha muito curta','error');return;} a.senha=senha; }
+  const nome=document.getElementById('fANome').value.trim();
+  const cpf=rawCPF(document.getElementById('fACPF').value);
+  const senha=document.getElementById('fASenha').value;
+  if(!nome){toast('Nome obrigatório','error');return;}
+  if(!cpf||cpf.length!==11){toast('CPF inválido','error');return;}
+  const ids=[...document.querySelectorAll('.atch:checked')].map(el=>el.value);
+  const dup=S.alunos.find(a=>a.cpf===cpf&&a.id!==id);
+  if(dup){toast('CPF já cadastrado para '+dup.nome,'error');return;}
+  if(id){
+    const a=S.alunos.find(x=>x.id===id);
+    Object.assign(a,{nome,cpf,turmasIds:ids});
+    if(senha){if(senha.length<4){toast('Senha muito curta','error');return;}a.senha=senha;}
     await fbSaveAluno(a);
   } else {
-    if(!senha||senha.length<4) { toast('Defina uma senha com mínimo 4 caracteres','error'); return; }
-    const a = { id:uid(), nome, cpf, senha, turmasIds:ids };
-    S.alunos.push(a);
-    await fbSaveAluno(a);
+    if(!senha||senha.length<4){toast('Defina uma senha com mínimo 4 caracteres','error');return;}
+    const a={id:uid(),nome,cpf,senha,turmasIds:ids};
+    S.alunos.push(a);await fbSaveAluno(a);
   }
-  closeModal(); renderAlunos(); renderAdmin(); renderTurmas();
-  toast('Aluno salvo!','success');
+  closeModal();renderAlunos();renderConfigTurmas();renderTurmas();toast('Aluno salvo!','success');
 }
 async function delAluno(id) {
   if(!confirm('Excluir este aluno?')) return;
-  const pIds  = S.presencas.filter(p=>p.alunoId===id).map(p=>p.id);
-  S.alunos    = S.alunos.filter(a=>a.id!==id);
-  S.presencas = S.presencas.filter(p=>p.alunoId!==id);
-  await fbDel('alunos',id);
-  for(const pid of pIds) await fbDel('presencas',pid);
-  saveLocal(); renderAlunos(); renderAdmin(); toast('Aluno excluído');
+  const pIds=S.presencas.filter(p=>p.alunoId===id).map(p=>p.id);
+  S.alunos=S.alunos.filter(a=>a.id!==id);S.presencas=S.presencas.filter(p=>p.alunoId!==id);
+  await fbDel('alunos',id);for(const pid of pIds)await fbDel('presencas',pid);
+  saveLocal();renderAlunos();toast('Aluno excluído');
+}
+
+// ── MODAL PROFESSOR ───────────────────────────
+const PROF_CORES=['#ff3c00','#3aa8e8','#22cc44','#f0a030','#cc44cc','#00cccc','#ff6699','#99cc00','#ff9944','#44aaff'];
+function openModalNovoProfessor() {
+  openModal('NOVO <span>PROFESSOR</span>',buildFormProfessor(null),[
+    {label:'Cancelar',cls:'',action:closeModal},
+    {label:'Salvar',cls:'btn-orange',action:()=>saveProfessor(null)}
+  ]);
+}
+window.openModalNovoProfessor=openModalNovoProfessor;
+function openEditProfessor(id) {
+  openModal('EDITAR <span>PROFESSOR</span>',buildFormProfessor(S.professores.find(x=>x.id===id)),[
+    {label:'Cancelar',cls:'',action:closeModal},
+    {label:'Salvar',cls:'btn-orange',action:()=>saveProfessor(id)}
+  ]);
+}
+function buildFormProfessor(p) {
+  const corAtual=p?p.cor:PROF_CORES[0];
+  const swatches=PROF_CORES.map(c=>'<div onclick="selProfCor(this,\''+c+'\')" title="'+c+'" style="width:28px;height:28px;border-radius:50%;background:'+c+';cursor:pointer;border:2px solid '+(c===corAtual?'#fff':'transparent')+';transition:border-color .15s" data-cor="'+c+'"></div>').join('');
+  return '<div class="form-group"><label class="form-label">Nome do professor</label>'
+    +'<input class="form-input" id="fPNome" placeholder="Nome completo" value="'+(p?p.nome:'')+'" /></div>'
+    +'<div class="form-group"><label class="form-label">Cor de identificação</label>'
+    +'<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px" id="profCorSwatches">'+swatches+'</div>'
+    +'<div style="display:flex;align-items:center;gap:10px">'
+    +'<div id="profCorPreview" style="width:36px;height:36px;border-radius:50%;background:'+corAtual+';flex-shrink:0;border:2px solid rgba(255,255,255,.2)"></div>'
+    +'<input class="form-input" id="fPCor" type="text" placeholder="#ff3c00" value="'+corAtual+'" oninput="updateProfCorManual(this)" style="font-family:var(--font-mono);letter-spacing:.06em" />'
+    +'</div></div>';
+}
+function selProfCor(el,cor) {
+  document.querySelectorAll('#profCorSwatches div').forEach(d=>d.style.borderColor='transparent');
+  el.style.borderColor='#fff';
+  document.getElementById('fPCor').value=cor;
+  document.getElementById('profCorPreview').style.background=cor;
+}
+function updateProfCorManual(el) {
+  const v=el.value.trim();
+  if(/^#[0-9a-fA-F]{6}$/.test(v)) {
+    document.getElementById('profCorPreview').style.background=v;
+    document.querySelectorAll('#profCorSwatches div').forEach(d=>{d.style.borderColor=d.dataset.cor===v?'#fff':'transparent';});
+  }
+}
+window.selProfCor=selProfCor;
+window.updateProfCorManual=updateProfCorManual;
+async function saveProfessor(id) {
+  const nome=document.getElementById('fPNome').value.trim();
+  const cor=document.getElementById('fPCor').value.trim();
+  if(!nome){toast('Nome obrigatório','error');return;}
+  if(!/^#[0-9a-fA-F]{6}$/.test(cor)){toast('Cor inválida (use hex #rrggbb)','error');return;}
+  if(id){Object.assign(S.professores.find(x=>x.id===id),{nome,cor});await fbSaveProfessor(S.professores.find(x=>x.id===id));}
+  else{const p={id:uid(),nome,cor};S.professores.push(p);await fbSaveProfessor(p);}
+  closeModal();renderAdmin();toast('Professor salvo!','success');
+}
+async function delProfessor(id) {
+  if(!confirm('Excluir este professor?')) return;
+  S.professores=S.professores.filter(p=>p.id!==id);
+  S.turmas.forEach(t=>{if(t.professorId===id)t.professorId=null;});
+  await fbDel('professores',id);
+  for(const t of S.turmas) await fbSaveTurma(t);
+  saveLocal();renderAdmin();renderConfigTurmas();toast('Professor excluído');
 }
 
 // ── MODAL RESERVA ─────────────────────────────
-function openReserva(turmaId, d) {
-  const fixos = S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(turmaId)).map(a=>a.id);
-  const jaRes = S.presencas.filter(p=>p.turmaId===turmaId&&p.data===d&&p.status==='recuperacao').map(p=>p.alunoId);
-  const disp  = S.alunos.filter(a=>!fixos.includes(a.id)&&!jaRes.includes(a.id));
-  const opts  = disp.length
-    ? disp.map(a=>'<option value="'+a.id+'">'+a.nome+' — '+fmtCPF(a.cpf)+'</option>').join('')
-    : '<option value="" disabled>Nenhum aluno disponível</option>';
+function openReserva(turmaId,d) {
+  const fixos=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(turmaId)).map(a=>a.id);
+  const jaRes=S.presencas.filter(p=>p.turmaId===turmaId&&p.data===d&&p.status==='recuperacao').map(p=>p.alunoId);
+  const disp=S.alunos.filter(a=>!fixos.includes(a.id)&&!jaRes.includes(a.id));
   openModal('ADICIONAR RECUPERAÇÃO',
     '<div class="form-group"><label class="form-label">Selecionar aluno</label>'
-    +'<select class="form-select" id="fRes"><option value="">— escolha —</option>'+opts+'</select></div>',
-    [
-      { label:'Cancelar',  cls:'',           action: closeModal },
-      { label:'Confirmar', cls:'btn-orange', action: async () => {
-        const sel = document.getElementById('fRes').value;
-        if(!sel) { toast('Selecione um aluno','error'); return; }
-        const t     = S.turmas.find(x=>x.id===turmaId);
-        const precs = S.presencas.filter(p=>p.turmaId===turmaId&&p.data===d);
-        const fa    = S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(turmaId));
-        const conf  = fa.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length
-                    + precs.filter(p=>p.status==='recuperacao').length;
-        if(conf>=(t.vagas||8)) { toast('Turma lotada!','error'); return; }
-        await setPresenca(sel, turmaId, d, 'recuperacao');
-        closeModal(); renderTurmas(); if(calSel) renderAgendaDay(calSel, parseDS(calSel).getDay());
-        toast('Aluno adicionado!','success');
-      }}
-    ]
+    +'<select class="form-select" id="fRes"><option value="">— escolha —</option>'
+    +disp.map(a=>'<option value="'+a.id+'">'+a.nome+' — '+fmtCPF(a.cpf)+'</option>').join('')+'</select></div>',
+    [{label:'Cancelar',cls:'',action:closeModal},
+     {label:'Confirmar',cls:'btn-orange',action:async()=>{
+       const sel=document.getElementById('fRes').value;
+       if(!sel){toast('Selecione um aluno','error');return;}
+       const t=S.turmas.find(x=>x.id===turmaId);
+       const precs=S.presencas.filter(p=>p.turmaId===turmaId&&p.data===d);
+       const fa=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(turmaId));
+       const conf=fa.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length+precs.filter(p=>p.status==='recuperacao').length;
+       if(conf>=(t.vagas||8)){toast('Turma lotada!','error');return;}
+       await setPresenca(sel,turmaId,d,'recuperacao');
+       closeModal();renderTurmas();if(calSel)renderAgendaDay(calSel,parseDS(calSel).getDay(),false);
+       toast('Aluno adicionado!','success');
+     }}]
   );
 }
 
 // ── MODAL SENHA ───────────────────────────────
 async function openModalSenha() {
   openModal('ALTERAR <span>SENHA</span>',
-    '<div class="form-group"><label class="form-label">Nova senha</label>'
-    +'<input class="form-input" id="fS1" type="password" placeholder="Mínimo 4 caracteres"/></div>'
-    +'<div class="form-group"><label class="form-label">Confirmar nova senha</label>'
-    +'<input class="form-input" id="fS2" type="password" placeholder="Repita a senha"/></div>',
-    [
-      { label:'Cancelar', cls:'',           action: closeModal },
-      { label:'Salvar',   cls:'btn-orange', action: async () => {
-        const s  = document.getElementById('fS1').value;
-        const s2 = document.getElementById('fS2').value;
-        if(!s||s.length<4) { toast('Senha muito curta','error'); return; }
-        if(s!==s2)         { toast('Senhas não conferem','error'); return; }
-        S.config.senha = s;
-        await fbSaveConfig();
-        closeModal(); toast('Senha alterada!','success');
-      }}
-    ]
+    '<div class="form-group"><label class="form-label">Nova senha</label><input class="form-input" id="fS1" type="password" placeholder="Mínimo 4 caracteres"/></div>'
+    +'<div class="form-group"><label class="form-label">Confirmar</label><input class="form-input" id="fS2" type="password" placeholder="Repita a senha"/></div>',
+    [{label:'Cancelar',cls:'',action:closeModal},
+     {label:'Salvar',cls:'btn-orange',action:async()=>{
+       const s=document.getElementById('fS1').value,s2=document.getElementById('fS2').value;
+       if(!s||s.length<4){toast('Senha muito curta','error');return;}
+       if(s!==s2){toast('Senhas não conferem','error');return;}
+       S.config.senha=s;await fbSaveConfig();closeModal();toast('Senha alterada!','success');
+     }}]
   );
 }
-window.openModalSenha = openModalSenha;
+window.openModalSenha=openModalSenha;
 
 // ── MODAL ENGINE ──────────────────────────────
-function openModal(title, body, buttons) {
-  document.getElementById('modalTitle').innerHTML = title;
-  document.getElementById('modalBody').innerHTML  = body;
-  const f = document.getElementById('modalFooter');
-  f.innerHTML = '';
-  buttons.forEach(b => {
-    const el = document.createElement('button');
-    el.className   = 'btn '+(b.cls||'');
-    el.textContent = b.label;
-    el.onclick     = b.action;
-    f.appendChild(el);
-  });
+function openModal(title,body,buttons) {
+  document.getElementById('modalTitle').innerHTML=title;
+  document.getElementById('modalBody').innerHTML=body;
+  const f=document.getElementById('modalFooter');f.innerHTML='';
+  buttons.forEach(b=>{const el=document.createElement('button');el.className='btn '+(b.cls||'');el.textContent=b.label;el.onclick=b.action;f.appendChild(el);});
   document.getElementById('modalOverlay').classList.remove('hidden');
-  // Destaca o radio selecionado ao abrir
-  setTimeout(highlightRepetir, 50);
+  setTimeout(highlightRepetir,50);
 }
-function closeModal() { document.getElementById('modalOverlay').classList.add('hidden'); }
-window.closeModal = closeModal;
-document.getElementById('modalOverlay').addEventListener('click', e => {
-  if(e.target === document.getElementById('modalOverlay')) closeModal();
-});
+function closeModal(){document.getElementById('modalOverlay').classList.add('hidden');}
+window.closeModal=closeModal;
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('modalOverlay'))closeModal();});
 
 // ── TOAST ─────────────────────────────────────
 let _tt;
-function toast(msg, type='') {
-  const el      = document.getElementById('toast');
-  el.textContent = msg;
-  el.className  = 'toast show'+(type?' '+type:'');
-  clearTimeout(_tt);
-  _tt = setTimeout(() => el.classList.remove('show'), 3200);
+function toast(msg,type=''){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='toast show'+(type?' '+type:'');
+  clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),3200);
 }
 
-// ── INIT ──────────────────────────────────────
-// ── PAINEL AULAS DO DIA (LOGIN) ──────────────
-function buildAulasSection(dstr, dowLocal, offsetIdx) {
-  const turmas = S.turmas
-    .filter(t => t.dias && t.dias.includes(dowLocal))
-    .sort((a,b) => a.hora.localeCompare(b.hora));
-
+// ── PAINEL AULAS DO DIA (LOGIN) ───────────────
+function buildAulasSection(dstr,dowLocal,offsetIdx) {
+  const turmas=S.turmas.filter(t=>t.dias&&t.dias.includes(dowLocal)).sort((a,b)=>a.hora.localeCompare(b.hora));
   if(!turmas.length) return '';
-
-  return turmas.map((t, i) => {
-    const idx    = offsetIdx + i;
-    const fixos  = S.alunos.filter(a => a.turmasIds && a.turmasIds.includes(t.id));
-    const precs  = S.presencas.filter(p => p.turmaId===t.id && p.data===dstr);
-    const conf   = fixos.filter(a => {
-      const p = precs.find(x => x.alunoId===a.id);
-      return !p || p.status !== 'ausente';
-    }).length + precs.filter(p => p.status==='recuperacao').length;
-    const max    = t.vagas || 8;
-    const livres = max - conf;
-    const pct    = Math.round((conf/max)*100);
-    const corV   = livres<=0 ? 'var(--danger)' : livres<=2 ? '#ff9900' : 'var(--orange)';
-    const barClr = pct>=100 ? 'var(--danger)' : pct>=75 ? '#ff9900' : 'var(--orange)';
-    const barW   = Math.min(100, pct);
-    const nomeStr = t.nome || '';
-    const diasStr = (t.dias||[]).map(x=>DOW[x]).join(' · ');
-    const vagasLabel = livres<=0 ? 'LOTADA' : livres===1 ? 'VAGA' : 'VAGAS';
-
-    const fixoChips = fixos.map(a => {
-      const p = precs.find(x => x.alunoId===a.id);
-      const ausente = p && p.status==='ausente';
-      return '<span class="aluno-chip-pub fixo'+(ausente?' ausente':'') +'">'
-        +(ausente?'✕ ':'✓ ')+a.nome+'</span>';
-    }).join('');
-    const extraChips = precs.filter(p=>p.status==='recuperacao').map(p => {
-      const a = S.alunos.find(x=>x.id===p.alunoId);
-      if(!a || fixos.find(x=>x.id===a.id)) return '';
-      return '<span class="aluno-chip-pub extra">↺ '+a.nome+'</span>';
-    }).filter(Boolean).join('');
-    const chipsHtml = (fixoChips || extraChips)
-      ? '<div class="aula-alunos-grid">'+fixoChips+extraChips+'</div>'
-      : '<div class="aula-alunos-empty">Nenhum aluno vinculado</div>';
-
+  return turmas.map((t,i)=>{
+    const idx=offsetIdx+i;
+    const fixos=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(t.id));
+    const precs=S.presencas.filter(p=>p.turmaId===t.id&&p.data===dstr);
+    const conf=fixos.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length+precs.filter(p=>p.status==='recuperacao').length;
+    const max=t.vagas||8,livres=max-conf,pct=Math.round((conf/max)*100);
+    const corV=livres<=0?'var(--danger)':livres<=2?'#ff9900':'var(--orange)';
+    const barClr=pct>=100?'var(--danger)':pct>=75?'#ff9900':'var(--orange)';
+    const barW=Math.min(100,pct);
+    const vagasLabel=livres<=0?'LOTADA':livres===1?'VAGA':'VAGAS';
+    const fixoChips=fixos.map(a=>{const p=precs.find(x=>x.alunoId===a.id);const aus=p&&p.status==='ausente';return '<span class="aluno-chip-pub fixo'+(aus?' ausente':'')+'">'+( aus?'✕ ':'✓ ')+a.nome+'</span>';}).join('');
+    const extraChips=precs.filter(p=>p.status==='recuperacao').map(p=>{const a=S.alunos.find(x=>x.id===p.alunoId);if(!a||fixos.find(x=>x.id===a.id))return '';return '<span class="aluno-chip-pub extra">↺ '+a.nome+'</span>';}).filter(Boolean).join('');
+    const chipsHtml=(fixoChips||extraChips)?'<div class="aula-alunos-grid">'+fixoChips+extraChips+'</div>':'<div class="aula-alunos-empty">Nenhum aluno vinculado</div>';
     return '<div class="aula-card-pub" id="aula-pub-'+idx+'">'
       +'<div class="aula-bar-pub" style="margin:0"><div class="aula-bar-pub-fill" style="width:'+barW+'%;background:'+barClr+'"></div></div>'
       +'<div class="aula-card-header" onclick="toggleAulaExp('+idx+')">'
-        +'<div class="aula-card-left">'
-          +'<div class="aula-card-hora">'+t.hora+'</div>'
-          +'<div class="aula-card-meta">'
-            +(nomeStr?'<div class="aula-card-nome">'+nomeStr+'</div>':'')
-            +'<div class="aula-card-dias">'+diasStr+'</div>'
-          +'</div>'
-        +'</div>'
-        +'<div class="aula-card-right">'
-          +'<div class="aula-vagas-bloco">'
-            +'<div class="aula-vagas-n" style="color:'+corV+'">'+livres+'</div>'
-            +'<div class="aula-vagas-t">'+vagasLabel+'</div>'
-          +'</div>'
-          +'<div class="aula-expand-icon" id="aula-icon-'+idx+'">▾</div>'
-        +'</div>'
-      +'</div>'
+      +'<div class="aula-card-left"><div class="aula-card-hora">'+t.hora+'</div>'
+      +'<div class="aula-card-meta">'+(t.nome?'<div class="aula-card-nome">'+t.nome+'</div>':'')
+      +'<div class="aula-card-dias">'+( t.dias||[]).map(x=>DOW[x]).join(' · ')+'</div></div></div>'
+      +'<div class="aula-card-right"><div class="aula-vagas-bloco">'
+      +'<div class="aula-vagas-n" style="color:'+corV+'">'+livres+'</div>'
+      +'<div class="aula-vagas-t">'+vagasLabel+'</div></div>'
+      +'<div class="aula-expand-icon" id="aula-icon-'+idx+'">▾</div>'
+      +'</div></div>'
       +'<div class="aula-alunos-list" id="aula-list-'+idx+'">'
-        +'<div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">'
-          +'Alunos · '+conf+'/'+max+' confirmados'
-        +'</div>'
-        +chipsHtml
-      +'</div>'
-      +'</div>';
+      +'<div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">Alunos · '+conf+'/'+max+'</div>'
+      +chipsHtml+'</div></div>';
   }).join('');
 }
-
 function renderLoginAulas() {
-  const listEl = document.getElementById('loginAulasList');
-  const countEl = document.getElementById('loginAulasCount');
-  if(!listEl || !countEl) return;
-
-  const DOW_FULL = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
-  const DOW_SHORT = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-
-  // Hoje
-  const hoje    = new Date();
-  const dowHoje = hoje.getDay();
-  const dstrHoje = ds(hoje);
-  const turmasHoje = S.turmas.filter(t => t.dias && t.dias.includes(dowHoje));
-
-  // Amanhã
-  const amanha    = new Date(hoje);
-  amanha.setDate(amanha.getDate() + 1);
-  const dowAmanha  = amanha.getDay();
-  const dstrAmanha = ds(amanha);
-  const turmasAmanha = S.turmas.filter(t => t.dias && t.dias.includes(dowAmanha));
-
-  countEl.textContent = '';
-
-  let html = '';
-
-  // ─── HOJE ───
-  html += '<div class="login-dia-label">'
-    + '<span class="login-dia-nome">Hoje</span>'
-    + '<span class="login-dia-data">'
-      + DOW_FULL[dowHoje]+', '+hoje.getDate()+' de '+MESES[hoje.getMonth()]
-    + '</span>'
-    + '</div>';
-
-  if(!turmasHoje.length) {
-    html += '<div class="login-no-aulas">Nenhuma aula hoje</div>';
-  } else {
-    html += buildAulasSection(dstrHoje, dowHoje, 0);
-  }
-
-  // ─── SEPARADOR + AMANHÃ ───
-  html += '<div class="login-dia-sep"></div>';
-
-  html += '<div class="login-dia-label">'
-    + '<span class="login-dia-nome">Amanhã</span>'
-    + '<span class="login-dia-data">'
-      + DOW_FULL[dowAmanha]+', '+amanha.getDate()+' de '+MESES[amanha.getMonth()]
-    + '</span>'
-    + '</div>';
-
-  if(!turmasAmanha.length) {
-    html += '<div class="login-no-aulas">Nenhuma aula amanhã</div>';
-  } else {
-    html += buildAulasSection(dstrAmanha, dowAmanha, 100);
-  }
-
-  listEl.innerHTML = html;
+  const listEl=document.getElementById('loginAulasList');
+  const countEl=document.getElementById('loginAulasCount');
+  if(!listEl||!countEl) return;
+  const hoje=new Date(),dowH=hoje.getDay(),dstrH=ds(hoje);
+  const amanha=new Date(hoje);amanha.setDate(amanha.getDate()+1);
+  const dowA=amanha.getDay(),dstrA=ds(amanha);
+  const tHoje=S.turmas.filter(t=>t.dias&&t.dias.includes(dowH));
+  const tAmanha=S.turmas.filter(t=>t.dias&&t.dias.includes(dowA));
+  countEl.textContent='';
+  let html='<div class="login-dia-label"><span class="login-dia-nome">Hoje</span><span class="login-dia-data">'+DOW_FULL[dowH]+', '+hoje.getDate()+' de '+MESES[hoje.getMonth()]+'</span></div>';
+  html+=tHoje.length?buildAulasSection(dstrH,dowH,0):'<div class="login-no-aulas">Nenhuma aula hoje</div>';
+  html+='<div class="login-dia-sep"></div>';
+  html+='<div class="login-dia-label"><span class="login-dia-nome">Amanhã</span><span class="login-dia-data">'+DOW_FULL[dowA]+', '+amanha.getDate()+' de '+MESES[amanha.getMonth()]+'</span></div>';
+  html+=tAmanha.length?buildAulasSection(dstrA,dowA,100):'<div class="login-no-aulas">Nenhuma aula amanhã</div>';
+  listEl.innerHTML=html;
 }
-
 function toggleAulaExp(idx) {
-  const listEl = document.getElementById('aula-list-'+idx);
-  const iconEl = document.getElementById('aula-icon-'+idx);
-  if(!listEl || !iconEl) return;
-  const isOpen = listEl.classList.contains('open');
-  listEl.classList.toggle('open', !isOpen);
-  iconEl.classList.toggle('open', !isOpen);
+  const l=document.getElementById('aula-list-'+idx),ic=document.getElementById('aula-icon-'+idx);
+  if(!l||!ic) return;
+  const open=l.classList.contains('open');
+  l.classList.toggle('open',!open);ic.classList.toggle('open',!open);
 }
-window.toggleAulaExp = toggleAulaExp;
+window.toggleAulaExp=toggleAulaExp;
 
+// ── MARCAR PRÓXIMA AULA ───────────────────────
 function marcarProximaAula() {
-  // Pega hora atual no formato HH:MM para comparar com t.hora
-  const agora = new Date();
-  const horaAtual = String(agora.getHours()).padStart(2,'0') + ':' + String(agora.getMinutes()).padStart(2,'0');
-  const dow = agora.getDay();
-  const dstr = ds(agora);
-
-  // Turmas de hoje ordenadas por hora
-  const turmasHoje = S.turmas
-    .filter(t => t.dias && t.dias.includes(dow))
-    .sort((a,b) => a.hora.localeCompare(b.hora));
-
-  // Encontra a próxima (primeira com horário >= agora)
-  let proximaIdx = -1;
-  for(let i = 0; i < turmasHoje.length; i++) {
-    if(turmasHoje[i].hora >= horaAtual) {
-      proximaIdx = i; // índice no buildAulasSection começa em offsetIdx=0
-      break;
-    }
-  }
-
-  if(proximaIdx === -1) return; // todas as aulas de hoje já passaram
-
-  // O card tem id="aula-pub-{idx}" onde idx = offsetIdx + i
-  // Para hoje offsetIdx = 0, então idx = proximaIdx
-  const cardEl = document.getElementById('aula-pub-' + proximaIdx);
+  const agora=new Date();
+  const horaAtual=pad(agora.getHours())+':'+pad(agora.getMinutes());
+  const dow=agora.getDay(),dstr=ds(agora);
+  const turmasHoje=S.turmas.filter(t=>t.dias&&t.dias.includes(dow)).sort((a,b)=>a.hora.localeCompare(b.hora));
+  let proximaIdx=-1;
+  for(let i=0;i<turmasHoje.length;i++){if(turmasHoje[i].hora>=horaAtual){proximaIdx=i;break;}}
+  if(proximaIdx===-1) return;
+  const cardEl=document.getElementById('aula-pub-'+proximaIdx);
   if(!cardEl) return;
-
   cardEl.classList.add('proxima-aula');
-
-  // Adiciona badge "próxima" ao lado do horário
-  const horaEl = cardEl.querySelector('.aula-card-hora');
-  if(horaEl && !horaEl.querySelector('.proxima-badge')) {
-    const badge = document.createElement('span');
-    badge.className = 'proxima-badge';
-    badge.textContent = 'próxima';
-    horaEl.appendChild(badge);
+  const horaEl=cardEl.querySelector('.aula-card-hora');
+  if(horaEl&&!horaEl.querySelector('.proxima-badge')){
+    const badge=document.createElement('span');badge.className='proxima-badge';badge.textContent='próxima';horaEl.appendChild(badge);
   }
 }
 
+// ── INIT ──────────────────────────────────────
 async function init() {
   loadLocal();
-  try {
-    await syncAll();
-  } catch(e) {
-    console.error('Sync error:', e);
-  }
+  try { await syncAll(); } catch(e) { console.error('Sync error:',e); }
   renderLoginAulas();
   marcarProximaAula();
-  // Renderiza painel público com dados (mesmo que vazios)
-  viewDate = new Date();
-  document.getElementById('tab-aluno-btn').addEventListener('click', () => switchLoginTab('aluno'));
-  document.getElementById('tab-admin-btn').addEventListener('click', () => switchLoginTab('admin'));
+  viewDate=new Date();
+  document.getElementById('tab-aluno-btn').addEventListener('click',()=>switchLoginTab('aluno'));
+  document.getElementById('tab-admin-btn').addEventListener('click',()=>switchLoginTab('admin'));
 }
 init();
 
