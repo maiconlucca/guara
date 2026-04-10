@@ -190,6 +190,221 @@ input[type="password"]::placeholder { letter-spacing:0; font-size:14px; }
 
 input[type="time"]::-webkit-calendar-picker-indicator { filter:invert(.5) sepia(1) saturate(5) hue-rotate(320deg); }
 input[type="checkbox"] { accent-color:var(--orange); }
+
+/* REMOVIDO */
+.public-panel {
+  position:fixed; inset:0;
+  background:var(--black);
+  display:flex; flex-direction:column;
+  z-index:998; overflow-y:auto;
+}
+.public-panel.hidden { display:none; }
+
+.public-top {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:20px 24px 16px;
+  border-bottom:1px solid var(--border);
+  background:rgba(0,0,0,0.95);
+  position:sticky; top:0; z-index:10;
+  backdrop-filter:blur(12px);
+}
+.public-logo {
+  display:flex; align-items:center; gap:10px;
+}
+.public-logo img { width:36px; height:36px; object-fit:contain; filter:drop-shadow(0 0 8px rgba(255,60,0,.5)); }
+.public-logo-text { font-family:var(--font-display); font-size:18px; letter-spacing:.12em; color:var(--text); }
+.public-logo-text span { color:var(--orange); }
+.public-date-block { text-align:right; }
+.public-date-day { font-family:var(--font-display); font-size:22px; letter-spacing:.06em; color:var(--text); }
+.public-date-sub { font-family:var(--font-mono); font-size:10px; color:var(--text3); letter-spacing:.08em; text-transform:uppercase; margin-top:2px; }
+
+.public-body { padding:20px 24px; max-width:600px; margin:0 auto; width:100%; }
+
+.public-heading {
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--text3); margin-bottom:16px;
+}
+.public-heading span { color:var(--orange); margin-left:6px; }
+
+.aula-bloco {
+  background:var(--black2);
+  border:1px solid var(--border);
+  border-left:3px solid var(--orange);
+  border-radius:var(--radius-lg);
+  padding:16px 20px;
+  margin-bottom:10px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  transition:border-color .2s;
+}
+.aula-bloco.lotada { border-left-color:var(--danger); }
+.aula-bloco.quase  { border-left-color:#ff9900; }
+
+.aula-hora {
+  font-family:var(--font-display); font-size:30px; font-weight:400;
+  letter-spacing:.04em; line-height:1; color:var(--text);
+  flex-shrink:0;
+}
+.aula-info { flex:1; min-width:0; }
+.aula-nome { font-size:13px; color:var(--text2); font-family:var(--font-mono); letter-spacing:.04em; margin-top:3px; }
+.aula-dias { font-size:10px; color:var(--text3); font-family:var(--font-mono); letter-spacing:.04em; margin-top:2px; text-transform:uppercase; }
+
+.aula-vagas { text-align:center; flex-shrink:0; min-width:64px; }
+.aula-vagas-num {
+  font-family:var(--font-display); font-size:36px; letter-spacing:.04em;
+  line-height:1;
+}
+.aula-vagas-lbl { font-family:var(--font-mono); font-size:9px; color:var(--text3); letter-spacing:.06em; text-transform:uppercase; margin-top:2px; }
+
+.aula-bar { height:2px; background:var(--black4); border-radius:999px; margin-top:10px; overflow:hidden; }
+.aula-bar-fill { height:100%; border-radius:999px; background:var(--orange); transition:width .4s; }
+
+.public-footer {
+  padding:24px;
+  text-align:center;
+}
+.public-btn-login {
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--font-display); font-size:13px; letter-spacing:.14em; text-transform:uppercase;
+  padding:13px 32px; border-radius:var(--radius);
+  background:var(--orange); color:var(--black); border:none; cursor:pointer;
+  transition:all .2s; box-shadow:0 0 24px rgba(255,60,0,.35);
+  width:100%; justify-content:center; max-width:320px;
+}
+.public-btn-login:hover { background:var(--orange2); box-shadow:0 0 32px rgba(255,60,0,.5); }
+.public-btn-login-sub {
+  font-family:var(--font-mono); font-size:10px; color:var(--text3);
+  letter-spacing:.06em; margin-top:10px;
+}
+
+.public-empty {
+  text-align:center; padding:48px 20px;
+  font-family:var(--font-mono); font-size:12px; color:var(--text3);
+  letter-spacing:.06em;
+}
+.public-empty-icon { font-size:36px; margin-bottom:14px; opacity:.3; }
+
+/* ── PAINEL DE AULAS NO LOGIN ── */
+.login-aulas-panel {
+  margin-top:20px;
+  width:100%;
+}
+.login-aulas-titulo {
+  font-family:var(--font-mono);
+  font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--text3); margin-bottom:12px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.login-aulas-titulo span { color:var(--orange); }
+
+.aula-card-pub {
+  background:var(--black2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  margin-bottom:8px;
+  transition:border-color .2s;
+}
+.aula-card-pub:hover { border-color:var(--border2); }
+
+.aula-card-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px; cursor:pointer; gap:12px;
+  user-select:none;
+}
+.aula-card-header:hover { background:rgba(255,255,255,.02); }
+
+.aula-card-left { display:flex; align-items:center; gap:14px; flex:1; min-width:0; }
+.aula-card-hora {
+  font-family:var(--font-display);
+  font-size:26px; letter-spacing:.04em; line-height:1;
+  flex-shrink:0;
+}
+.aula-card-meta { min-width:0; }
+.aula-card-nome {
+  font-family:var(--font-mono); font-size:11px; color:var(--text2);
+  letter-spacing:.04em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.aula-card-dias {
+  font-family:var(--font-mono); font-size:9px; color:var(--text3);
+  letter-spacing:.04em; text-transform:uppercase; margin-top:2px;
+}
+
+.aula-card-right { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+.aula-vagas-bloco { text-align:center; }
+.aula-vagas-n {
+  font-family:var(--font-display);
+  font-size:28px; letter-spacing:.04em; line-height:1;
+}
+.aula-vagas-t {
+  font-family:var(--font-mono); font-size:8px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--text3);
+}
+.aula-expand-icon {
+  font-size:16px; color:var(--text3);
+  transition:transform .25s; flex-shrink:0;
+  font-family:var(--font-mono);
+}
+.aula-expand-icon.open { transform:rotate(180deg); }
+
+.aula-bar-pub {
+  height:2px; background:var(--black4);
+  margin:0 16px 0; border-radius:999px; overflow:hidden;
+}
+.aula-bar-pub-fill { height:100%; border-radius:999px; transition:width .4s; }
+
+/* lista de alunos expandida */
+.aula-alunos-list {
+  display:none; padding:12px 16px 14px;
+  border-top:1px solid var(--border);
+  background:rgba(0,0,0,.2);
+}
+.aula-alunos-list.open { display:block; }
+.aula-alunos-grid {
+  display:flex; flex-wrap:wrap; gap:6px;
+}
+.aluno-chip-pub {
+  display:inline-flex; align-items:center; gap:5px;
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.04em;
+  padding:4px 10px; border-radius:4px;
+}
+.aluno-chip-pub.fixo {
+  background:var(--orange-bg2); color:var(--orange); border:1px solid var(--orange-dim);
+}
+.aluno-chip-pub.fixo.ausente {
+  background:var(--danger-bg); color:var(--danger); border:1px solid #550000;
+  text-decoration:line-through; opacity:.7;
+}
+.aluno-chip-pub.extra {
+  background:var(--info-bg); color:var(--info); border:1px solid #0a2a40;
+}
+.aula-alunos-empty {
+  font-family:var(--font-mono); font-size:10px; color:var(--text3);
+  letter-spacing:.04em; padding:4px 0;
+}
+
+/* ── LABELS DE DIA NO PAINEL DE LOGIN ── */
+.login-dia-label {
+  display:flex; align-items:baseline; justify-content:space-between;
+  margin:0 0 10px; flex-wrap:wrap; gap:6px;
+}
+.login-dia-nome {
+  font-family:var(--font-display);
+  font-size:16px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--text);
+}
+.login-dia-data {
+  font-family:var(--font-mono); font-size:10px;
+  color:var(--text3); letter-spacing:.06em; text-transform:uppercase;
+}
+.login-dia-sep {
+  height:1px; background:var(--border);
+  margin:16px 0;
+}
+.login-no-aulas {
+  font-family:var(--font-mono); font-size:11px;
+  color:var(--text3); letter-spacing:.06em;
+  text-align:center; padding:14px 0;
+}
 </style>
 </head>
 <body>
@@ -222,8 +437,12 @@ input[type="checkbox"] { accent-color:var(--orange); }
           <button class="btn btn-orange btn-full" style="margin-top:4px" onclick="doLoginAdmin()">Acessar painel</button>
         </div>
       </div>
-      <div class="login-footer">Guará Calistenia &copy; 2025</div>
+      <div class="login-footer">Guará Calistenia 2026 · Desenvolvido por Maicon Lucca</div>
     </div>
+      <div class="login-aulas-panel" id="loginAulasPanel">
+        <div class="login-aulas-titulo">Aulas de hoje <span id="loginAulasCount"></span></div>
+        <div id="loginAulasList"></div>
+      </div>
   </div>
 </div>
 <div class="modal-overlay hidden" id="modalOverlay">
@@ -1213,16 +1432,152 @@ function toast(msg, type='') {
 }
 
 // ── INIT ──────────────────────────────────────
+// ── PAINEL AULAS DO DIA (LOGIN) ──────────────
+function buildAulasSection(dstr, dowLocal, offsetIdx) {
+  const turmas = S.turmas
+    .filter(t => t.dias && t.dias.includes(dowLocal))
+    .sort((a,b) => a.hora.localeCompare(b.hora));
+
+  if(!turmas.length) return '';
+
+  return turmas.map((t, i) => {
+    const idx    = offsetIdx + i;
+    const fixos  = S.alunos.filter(a => a.turmasIds && a.turmasIds.includes(t.id));
+    const precs  = S.presencas.filter(p => p.turmaId===t.id && p.data===dstr);
+    const conf   = fixos.filter(a => {
+      const p = precs.find(x => x.alunoId===a.id);
+      return !p || p.status !== 'ausente';
+    }).length + precs.filter(p => p.status==='recuperacao').length;
+    const max    = t.vagas || 8;
+    const livres = max - conf;
+    const pct    = Math.round((conf/max)*100);
+    const corV   = livres<=0 ? 'var(--danger)' : livres<=2 ? '#ff9900' : 'var(--orange)';
+    const barClr = pct>=100 ? 'var(--danger)' : pct>=75 ? '#ff9900' : 'var(--orange)';
+    const barW   = Math.min(100, pct);
+    const nomeStr = t.nome || '';
+    const diasStr = (t.dias||[]).map(x=>DOW[x]).join(' · ');
+    const vagasLabel = livres<=0 ? 'LOTADA' : livres===1 ? 'VAGA' : 'VAGAS';
+
+    const fixoChips = fixos.map(a => {
+      const p = precs.find(x => x.alunoId===a.id);
+      const ausente = p && p.status==='ausente';
+      return '<span class="aluno-chip-pub fixo'+(ausente?' ausente':'') +'">'
+        +(ausente?'✕ ':'✓ ')+a.nome+'</span>';
+    }).join('');
+    const extraChips = precs.filter(p=>p.status==='recuperacao').map(p => {
+      const a = S.alunos.find(x=>x.id===p.alunoId);
+      if(!a || fixos.find(x=>x.id===a.id)) return '';
+      return '<span class="aluno-chip-pub extra">↺ '+a.nome+'</span>';
+    }).filter(Boolean).join('');
+    const chipsHtml = (fixoChips || extraChips)
+      ? '<div class="aula-alunos-grid">'+fixoChips+extraChips+'</div>'
+      : '<div class="aula-alunos-empty">Nenhum aluno vinculado</div>';
+
+    return '<div class="aula-card-pub" id="aula-pub-'+idx+'">'
+      +'<div class="aula-bar-pub" style="margin:0"><div class="aula-bar-pub-fill" style="width:'+barW+'%;background:'+barClr+'"></div></div>'
+      +'<div class="aula-card-header" onclick="toggleAulaExp('+idx+')">'
+        +'<div class="aula-card-left">'
+          +'<div class="aula-card-hora">'+t.hora+'</div>'
+          +'<div class="aula-card-meta">'
+            +(nomeStr?'<div class="aula-card-nome">'+nomeStr+'</div>':'')
+            +'<div class="aula-card-dias">'+diasStr+'</div>'
+          +'</div>'
+        +'</div>'
+        +'<div class="aula-card-right">'
+          +'<div class="aula-vagas-bloco">'
+            +'<div class="aula-vagas-n" style="color:'+corV+'">'+livres+'</div>'
+            +'<div class="aula-vagas-t">'+vagasLabel+'</div>'
+          +'</div>'
+          +'<div class="aula-expand-icon" id="aula-icon-'+idx+'">▾</div>'
+        +'</div>'
+      +'</div>'
+      +'<div class="aula-alunos-list" id="aula-list-'+idx+'">'
+        +'<div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">'
+          +'Alunos · '+conf+'/'+max+' confirmados'
+        +'</div>'
+        +chipsHtml
+      +'</div>'
+      +'</div>';
+  }).join('');
+}
+
+function renderLoginAulas() {
+  const listEl = document.getElementById('loginAulasList');
+  const countEl = document.getElementById('loginAulasCount');
+  if(!listEl || !countEl) return;
+
+  const DOW_FULL = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+  const DOW_SHORT = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+
+  // Hoje
+  const hoje    = new Date();
+  const dowHoje = hoje.getDay();
+  const dstrHoje = ds(hoje);
+  const turmasHoje = S.turmas.filter(t => t.dias && t.dias.includes(dowHoje));
+
+  // Amanhã
+  const amanha    = new Date(hoje);
+  amanha.setDate(amanha.getDate() + 1);
+  const dowAmanha  = amanha.getDay();
+  const dstrAmanha = ds(amanha);
+  const turmasAmanha = S.turmas.filter(t => t.dias && t.dias.includes(dowAmanha));
+
+  countEl.textContent = '';
+
+  let html = '';
+
+  // ─── HOJE ───
+  html += '<div class="login-dia-label">'
+    + '<span class="login-dia-nome">Hoje</span>'
+    + '<span class="login-dia-data">'
+      + DOW_FULL[dowHoje]+', '+hoje.getDate()+' de '+MESES[hoje.getMonth()]
+    + '</span>'
+    + '</div>';
+
+  if(!turmasHoje.length) {
+    html += '<div class="login-no-aulas">Nenhuma aula hoje</div>';
+  } else {
+    html += buildAulasSection(dstrHoje, dowHoje, 0);
+  }
+
+  // ─── SEPARADOR + AMANHÃ ───
+  html += '<div class="login-dia-sep"></div>';
+
+  html += '<div class="login-dia-label">'
+    + '<span class="login-dia-nome">Amanhã</span>'
+    + '<span class="login-dia-data">'
+      + DOW_FULL[dowAmanha]+', '+amanha.getDate()+' de '+MESES[amanha.getMonth()]
+    + '</span>'
+    + '</div>';
+
+  if(!turmasAmanha.length) {
+    html += '<div class="login-no-aulas">Nenhuma aula amanhã</div>';
+  } else {
+    html += buildAulasSection(dstrAmanha, dowAmanha, 100);
+  }
+
+  listEl.innerHTML = html;
+}
+
+function toggleAulaExp(idx) {
+  const listEl = document.getElementById('aula-list-'+idx);
+  const iconEl = document.getElementById('aula-icon-'+idx);
+  if(!listEl || !iconEl) return;
+  const isOpen = listEl.classList.contains('open');
+  listEl.classList.toggle('open', !isOpen);
+  iconEl.classList.toggle('open', !isOpen);
+}
+window.toggleAulaExp = toggleAulaExp;
+
 async function init() {
   loadLocal();
-  toast('Conectando...','');
   try {
     await syncAll();
-    toast('Pronto!','success');
   } catch(e) {
     console.error('Sync error:', e);
-    toast('Usando dados locais','');
   }
+  renderLoginAulas();
+  // Renderiza painel público com dados (mesmo que vazios)
   viewDate = new Date();
   document.getElementById('tab-aluno-btn').addEventListener('click', () => switchLoginTab('aluno'));
   document.getElementById('tab-admin-btn').addEventListener('click', () => switchLoginTab('admin'));
