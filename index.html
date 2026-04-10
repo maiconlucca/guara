@@ -6,364 +6,505 @@
 <title>Guará Calistenia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Rajdhani:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 :root {
-  --black: #0a0a0a;
-  --black2: #111111;
-  --black3: #1a1a1a;
-  --black4: #222222;
-  --border: #2a2a2a;
-  --border2: #333333;
-  --orange: #e8420a;
+  /* Cores exatas do manual R255 G60 B0 */
+  --orange: #ff3c00;
   --orange2: #ff5520;
-  --orange-dim: #c43608;
-  --orange-bg: #1a0a05;
-  --orange-bg2: #220d07;
-  --text: #f0f0f0;
+  --orange-dim: #cc3000;
+  --orange-bg: #1f0800;
+  --orange-bg2: #2a0a00;
+
+  --black: #000000;
+  --black2: #0d0d0d;
+  --black3: #141414;
+  --black4: #1c1c1c;
+  --black5: #242424;
+  --border: #282828;
+  --border2: #333333;
+
+  --text: #f5f5f5;
   --text2: #888888;
-  --text3: #444444;
-  --danger: #ff3333;
-  --danger-bg: #1f0808;
-  --info: #4da8e8;
-  --radius: 8px;
-  --radius-lg: 14px;
-  --mono: 'DM Mono', monospace;
-  --body: 'Barlow', sans-serif;
-  --display: 'Barlow Condensed', sans-serif;
+  --text3: #484848;
+
+  --danger: #ff2222;
+  --danger-bg: #1a0505;
+  --success: #22cc44;
+  --success-bg: #051505;
+  --info: #3aa8e8;
+  --info-bg: #051020;
+
+  --radius: 6px;
+  --radius-lg: 12px;
+
+  --font-display: 'Black Ops One', cursive;
+  --font-body: 'Rajdhani', sans-serif;
+  --font-mono: 'DM Mono', monospace;
 }
+
 * { box-sizing:border-box; margin:0; padding:0; }
-html,body { background:var(--black); color:var(--text); font-family:var(--body); font-size:14px; min-height:100vh; }
+html, body {
+  background: var(--black);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
 
-/* ── TEXTURA DE FUNDO ── */
+/* Padrão indígena losango como textura de fundo */
 body::before {
-  content:'';
-  position:fixed; inset:0;
-  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.012) 2px, rgba(255,255,255,.012) 4px);
-  pointer-events:none; z-index:0;
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc0MCcgaGVpZ2h0PSc0MCc+PHBvbHlnb24gcG9pbnRzPScyMCwyIDM4LDIwIDIwLDM4IDIsMjAnIGZpbGw9J25vbmUnIHN0cm9rZT0ncmdiYSgyNTUsNjAsMCwwLjE4KScgc3Ryb2tlLXdpZHRoPScxJy8+PHBvbHlnb24gcG9pbnRzPScyMCw4IDMyLDIwIDIwLDMyIDgsMjAnIGZpbGw9J25vbmUnIHN0cm9rZT0ncmdiYSgyNTUsNjAsMCwwLjEpJyBzdHJva2Utd2lkdGg9JzEnLz48L3N2Zz4=");
+  background-size: 40px 40px;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
 }
-.main, .header, .nav { position:relative; z-index:1; }
 
-/* ── HEADER ── */
+/* Ruído sutil */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
+
+.header, .nav, .main, .overlay, .modal-overlay { position: relative; z-index: 1; }
+
+/* ═══ HEADER ═══ */
 .header {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0 24px; height:56px;
-  border-bottom:1px solid var(--border);
-  background:rgba(10,10,10,.95);
-  backdrop-filter:blur(12px);
-  position:sticky; top:0; z-index:100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; height: 58px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(16px);
+  position: sticky; top: 0; z-index: 100;
 }
-.logo-wrap { display:flex; align-items:center; gap:10px; }
-.logo-img { width:32px; height:32px; object-fit:contain; }
+.logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.logo-img {
+  width: 40px; height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(255,60,0,0.5));
+  transition: filter .3s;
+}
+.logo-wrap:hover .logo-img { filter: drop-shadow(0 0 14px rgba(255,60,0,0.8)); }
 .logo-text {
-  font-family:var(--display); font-weight:900; font-size:20px;
-  letter-spacing:0.08em; text-transform:uppercase; color:var(--text);
-  line-height:1;
+  display: flex; flex-direction: column; line-height: 1;
 }
-.logo-text span { color:var(--orange); }
-.user-badge {
-  display:flex; align-items:center; gap:8px;
-  font-family:var(--mono); font-size:11px; color:var(--text2);
-  background:var(--black3); border:1px solid var(--border);
-  padding:5px 12px; border-radius:999px; cursor:pointer;
-  transition:all .2s;
+.logo-name {
+  font-family: var(--font-display);
+  font-size: 20px; letter-spacing: 0.12em;
+  color: var(--text); text-transform: uppercase;
 }
-.user-badge:hover { border-color:var(--orange-dim); color:var(--orange); }
-.user-dot { width:6px; height:6px; border-radius:50%; background:var(--orange); flex-shrink:0; }
+.logo-name span { color: var(--orange); }
+.logo-sub {
+  font-family: var(--font-mono);
+  font-size: 8px; letter-spacing: 0.2em;
+  color: var(--text3); text-transform: uppercase;
+  margin-top: 2px;
+}
 
-/* ── NAV ── */
+.user-badge {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 11px; color: var(--text2);
+  background: var(--black3); border: 1px solid var(--border);
+  padding: 6px 14px; border-radius: 4px; cursor: pointer;
+  transition: all .2s; letter-spacing: .05em;
+}
+.user-badge:hover { border-color: var(--orange-dim); color: var(--orange); }
+.user-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--orange); flex-shrink: 0;
+  box-shadow: 0 0 6px var(--orange);
+}
+
+/* ═══ NAV ═══ */
 .nav {
-  display:flex; gap:0; padding:0 24px;
-  border-bottom:2px solid var(--border);
-  background:rgba(10,10,10,.9);
-  backdrop-filter:blur(8px);
-  overflow-x:auto;
+  display: flex; padding: 0 24px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0,0,0,0.88);
+  backdrop-filter: blur(12px);
+  overflow-x: auto; gap: 0;
 }
 .nav-tab {
-  font-family:var(--display); font-weight:700; font-size:13px;
-  letter-spacing:0.12em; text-transform:uppercase;
-  padding:14px 18px 12px; cursor:pointer; color:var(--text3);
-  border-bottom:2px solid transparent; margin-bottom:-2px;
-  white-space:nowrap; transition:color .15s, border-color .15s;
+  font-family: var(--font-display);
+  font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 15px 20px 13px; cursor: pointer; color: var(--text3);
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  white-space: nowrap; transition: color .15s, border-color .15s;
+  position: relative;
 }
-.nav-tab:hover { color:var(--text2); }
-.nav-tab.active { color:var(--orange); border-bottom-color:var(--orange); }
+.nav-tab::after {
+  content: '';
+  position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 2px; background: var(--orange);
+  transform: scaleX(0); transition: transform .2s;
+}
+.nav-tab:hover { color: var(--text2); }
+.nav-tab.active { color: var(--orange); }
+.nav-tab.active::after { transform: scaleX(1); }
 
-/* ── MAIN ── */
-.main { padding:28px 24px; max-width:1080px; margin:0 auto; }
-.view { display:none; }
-.view.active { display:block; }
+/* ═══ MAIN ═══ */
+.main { padding: 28px 24px; max-width: 1080px; margin: 0 auto; }
+.view { display: none; }
+.view.active { display: block; }
 
-/* ── SEÇÃO ── */
-.section-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:22px; gap:12px; flex-wrap:wrap; }
+/* ═══ SECTION HEADER ═══ */
+.section-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 24px; gap: 12px; flex-wrap: wrap;
+}
 .section-title {
-  font-family:var(--display); font-weight:900; font-size:28px;
-  letter-spacing:0.06em; text-transform:uppercase; line-height:1;
+  font-family: var(--font-display);
+  font-size: 30px; letter-spacing: 0.1em; text-transform: uppercase;
+  line-height: 1;
 }
-.section-title .hl { color:var(--orange); }
-.section-sub { font-size:12px; color:var(--text3); font-family:var(--mono); margin-top:5px; letter-spacing:.04em; }
+.section-title .hl { color: var(--orange); }
+.section-sub {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--text3); margin-top: 5px; letter-spacing: .08em; text-transform: uppercase;
+}
 
-/* ── BOTÕES ── */
+/* ═══ BOTÕES ═══ */
 .btn {
-  display:inline-flex; align-items:center; gap:6px;
-  font-family:var(--display); font-weight:700; font-size:13px;
-  letter-spacing:0.1em; text-transform:uppercase;
-  padding:9px 18px; border-radius:var(--radius);
-  border:1px solid var(--border2); background:var(--black3);
-  color:var(--text2); cursor:pointer; transition:all .15s;
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--font-display); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 9px 20px; border-radius: var(--radius);
+  border: 1px solid var(--border2); background: var(--black3);
+  color: var(--text2); cursor: pointer; transition: all .15s;
+  white-space: nowrap;
 }
-.btn:hover { background:var(--black4); border-color:var(--text3); color:var(--text); }
-.btn-orange { background:var(--orange-bg2); border-color:var(--orange-dim); color:var(--orange); }
-.btn-orange:hover { background:var(--orange); color:var(--black); border-color:var(--orange); }
-.btn-danger { background:var(--danger-bg); border-color:#661a1a; color:var(--danger); }
-.btn-danger:hover { background:var(--danger); color:#fff; border-color:var(--danger); }
-.btn-sm { padding:5px 12px; font-size:11px; }
-.btn-full { width:100%; justify-content:center; }
+.btn:hover { background: var(--black4); border-color: var(--text3); color: var(--text); }
+.btn-orange {
+  background: var(--orange-bg2); border-color: var(--orange-dim);
+  color: var(--orange);
+  box-shadow: inset 0 0 0 0 var(--orange);
+  transition: all .2s;
+}
+.btn-orange:hover {
+  background: var(--orange); color: var(--black);
+  border-color: var(--orange);
+  box-shadow: 0 0 20px rgba(255,60,0,0.4);
+}
+.btn-danger { background: var(--danger-bg); border-color: #550000; color: var(--danger); }
+.btn-danger:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+.btn-sm { padding: 6px 12px; font-size: 10px; }
+.btn-full { width: 100%; justify-content: center; }
 
-/* ── CARDS ── */
+/* ═══ CARDS ═══ */
 .card {
-  background:var(--black2); border:1px solid var(--border);
-  border-radius:var(--radius-lg); padding:20px;
-  transition:border-color .2s;
+  background: var(--black2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 20px;
+  transition: border-color .2s;
 }
-.card:hover { border-color:var(--border2); }
-.card-accent { border-left:3px solid var(--orange); }
+.card:hover { border-color: var(--border2); }
+.card-accent { border-left: 3px solid var(--orange); }
 
-.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
-@media(max-width:720px){.grid-2{grid-template-columns:1fr;}}
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media(max-width: 720px) { .grid-2 { grid-template-columns: 1fr; } }
 
-/* ── FORM ── */
-.form-group { margin-bottom:16px; }
+/* ═══ FORM ═══ */
+.form-group { margin-bottom: 16px; }
 .form-label {
-  display:block; font-family:var(--mono); font-size:10px;
-  letter-spacing:0.1em; text-transform:uppercase;
-  color:var(--text3); margin-bottom:7px;
+  display: block; font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text3); margin-bottom: 7px;
 }
-.form-input,.form-select {
-  width:100%; background:var(--black3); border:1px solid var(--border);
-  border-radius:var(--radius); padding:10px 14px;
-  color:var(--text); font-family:var(--body); font-size:14px;
-  outline:none; transition:border-color .15s;
+.form-input, .form-select {
+  width: 100%; background: var(--black3); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 11px 14px;
+  color: var(--text); font-family: var(--font-body); font-size: 15px;
+  outline: none; transition: border-color .15s, box-shadow .15s;
 }
-.form-input:focus,.form-select:focus { border-color:var(--orange-dim); box-shadow:0 0 0 2px rgba(232,66,10,.1); }
-.form-select option { background:var(--black3); }
-input[type="password"] { letter-spacing:.2em; }
-input[type="password"]::placeholder { letter-spacing:0; }
+.form-input:focus, .form-select:focus {
+  border-color: var(--orange-dim);
+  box-shadow: 0 0 0 2px rgba(255,60,0,0.12);
+}
+.form-select option { background: var(--black3); }
+input[type="password"] { letter-spacing: .2em; font-size: 18px; }
+input[type="password"]::placeholder { letter-spacing: 0; font-size: 14px; }
 
-.days-grid { display:flex; gap:6px; flex-wrap:wrap; }
+.days-grid { display: flex; gap: 6px; flex-wrap: wrap; }
 .day-btn {
-  font-family:var(--mono); font-size:10px; letter-spacing:0.05em;
-  padding:6px 10px; border-radius:var(--radius); border:1px solid var(--border);
-  background:var(--black3); color:var(--text3); cursor:pointer;
-  transition:all .15s; user-select:none;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em;
+  padding: 7px 11px; border-radius: var(--radius); border: 1px solid var(--border);
+  background: var(--black3); color: var(--text3); cursor: pointer;
+  transition: all .15s; user-select: none;
 }
-.day-btn.selected { background:var(--orange-bg2); border-color:var(--orange-dim); color:var(--orange); }
+.day-btn.selected {
+  background: var(--orange-bg2); border-color: var(--orange-dim);
+  color: var(--orange);
+}
 
-/* ── BADGES ── */
+/* ═══ BADGES ═══ */
 .badge {
-  display:inline-flex; align-items:center;
-  font-family:var(--mono); font-size:10px;
-  padding:3px 9px; border-radius:4px; letter-spacing:0.04em; font-weight:500;
+  display: inline-flex; align-items: center;
+  font-family: var(--font-mono); font-size: 10px;
+  padding: 3px 9px; border-radius: 3px; letter-spacing: 0.06em; font-weight: 500;
 }
-.badge-green { background:#0a1f0a; color:#4caf50; border:1px solid #1a4a1a; }
-.badge-red { background:var(--danger-bg); color:var(--danger); border:1px solid #661a1a; }
-.badge-orange { background:var(--orange-bg2); color:var(--orange); border:1px solid var(--orange-dim); }
-.badge-info { background:#081520; color:var(--info); border:1px solid #1a3a5a; }
-.badge-gray { background:var(--black3); color:var(--text3); border:1px solid var(--border); }
+.badge-green { background: var(--success-bg); color: var(--success); border: 1px solid #0a3a0a; }
+.badge-red { background: var(--danger-bg); color: var(--danger); border: 1px solid #550000; }
+.badge-orange { background: var(--orange-bg2); color: var(--orange); border: 1px solid var(--orange-dim); }
+.badge-info { background: var(--info-bg); color: var(--info); border: 1px solid #0a2a40; }
+.badge-gray { background: var(--black3); color: var(--text3); border: 1px solid var(--border); }
 
-/* ── TURMA CARD ── */
+/* ═══ TURMA CARD ═══ */
 .turma-card {
-  background:var(--black2); border:1px solid var(--border);
-  border-radius:var(--radius-lg); overflow:hidden;
-  transition:border-color .2s; margin-bottom:14px;
+  background: var(--black2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden;
+  transition: border-color .2s; margin-bottom: 14px;
 }
-.turma-card:hover { border-color:var(--border2); }
+.turma-card:hover { border-color: var(--border2); }
 .turma-header {
-  padding:14px 20px; display:flex; align-items:center;
-  justify-content:space-between; border-bottom:1px solid var(--border);
-  background:linear-gradient(90deg, var(--black3) 0%, var(--black2) 100%);
+  padding: 14px 22px; display: flex; align-items: center;
+  justify-content: space-between; border-bottom: 1px solid var(--border);
+  background: linear-gradient(90deg, rgba(255,60,0,0.06) 0%, transparent 60%);
+  position: relative; overflow: hidden;
+}
+.turma-header::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--orange);
 }
 .turma-time {
-  font-family:var(--display); font-size:28px; font-weight:900;
-  letter-spacing:0.05em; color:var(--text);
+  font-family: var(--font-display);
+  font-size: 32px; letter-spacing: 0.06em; color: var(--text);
+  line-height: 1;
 }
-.turma-meta { font-family:var(--mono); font-size:10px; color:var(--text3); letter-spacing:0.05em; margin-top:3px; }
-.turma-body { padding:16px 20px; }
+.turma-meta {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--text3); letter-spacing: 0.06em; margin-top: 4px; text-transform: uppercase;
+}
+.turma-body { padding: 16px 22px; }
+
 .aluno-row {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:9px 0; border-bottom:1px solid var(--border); gap:8px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid var(--border); gap: 8px;
 }
-.aluno-row:last-child { border-bottom:none; }
-.aluno-name { font-size:13px; font-weight:500; flex:1; }
-.aluno-name.ausente { color:var(--danger); text-decoration:line-through; opacity:.8; }
-.aluno-name.recuperacao { color:var(--info); }
-.aluno-tipo { font-family:var(--mono); font-size:9px; color:var(--text3); margin-top:1px; }
+.aluno-row:last-child { border-bottom: none; }
+.aluno-name { font-size: 14px; font-weight: 600; flex: 1; letter-spacing: .02em; }
+.aluno-name.ausente { color: var(--danger); text-decoration: line-through; opacity: .7; }
+.aluno-name.recuperacao { color: var(--info); }
+.aluno-tipo { font-family: var(--font-mono); font-size: 9px; color: var(--text3); margin-top: 1px; text-transform: uppercase; }
 
-/* ── VAGAS ── */
-.vagas-display { text-align:right; }
+/* ═══ VAGAS ═══ */
+.vagas-display { text-align: right; }
 .vagas-num {
-  font-family:var(--display); font-size:32px; font-weight:900;
-  letter-spacing:0.04em; line-height:1;
+  font-family: var(--font-display); font-size: 36px;
+  letter-spacing: 0.04em; line-height: 1;
 }
-.vagas-lbl { font-family:var(--mono); font-size:9px; color:var(--text3); letter-spacing:.05em; }
-.progress-wrap { height:3px; background:var(--black4); border-radius:999px; overflow:hidden; margin-top:6px; }
-.progress-fill { height:100%; border-radius:999px; background:var(--orange); transition:width .4s; }
-.progress-fill.quase { background:#e8a00a; }
-.progress-fill.cheio { background:var(--danger); }
+.vagas-lbl { font-family: var(--font-mono); font-size: 9px; color: var(--text3); letter-spacing: .06em; text-transform: uppercase; }
+.progress-wrap {
+  height: 2px; background: var(--black5);
+  border-radius: 999px; overflow: hidden; margin-top: 6px;
+}
+.progress-fill { height: 100%; border-radius: 999px; background: var(--orange); transition: width .4s; }
+.progress-fill.quase { background: #ff9900; }
+.progress-fill.cheio { background: var(--danger); }
 
-/* ── CALENDÁRIO ── */
-.cal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+/* ═══ CALENDÁRIO ═══ */
+.cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .cal-month {
-  font-family:var(--display); font-weight:900; font-size:20px;
-  letter-spacing:0.08em; text-transform:uppercase;
+  font-family: var(--font-display); font-size: 18px;
+  letter-spacing: 0.1em; text-transform: uppercase;
 }
-.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
+.cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; }
 .cal-dow {
-  font-family:var(--mono); font-size:9px; letter-spacing:0.06em;
-  text-transform:uppercase; color:var(--text3); text-align:center; padding:4px 0 8px;
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text3); text-align: center; padding: 4px 0 8px;
 }
 .cal-cell {
-  aspect-ratio:1; display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  border-radius:6px; cursor:pointer;
-  font-size:12px; font-family:var(--mono);
-  border:1px solid transparent; transition:all .15s; position:relative;
+  aspect-ratio: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  border-radius: 5px; cursor: pointer;
+  font-size: 12px; font-family: var(--font-mono);
+  border: 1px solid transparent; transition: all .15s; position: relative;
 }
-.cal-cell:hover:not(.empty-cell):not(.past) { background:var(--black3); border-color:var(--border); }
-.cal-cell.today-cell { background:var(--orange-bg2); border-color:var(--orange-dim); color:var(--orange); font-weight:500; }
-.cal-cell.has-aula::after { content:''; width:3px; height:3px; background:var(--orange); border-radius:50%; position:absolute; bottom:3px; }
-.cal-cell.selected-cell { background:var(--orange); color:var(--black); border-color:var(--orange); font-weight:700; }
-.cal-cell.selected-cell::after { background:var(--black); }
-.cal-cell.past { opacity:.25; cursor:default; }
-.cal-cell.empty-cell { cursor:default; }
-.cal-cell.has-vagas { border-color:rgba(232,66,10,.4); }
+.cal-cell:hover:not(.empty-cell):not(.past) { background: var(--black3); border-color: var(--border); }
+.cal-cell.today-cell { background: var(--orange-bg2); border-color: var(--orange-dim); color: var(--orange); font-weight: 500; }
+.cal-cell.has-aula::after { content: ''; width: 3px; height: 3px; background: var(--orange); border-radius: 50%; position: absolute; bottom: 3px; }
+.cal-cell.selected-cell { background: var(--orange); color: var(--black); border-color: var(--orange); font-weight: 700; }
+.cal-cell.selected-cell::after { background: var(--black); }
+.cal-cell.past { opacity: .2; cursor: default; }
+.cal-cell.empty-cell { cursor: default; }
+.cal-cell.has-vagas { border-color: rgba(255,60,0,.35); }
 
 .agenda-slot {
-  background:var(--black2); border:1px solid var(--border);
-  border-radius:var(--radius-lg); padding:14px 18px; margin-bottom:10px;
-  display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  background: var(--black2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 14px 18px; margin-bottom: 10px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  transition: border-color .2s;
 }
-.slot-alunos { display:flex; gap:4px; flex-wrap:wrap; margin-top:6px; }
+.agenda-slot:hover { border-color: var(--border2); }
+.slot-alunos { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
 .slot-chip {
-  font-family:var(--mono); font-size:9px; padding:3px 8px;
-  border-radius:4px; border:1px solid var(--border); background:var(--black3); color:var(--text2);
+  font-family: var(--font-mono); font-size: 9px; padding: 3px 8px;
+  border-radius: 3px; border: 1px solid var(--border); background: var(--black3); color: var(--text2);
 }
-.slot-chip.ausente { color:var(--danger); border-color:#661a1a; background:var(--danger-bg); }
-.slot-chip.recuperacao { color:var(--info); border-color:#1a3a5a; background:#081520; }
+.slot-chip.ausente { color: var(--danger); border-color: #550000; background: var(--danger-bg); }
+.slot-chip.recuperacao { color: var(--info); border-color: #0a2a40; background: var(--info-bg); }
 
-/* ── LOGIN ── */
+/* ═══ LOGIN ═══ */
 .overlay {
-  position:fixed; inset:0;
-  background:var(--black);
-  display:flex; align-items:center; justify-content:center;
-  z-index:999;
+  position: fixed; inset: 0;
+  background: var(--black);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 999; overflow-y: auto; padding: 20px;
 }
-.overlay.hidden { display:none; }
-.login-wrap {
-  width:100%; max-width:400px;
-  padding:20px;
-}
-.login-logo-block {
-  text-align:center; margin-bottom:32px;
-}
-.login-logo-img { width:80px; height:80px; object-fit:contain; margin-bottom:0; }
-.login-brand {
-  font-family:var(--display); font-weight:900; font-size:32px;
-  letter-spacing:0.15em; text-transform:uppercase; color:var(--text);
-  line-height:1; margin-top:8px;
-}
-.login-brand span { color:var(--orange); }
-.login-tagline { font-family:var(--mono); font-size:10px; color:var(--text3); letter-spacing:.12em; text-transform:uppercase; margin-top:4px; }
-.login-box {
-  background:var(--black2); border:1px solid var(--border);
-  border-radius:var(--radius-lg); padding:28px 28px 24px;
-}
-.login-tab-row { display:flex; gap:0; margin-bottom:24px; border-bottom:1px solid var(--border); }
-.login-tab {
-  font-family:var(--display); font-weight:700; font-size:12px;
-  letter-spacing:.1em; text-transform:uppercase;
-  padding:8px 16px 10px; cursor:pointer; color:var(--text3);
-  border-bottom:2px solid transparent; margin-bottom:-1px;
-  transition:all .15s;
-}
-.login-tab.active { color:var(--orange); border-bottom-color:var(--orange); }
-.login-panel { display:none; }
-.login-panel.active { display:block; }
-.login-divider { text-align:center; font-family:var(--mono); font-size:10px; color:var(--text3); margin:16px 0; letter-spacing:.08em; }
-.login-footer { text-align:center; font-family:var(--mono); font-size:10px; color:var(--text3); margin-top:16px; }
+.overlay.hidden { display: none; }
 
-/* ── MODAL ── */
-.modal-overlay {
-  position:fixed; inset:0; background:rgba(10,10,10,.9);
-  display:flex; align-items:center; justify-content:center;
-  z-index:500; backdrop-filter:blur(4px);
+/* Barra laranja decorativa topo */
+.overlay::before {
+  content: '';
+  position: fixed; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--orange), transparent);
 }
-.modal-overlay.hidden { display:none; }
+
+.login-wrap { width: 100%; max-width: 400px; }
+
+.login-logo-block {
+  text-align: center; margin-bottom: 28px; position: relative;
+}
+/* Padrão losango atrás da logo */
+.login-logo-block::before {
+  content: '';
+  position: absolute; inset: -20px;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc0MCcgaGVpZ2h0PSc0MCc+PHBvbHlnb24gcG9pbnRzPScyMCwyIDM4LDIwIDIwLDM4IDIsMjAnIGZpbGw9J25vbmUnIHN0cm9rZT0ncmdiYSgyNTUsNjAsMCwwLjE4KScgc3Ryb2tlLXdpZHRoPScxJy8+PHBvbHlnb24gcG9pbnRzPScyMCw4IDMyLDIwIDIwLDMyIDgsMjAnIGZpbGw9J25vbmUnIHN0cm9rZT0ncmdiYSgyNTUsNjAsMCwwLjEpJyBzdHJva2Utd2lkdGg9JzEnLz48L3N2Zz4=");
+  background-size: 40px 40px;
+  opacity: 0.3;
+  border-radius: 50%;
+}
+.login-wolf-img {
+  width: 120px; height: 120px;
+  object-fit: contain; position: relative;
+  filter: drop-shadow(0 0 24px rgba(255,60,0,0.6));
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+@keyframes glow-pulse {
+  0%,100% { filter: drop-shadow(0 0 18px rgba(255,60,0,0.5)); }
+  50%      { filter: drop-shadow(0 0 32px rgba(255,60,0,0.85)); }
+}
+.login-brand-name {
+  font-family: var(--font-display);
+  font-size: 38px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--text); line-height: 1; margin-top: 12px;
+}
+.login-brand-name span { color: var(--orange); }
+.login-brand-sub {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--text3); margin-top: 5px;
+}
+
+.login-box {
+  background: var(--black2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* Tabs do login — CORRIGIDO */
+.login-tab-row {
+  display: flex; border-bottom: 1px solid var(--border);
+}
+.login-tab {
+  flex: 1; text-align: center;
+  font-family: var(--font-display); font-size: 13px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 14px 0 12px; cursor: pointer; color: var(--text3);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all .2s;
+  background: transparent;
+  user-select: none;
+}
+.login-tab:hover { color: var(--text2); background: rgba(255,255,255,.02); }
+.login-tab.active {
+  color: var(--orange);
+  border-bottom-color: var(--orange);
+  background: rgba(255,60,0,.04);
+}
+
+.login-panels { padding: 24px 24px 20px; }
+.login-panel { display: none; }
+.login-panel.active { display: block; }
+
+.login-footer {
+  text-align: center; font-family: var(--font-mono); font-size: 10px;
+  color: var(--text3); padding: 14px; border-top: 1px solid var(--border);
+  letter-spacing: .08em; text-transform: uppercase;
+}
+
+/* ═══ MODAL ═══ */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.88);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 500; backdrop-filter: blur(6px);
+}
+.modal-overlay.hidden { display: none; }
 .modal-box {
-  background:var(--black2); border:1px solid var(--border2);
-  border-radius:var(--radius-lg); padding:28px; width:100%;
-  max-width:480px; max-height:90vh; overflow-y:auto;
+  background: var(--black2); border: 1px solid var(--border2);
+  border-top: 2px solid var(--orange);
+  border-radius: var(--radius-lg); padding: 28px;
+  width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto;
 }
 .modal-title {
-  font-family:var(--display); font-weight:900; font-size:20px;
-  letter-spacing:.08em; text-transform:uppercase; margin-bottom:20px;
+  font-family: var(--font-display); font-size: 20px;
+  letter-spacing: .1em; text-transform: uppercase; margin-bottom: 20px;
 }
-.modal-title span { color:var(--orange); }
+.modal-title span { color: var(--orange); }
 
-/* ── ALUNO VIEW ── */
+/* ═══ ALUNO VIEW ═══ */
 .aluno-hero {
-  background:var(--black2); border:1px solid var(--border);
-  border-left:3px solid var(--orange);
-  border-radius:var(--radius-lg); padding:20px 24px; margin-bottom:20px;
-  display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+  background: var(--black2); border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius-lg); padding: 22px 26px; margin-bottom: 22px;
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  background: linear-gradient(90deg, rgba(255,60,0,.05) 0%, transparent 50%);
 }
 .aluno-avatar {
-  width:52px; height:52px; border-radius:8px;
-  background:var(--orange-bg2); border:1px solid var(--orange-dim);
-  display:flex; align-items:center; justify-content:center;
-  font-family:var(--display); font-weight:900; font-size:22px;
-  color:var(--orange); flex-shrink:0; text-transform:uppercase;
+  width: 54px; height: 54px; border-radius: 8px;
+  background: var(--orange-bg2); border: 1px solid var(--orange-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 24px;
+  color: var(--orange); flex-shrink: 0; text-transform: uppercase;
+  box-shadow: 0 0 12px rgba(255,60,0,.2);
 }
 .aluno-hero-name {
-  font-family:var(--display); font-weight:900; font-size:22px;
-  letter-spacing:.06em; text-transform:uppercase;
+  font-family: var(--font-display); font-size: 24px;
+  letter-spacing: .08em; text-transform: uppercase;
 }
-.aluno-hero-turmas { font-size:12px; color:var(--text3); margin-top:2px; font-family:var(--mono); }
+.aluno-hero-sub { font-family: var(--font-mono); font-size: 10px; color: var(--text3); margin-top: 3px; letter-spacing: .06em; text-transform: uppercase; }
 
-/* ── MISC ── */
-.divider { height:1px; background:var(--border); margin:22px 0; }
-.flex-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-.flex-between { display:flex; align-items:center; justify-content:space-between; gap:8px; }
-.text-muted { color:var(--text3); font-size:12px; }
-.text-mono { font-family:var(--mono); }
-.empty-state { text-align:center; padding:52px 20px; color:var(--text3); font-family:var(--mono); font-size:11px; letter-spacing:.04em; }
-.empty-icon { font-size:32px; margin-bottom:14px; opacity:.4; }
-.mt-16 { margin-top:16px; }
+/* ═══ MISC ═══ */
+.divider { height: 1px; background: var(--border); margin: 24px 0; }
+.flex-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.text-muted { color: var(--text3); font-size: 12px; font-family: var(--font-mono); letter-spacing: .04em; }
+.empty-state { text-align: center; padding: 56px 20px; color: var(--text3); font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.empty-icon { font-size: 32px; margin-bottom: 14px; opacity: .3; }
 
-/* ── TOAST ── */
+/* ═══ TOAST ═══ */
 .toast {
-  position:fixed; bottom:24px; right:24px;
-  background:var(--black2); border:1px solid var(--border2);
-  border-left:3px solid var(--orange);
-  border-radius:var(--radius); padding:12px 18px;
-  font-family:var(--mono); font-size:11px; color:var(--text);
-  z-index:9999; opacity:0; transform:translateY(8px);
-  transition:all .25s; pointer-events:none; max-width:300px;
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--black2);
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius); padding: 13px 18px;
+  font-family: var(--font-mono); font-size: 11px; color: var(--text);
+  z-index: 9999; opacity: 0; transform: translateY(8px);
+  transition: all .25s; pointer-events: none; max-width: 300px;
+  letter-spacing: .04em;
 }
-.toast.show { opacity:1; transform:translateY(0); }
-.toast.success { border-left-color:#4caf50; }
-.toast.error { border-left-color:var(--danger); }
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.success { border-left-color: var(--success); color: var(--success); }
+.toast.error { border-left-color: var(--danger); color: var(--danger); }
 
-/* ── LINK BOX ── */
-.link-box {
-  display:flex; align-items:center; gap:8px;
-  background:var(--black3); border:1px solid var(--border);
-  border-radius:var(--radius); padding:8px 12px; flex-wrap:wrap;
-}
-.link-code { font-family:var(--mono); font-size:11px; color:var(--orange); flex:1; word-break:break-all; }
-
-input[type="time"]::-webkit-calendar-picker-indicator { filter:invert(.5) sepia(1) saturate(5) hue-rotate(320deg); }
-input[type="checkbox"] { accent-color:var(--orange); }
+input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(.5) sepia(1) saturate(5) hue-rotate(320deg); }
+input[type="checkbox"] { accent-color: var(--orange); }
 </style>
 </head>
 <body>
@@ -372,39 +513,45 @@ input[type="checkbox"] { accent-color:var(--orange); }
 <div class="overlay" id="loginOverlay">
   <div class="login-wrap">
     <div class="login-logo-block">
-      <img src="data:image/png;base64,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" class="login-logo-img" alt="Guará Calistenia"/>
-      <div class="login-brand">GUARÁ <span>CALISTENIA</span></div>
-      <div class="login-tagline">Sistema de Gestão de Turmas</div>
+      <img src="data:image/png;base64,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" class="login-wolf-img" alt="Guará"/>
+      <div class="login-brand-name">GUARÁ <span>CALISTENIA</span></div>
+      <div class="login-brand-sub">Sistema de Gestão de Turmas</div>
     </div>
+
     <div class="login-box">
       <div class="login-tab-row">
-        <div class="login-tab active" onclick="switchLoginTab('aluno')">Aluno</div>
-        <div class="login-tab" onclick="switchLoginTab('admin')">Admin</div>
+        <div class="login-tab active" id="tab-aluno" onclick="switchLoginTab('aluno')">Aluno</div>
+        <div class="login-tab" id="tab-admin" onclick="switchLoginTab('admin')">Admin</div>
       </div>
 
-      <!-- PAINEL ALUNO -->
-      <div class="login-panel active" id="panel-aluno">
-        <div class="form-group">
-          <label class="form-label">CPF</label>
-          <input class="form-input" type="text" id="loginCPF" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" onkeydown="if(event.key==='Enter')doLoginAluno()"/>
+      <div class="login-panels">
+        <!-- ALUNO -->
+        <div class="login-panel active" id="panel-aluno">
+          <div class="form-group">
+            <label class="form-label">CPF</label>
+            <input class="form-input" type="text" id="loginCPF" placeholder="000.000.000-00" maxlength="14"
+              oninput="maskCPF(this)" onkeydown="if(event.key==='Enter')doLoginAluno()"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Senha</label>
+            <input class="form-input" type="password" id="loginSenhaAluno" placeholder="Sua senha"
+              onkeydown="if(event.key==='Enter')doLoginAluno()"/>
+          </div>
+          <button class="btn btn-orange btn-full" style="margin-top:4px" onclick="doLoginAluno()">Entrar</button>
         </div>
-        <div class="form-group">
-          <label class="form-label">Senha</label>
-          <input class="form-input" type="password" id="loginSenhaAluno" placeholder="Sua senha" onkeydown="if(event.key==='Enter')doLoginAluno()"/>
+
+        <!-- ADMIN -->
+        <div class="login-panel" id="panel-admin">
+          <div class="form-group">
+            <label class="form-label">Senha administrativa</label>
+            <input class="form-input" type="password" id="loginSenhaAdmin" placeholder="••••••••"
+              onkeydown="if(event.key==='Enter')doLoginAdmin()"/>
+          </div>
+          <button class="btn btn-orange btn-full" style="margin-top:4px" onclick="doLoginAdmin()">Acessar painel</button>
         </div>
-        <button class="btn btn-orange btn-full" onclick="doLoginAluno()">Entrar</button>
       </div>
 
-      <!-- PAINEL ADMIN -->
-      <div class="login-panel" id="panel-admin">
-        <div class="form-group">
-          <label class="form-label">Senha administrativa</label>
-          <input class="form-input" type="password" id="loginSenhaAdmin" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLoginAdmin()"/>
-        </div>
-        <button class="btn btn-orange btn-full" onclick="doLoginAdmin()">Acessar painel</button>
-      </div>
-
-      <div class="login-footer">Guará Calistenia © 2025</div>
+      <div class="login-footer">Guará Calistenia &copy; 2025</div>
     </div>
   </div>
 </div>
@@ -421,13 +568,16 @@ input[type="checkbox"] { accent-color:var(--orange); }
 <!-- ═══ HEADER ═══ -->
 <div class="header">
   <div class="logo-wrap">
-    <img src="data:image/png;base64,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" class="logo-img" alt="Guará"/>
-    <div class="logo-text">GUARÁ <span>CALISTENIA</span></div>
+    <img src="data:image/png;base64,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" class="logo-img" alt="Guará"/>
+    <div class="logo-text">
+      <div class="logo-name">GUARÁ <span>CALISTENIA</span></div>
+      <div class="logo-sub">gestão de turmas</div>
+    </div>
   </div>
   <div class="user-badge" id="userBadge" onclick="logout()">
     <span class="user-dot"></span>
-    <span id="userLabel">admin</span>
-    <span style="opacity:.4">×</span>
+    <span id="userLabel">—</span>
+    <span style="opacity:.35;margin-left:2px">×</span>
   </div>
 </div>
 
@@ -505,7 +655,7 @@ input[type="checkbox"] { accent-color:var(--orange); }
     <div class="divider"></div>
     <div class="flex-between">
       <div>
-        <div style="font-weight:600;margin-bottom:2px;font-family:var(--display);letter-spacing:.06em;text-transform:uppercase">Senha administrativa</div>
+        <div style="font-family:var(--font-display);font-size:16px;letter-spacing:.08em;margin-bottom:3px">SENHA ADMINISTRATIVA</div>
         <div class="text-muted">Alterar senha de acesso ao painel admin</div>
       </div>
       <button class="btn btn-sm" onclick="openModalSenha()">Alterar</button>
@@ -522,13 +672,11 @@ input[type="checkbox"] { accent-color:var(--orange); }
 <div class="toast" id="toast"></div>
 
 <script type="module">
-// ════════════════════════════════════════════════════
-//  FIREBASE CONFIG — substitua pelos seus dados
-// ════════════════════════════════════════════════════
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, doc, getDocs, getDoc, setDoc, updateDoc, deleteDoc, query, where, onSnapshot, Timestamp }
+import { getFirestore, collection, doc, getDocs, setDoc, deleteDoc, query, where }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+// ═══════════ FIREBASE CONFIG ═══════════
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyAwMyLOW6O8cWl7tH0Dc5zWsmnho5xXg98",
   authDomain: "guaracalistenia.firebaseapp.com",
@@ -539,192 +687,130 @@ const FIREBASE_CONFIG = {
   measurementId: "G-0E02ZL1205"
 };
 
-const USE_FIREBASE = FIREBASE_CONFIG.apiKey !== "COLE_SUA_API_KEY";
+const USE_FIREBASE = true;
 let db = null;
-
-if(USE_FIREBASE) {
+try {
   const app = initializeApp(FIREBASE_CONFIG);
   db = getFirestore(app);
-}
+} catch(e) { console.error('Firebase init error:', e); }
 
-// ════════════════════════════════════════════════════
-//  FIREBASE HELPERS
-// ════════════════════════════════════════════════════
+// ═══════════ FIREBASE HELPERS ═══════════
 async function fbGetAll(col) {
-  if(!db) return null;
+  if(!db) return [];
   try {
     const snap = await getDocs(collection(db, col));
     return snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  } catch(e) { console.error('fbGetAll',e); return null; }
+  } catch(e) { console.error('fbGetAll',col,e); return []; }
 }
 async function fbSet(col, id, data) {
   if(!db) return;
-  try { await setDoc(doc(db, col, id), data, { merge: true }); } catch(e) { console.error('fbSet',e); }
+  try { await setDoc(doc(db, col, id), data, { merge: true }); }
+  catch(e) { console.error('fbSet',col,id,e); }
 }
 async function fbDelete(col, id) {
   if(!db) return;
-  try { await deleteDoc(doc(db, col, id)); } catch(e) { console.error('fbDelete',e); }
-}
-async function fbQuery(col, field, op, val) {
-  if(!db) return null;
-  try {
-    const q = query(collection(db, col), where(field, op, val));
-    const snap = await getDocs(q);
-    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  } catch(e) { console.error('fbQuery',e); return null; }
+  try { await deleteDoc(doc(db, col, id)); }
+  catch(e) { console.error('fbDelete',col,id,e); }
 }
 
-// ════════════════════════════════════════════════════
-//  STATE LOCAL (fallback quando Firebase não config.)
-// ════════════════════════════════════════════════════
+// ═══════════ STATE ═══════════
 let S = {
-  turmas:    [],
-  alunos:    [],
-  presencas: [],
-  config:    { senha: 'admin123' },
-  logado: false,
-  alunoAtivo: null
+  turmas: [], alunos: [], presencas: [],
+  config: { senha: 'admin123' },
+  logado: false, alunoAtivo: null
 };
 
-function saveLocal() { try { localStorage.setItem('guara_v2', JSON.stringify({ turmas:S.turmas, alunos:S.alunos, presencas:S.presencas, config:S.config })); } catch(e){} }
+function saveLocal() {
+  try { localStorage.setItem('guara_v3', JSON.stringify({ turmas:S.turmas, alunos:S.alunos, presencas:S.presencas, config:S.config })); } catch(e){}
+}
 function loadLocal() {
   try {
-    const r = localStorage.getItem('guara_v2');
-    if(r) { const p=JSON.parse(r); S.turmas=p.turmas||[]; S.alunos=p.alunos||[]; S.presencas=p.presencas||[]; S.config=p.config||{senha:'admin123'}; }
+    const r = localStorage.getItem('guara_v3');
+    if(r) { const p=JSON.parse(r); Object.assign(S, { turmas:p.turmas||[], alunos:p.alunos||[], presencas:p.presencas||[], config:p.config||{senha:'admin123'} }); }
   } catch(e){}
 }
-
-// ════════════════════════════════════════════════════
-//  SYNC COM FIREBASE
-// ════════════════════════════════════════════════════
-async function syncFromFirebase() {
-  if(!USE_FIREBASE) return;
-  const [turmas, alunos, presencas, config] = await Promise.all([
+async function syncAll() {
+  const [turmas, alunos, presencas, configs] = await Promise.all([
     fbGetAll('turmas'), fbGetAll('alunos'), fbGetAll('presencas'), fbGetAll('config')
   ]);
-  if(turmas)    S.turmas    = turmas;
-  if(alunos)    S.alunos    = alunos;
-  if(presencas) S.presencas = presencas;
-  if(config && config.length > 0) { const c = config[0]; S.config = c; }
+  S.turmas = turmas; S.alunos = alunos; S.presencas = presencas;
+  if(configs.length) S.config = configs[0];
   saveLocal();
 }
+async function fbSaveTurma(t)   { await fbSet('turmas',   t.id, t); saveLocal(); }
+async function fbSaveAluno(a)   { await fbSet('alunos',   a.id, a); saveLocal(); }
+async function fbSavePresenca(p){ await fbSet('presencas',p.id, p); saveLocal(); }
+async function fbSaveConfig()   { await fbSet('config','main', S.config); saveLocal(); }
 
-async function syncTurma(t) {
-  if(USE_FIREBASE) await fbSet('turmas', t.id, t);
-  saveLocal();
-}
-async function syncAluno(a) {
-  if(USE_FIREBASE) await fbSet('alunos', a.id, a);
-  saveLocal();
-}
-async function syncPresenca(p) {
-  if(USE_FIREBASE) await fbSet('presencas', p.id, p);
-  saveLocal();
-}
-async function deleteTurmaDB(id) {
-  if(USE_FIREBASE) await fbDelete('turmas', id);
-  saveLocal();
-}
-async function deleteAlunoFB(id) {
-  if(USE_FIREBASE) await fbDelete('alunos', id);
-  saveLocal();
-}
-async function deletePresencaFB(id) {
-  if(USE_FIREBASE) await fbDelete('presencas', id);
-  saveLocal();
-}
-async function syncConfig() {
-  if(USE_FIREBASE) await fbSet('config', 'main', S.config);
-  saveLocal();
-}
-
-// ════════════════════════════════════════════════════
-//  DATAS
-// ════════════════════════════════════════════════════
+// ═══════════ DATAS ═══════════
 const DOW   = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-let viewDate = new Date();
-let calYear  = new Date().getFullYear();
-let calMonth = new Date().getMonth();
-let calSel   = null;
+let viewDate = new Date(), calYear = new Date().getFullYear(), calMonth = new Date().getMonth(), calSel = null;
+const ds = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const pad = n => String(n).padStart(2,'0');
+const today = () => ds(new Date());
+const parseDS = s => { const [y,m,d]=s.split('-'); return new Date(+y,+m-1,+d); };
 
-function ds(d)     { return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
-function pad(n)    { return String(n).padStart(2,'0'); }
-function today()   { return ds(new Date()); }
-function parseDS(s){ const [y,m,d]=s.split('-'); return new Date(+y,+m-1,+d); }
-
-// ════════════════════════════════════════════════════
-//  CPF HELPERS
-// ════════════════════════════════════════════════════
+// ═══════════ CPF ═══════════
 function maskCPF(el) {
-  let v = el.value.replace(/\D/g,'').slice(0,11);
+  let v=el.value.replace(/\D/g,'').slice(0,11);
   if(v.length>9) v=v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/,'$1.$2.$3-$4');
   else if(v.length>6) v=v.replace(/(\d{3})(\d{3})(\d{1,3})/,'$1.$2.$3');
   else if(v.length>3) v=v.replace(/(\d{3})(\d{1,3})/,'$1.$2');
   el.value=v;
 }
-function rawCPF(s) { return s.replace(/\D/g,''); }
+const rawCPF = s => s.replace(/\D/g,'');
+window.maskCPF = maskCPF;
 
-// ════════════════════════════════════════════════════
-//  AUTH
-// ════════════════════════════════════════════════════
+// ═══════════ AUTH ═══════════
 function switchLoginTab(tab) {
-  document.querySelectorAll('.login-tab').forEach((el,i) => {
-    const tabs=['aluno','admin'];
-    el.classList.toggle('active', tabs[i]===tab);
+  ['aluno','admin'].forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+    document.getElementById('panel-'+t).classList.toggle('active', t===tab);
   });
-  document.getElementById('panel-aluno').classList.toggle('active', tab==='aluno');
-  document.getElementById('panel-admin').classList.toggle('active', tab==='admin');
 }
 window.switchLoginTab = switchLoginTab;
 
 async function doLoginAluno() {
-  const cpf   = rawCPF(document.getElementById('loginCPF').value);
+  const cpf = rawCPF(document.getElementById('loginCPF').value);
   const senha = document.getElementById('loginSenhaAluno').value;
   if(!cpf||!senha) { toast('Preencha CPF e senha','error'); return; }
   const aluno = S.alunos.find(a => a.cpf===cpf && a.senha===senha);
   if(aluno) {
-    S.alunoAtivo = aluno; S.logado = false;
+    S.alunoAtivo=aluno; S.logado=false;
     document.getElementById('loginOverlay').classList.add('hidden');
     document.getElementById('userLabel').textContent = aluno.nome.split(' ')[0].toUpperCase();
     document.querySelectorAll('.nav-tab:not([data-view="agenda"])').forEach(el=>el.style.display='none');
-    switchView('aluno-link');
-    renderAlunoLink();
-  } else {
-    toast('CPF ou senha incorretos','error');
-  }
+    switchView('aluno-link'); renderAlunoLink();
+  } else { toast('CPF ou senha incorretos','error'); }
 }
 window.doLoginAluno = doLoginAluno;
 
 function doLoginAdmin() {
   const senha = document.getElementById('loginSenhaAdmin').value;
   if(senha === S.config.senha) {
-    S.logado = true; S.alunoAtivo = null;
+    S.logado=true; S.alunoAtivo=null;
     document.getElementById('loginOverlay').classList.add('hidden');
     document.getElementById('userLabel').textContent = 'ADMIN';
     document.querySelectorAll('.nav-tab').forEach(el=>el.style.display='');
     renderTurmas();
     toast('Bem-vindo, admin!','success');
-  } else {
-    toast('Senha incorreta','error');
-    document.getElementById('loginSenhaAdmin').value='';
-  }
+  } else { toast('Senha incorreta','error'); document.getElementById('loginSenhaAdmin').value=''; }
 }
 window.doLoginAdmin = doLoginAdmin;
 
 function logout() {
   S.logado=false; S.alunoAtivo=null;
   document.getElementById('loginOverlay').classList.remove('hidden');
-  document.getElementById('loginCPF').value='';
-  document.getElementById('loginSenhaAluno').value='';
-  document.getElementById('loginSenhaAdmin').value='';
+  ['loginCPF','loginSenhaAluno','loginSenhaAdmin'].forEach(id => {
+    const el=document.getElementById(id); if(el) el.value='';
+  });
   document.querySelectorAll('.nav-tab').forEach(el=>el.style.display='');
+  switchLoginTab('aluno');
 }
 window.logout = logout;
 
-// ════════════════════════════════════════════════════
-//  VIEWS
-// ════════════════════════════════════════════════════
+// ═══════════ VIEWS ═══════════
 function switchView(v) {
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
@@ -737,19 +823,17 @@ function switchView(v) {
 }
 window.switchView = switchView;
 
-// ════════════════════════════════════════════════════
-//  RENDER: TURMAS
-// ════════════════════════════════════════════════════
-function changeDay(n) { viewDate=new Date(viewDate); viewDate.setDate(viewDate.getDate()+n); renderTurmas(); }
-function goToday()    { viewDate=new Date(); renderTurmas(); }
+// ═══════════ TURMAS ═══════════
+const changeDay = n => { viewDate=new Date(viewDate); viewDate.setDate(viewDate.getDate()+n); renderTurmas(); };
+const goToday   = ()=> { viewDate=new Date(); renderTurmas(); };
 window.changeDay=changeDay; window.goToday=goToday;
 
 function renderTurmas() {
   const d=ds(viewDate), dow=viewDate.getDay();
   document.getElementById('turmasDateLabel').textContent=DOW[dow]+', '+viewDate.getDate()+' de '+MESES[viewDate.getMonth()];
-  const lista=S.turmas.filter(t=>t.dias.includes(dow)).sort((a,b)=>a.hora.localeCompare(b.hora));
+  const lista=S.turmas.filter(t=>t.dias&&t.dias.includes(dow)).sort((a,b)=>a.hora.localeCompare(b.hora));
   const c=document.getElementById('turmasContainer');
-  if(!lista.length) { c.innerHTML='<div class="empty-state"><div class="empty-icon">🏋️</div>Nenhuma turma neste dia</div>'; return; }
+  if(!lista.length){ c.innerHTML='<div class="empty-state"><div class="empty-icon">🏋️</div>Nenhuma turma neste dia</div>'; return; }
   c.innerHTML=lista.map(t=>buildTurmaCard(t,d)).join('');
 }
 
@@ -762,86 +846,69 @@ function buildTurmaCard(turma,d) {
     if(a&&!lista.find(x=>x.id===a.id)) lista.push({...a,status:'recuperacao'});
   });
   const conf=lista.filter(a=>a.status!=='ausente').length;
-  const max=turma.vagas||8;
-  const livres=max-conf;
+  const max=turma.vagas||8, livres=max-conf;
   const pct=Math.round((conf/max)*100);
   const barCls=pct>=100?'cheio':pct>=75?'quase':'';
-  const corV=livres<=0?'var(--danger)':livres<=2?'#e8a00a':'var(--orange)';
+  const corV=livres<=0?'var(--danger)':livres<=2?'#ff9900':'var(--orange)';
   const isFut=d>=today(), isAdm=S.logado;
-
   return `<div class="turma-card">
     <div class="turma-header">
       <div>
         <div class="turma-time">${turma.hora}</div>
-        <div class="turma-meta">${turma.dias.map(x=>DOW[x]).join(' · ')}${turma.nome?' — '+turma.nome:''}</div>
+        <div class="turma-meta">${(turma.dias||[]).map(x=>DOW[x]).join(' · ')}${turma.nome?' — '+turma.nome:''}</div>
       </div>
       <div class="vagas-display">
         <div class="vagas-num" style="color:${corV}">${livres}</div>
         <div class="vagas-lbl">vagas livres</div>
         <div class="vagas-lbl">${conf}/${max} confirmados</div>
-        <div class="progress-wrap"><div class="progress-fill ${barCls}" style="width:${Math.min(100,pct)}%"></div></div>
+        <div class="progress-wrap" style="width:90px"><div class="progress-fill ${barCls}" style="width:${Math.min(100,pct)}%"></div></div>
       </div>
     </div>
     <div class="turma-body">
       ${lista.length===0?'<div class="text-muted">Nenhum aluno nesta turma</div>':
-        lista.map(a=>`
-        <div class="aluno-row">
+        lista.map(a=>`<div class="aluno-row">
           <div>
             <div class="aluno-name ${a.status==='ausente'?'ausente':a.status==='recuperacao'?'recuperacao':''}">${a.nome}</div>
             <div class="aluno-tipo">${a.status==='recuperacao'?'recuperação':'fixo'}</div>
           </div>
           <div class="flex-row">
-            ${a.status==='ausente'?'<span class="badge badge-red">ausente</span>':
-              a.status==='recuperacao'?'<span class="badge badge-info">recuperação</span>':
-              '<span class="badge badge-green">confirmado</span>'}
-            ${isAdm&&isFut?`
-              ${a.status!=='ausente'?`<button class="btn btn-sm btn-danger" onclick="setStatus('${turma.id}','${a.id}','${d}','ausente')">FALTA</button>`:''}
-              ${a.status==='ausente'?`<button class="btn btn-sm btn-orange" onclick="setStatus('${turma.id}','${a.id}','${d}','confirmado')">CONFIRMAR</button>`:''}
-              ${a.status==='recuperacao'?`<button class="btn btn-sm btn-danger" onclick="rmRecup('${turma.id}','${a.id}','${d}')">REMOVER</button>`:''}
-            `:''}
+            ${a.status==='ausente'?'<span class="badge badge-red">AUSENTE</span>':a.status==='recuperacao'?'<span class="badge badge-info">RECUPERAÇÃO</span>':'<span class="badge badge-green">CONFIRMADO</span>'}
+            ${isAdm&&isFut?`${a.status!=='ausente'?`<button class="btn btn-sm btn-danger" onclick="setStatus('${turma.id}','${a.id}','${d}','ausente')">FALTA</button>`:''}${a.status==='ausente'?`<button class="btn btn-sm btn-orange" onclick="setStatus('${turma.id}','${a.id}','${d}','confirmado')">CONFIRMAR</button>`:''}${a.status==='recuperacao'?`<button class="btn btn-sm btn-danger" onclick="rmRecup('${turma.id}','${a.id}','${d}')">REMOVER</button>`:''}`:''}
           </div>
         </div>`).join('')}
-      ${isAdm&&isFut?`
-        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap">
-          ${livres>0?`<button class="btn btn-sm btn-orange" onclick="openReserva('${turma.id}','${d}')">+ RECUPERAÇÃO</button>`:''}
-          <button class="btn btn-sm" onclick="compartilhar('${turma.id}','${d}')">📲 COMPARTILHAR VAGA</button>
-        </div>`:''}
+      ${isAdm&&isFut?`<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap">
+        ${livres>0?`<button class="btn btn-sm btn-orange" onclick="openReserva('${turma.id}','${d}')">+ RECUPERAÇÃO</button>`:''}
+        <button class="btn btn-sm" onclick="compartilhar('${turma.id}','${d}')">📲 COMPARTILHAR</button>
+      </div>`:''}
     </div>
   </div>`;
 }
 window.setStatus=setStatus; window.rmRecup=rmRecup; window.openReserva=openReserva; window.compartilhar=compartilhar;
 
-// ════════════════════════════════════════════════════
-//  RENDER: CALENDÁRIO
-// ════════════════════════════════════════════════════
+// ═══════════ CALENDÁRIO ═══════════
 function changeMonth(n) { calMonth+=n; if(calMonth<0){calMonth=11;calYear--;}if(calMonth>11){calMonth=0;calYear++;} renderCalendar(); }
 window.changeMonth=changeMonth;
 
 function renderCalendar() {
   document.getElementById('calMonthLabel').textContent=MESES[calMonth]+' '+calYear;
-  const first=new Date(calYear,calMonth,1).getDay();
-  const days=new Date(calYear,calMonth+1,0).getDate();
-  const todayStr=today();
+  const first=new Date(calYear,calMonth,1).getDay(), days=new Date(calYear,calMonth+1,0).getDate(), todayStr=today();
   let html=DOW.map(d=>`<div class="cal-dow">${d}</div>`).join('');
   for(let i=0;i<first;i++) html+=`<div class="cal-cell empty-cell"></div>`;
   for(let day=1;day<=days;day++) {
-    const dstr=calYear+'-'+pad(calMonth+1)+'-'+pad(day);
-    const dow=new Date(calYear,calMonth,day).getDay();
-    const hasAula=S.turmas.some(t=>t.dias.includes(dow));
-    const isToday=dstr===todayStr, isPast=dstr<todayStr, isSel=dstr===calSel;
-    const hasVaga=hasAula&&!isPast&&checkVaga(dstr,dow);
+    const dstr=calYear+'-'+pad(calMonth+1)+'-'+pad(day), dow=new Date(calYear,calMonth,day).getDay();
+    const ha=S.turmas.some(t=>t.dias&&t.dias.includes(dow));
+    const iT=dstr===todayStr,iP=dstr<todayStr,iS=dstr===calSel;
+    const hV=ha&&!iP&&checkVaga(dstr,dow);
     let cls='cal-cell';
-    if(isSel) cls+=' selected-cell'; else if(isToday) cls+=' today-cell';
-    if(hasAula) cls+=' has-aula'; if(isPast) cls+=' past'; if(hasVaga&&!isSel) cls+=' has-vagas';
-    html+=`<div class="${cls}" onclick="selDay('${dstr}',${dow},${isPast})">${day}</div>`;
+    if(iS) cls+=' selected-cell'; else if(iT) cls+=' today-cell';
+    if(ha) cls+=' has-aula'; if(iP) cls+=' past'; if(hV&&!iS) cls+=' has-vagas';
+    html+=`<div class="${cls}" onclick="selDay('${dstr}',${dow},${iP})">${day}</div>`;
   }
   document.getElementById('calGrid').innerHTML=html;
 }
-window.selDay=selDay;
-
 function checkVaga(dstr,dow) {
   return S.turmas.some(t=>{
-    if(!t.dias.includes(dow)) return false;
+    if(!t.dias||!t.dias.includes(dow)) return false;
     const fixos=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(t.id));
     const precs=S.presencas.filter(p=>p.turmaId===t.id&&p.data===dstr);
     const conf=fixos.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length+precs.filter(p=>p.status==='recuperacao').length;
@@ -849,30 +916,28 @@ function checkVaga(dstr,dow) {
   });
 }
 function selDay(dstr,dow,isPast) { calSel=dstr; renderCalendar(); renderAgendaDay(dstr,dow); }
+window.selDay=selDay;
+
 function renderAgendaDay(dstr,dow) {
-  const turmas=S.turmas.filter(t=>t.dias.includes(dow)).sort((a,b)=>a.hora.localeCompare(b.hora));
+  const turmas=S.turmas.filter(t=>t.dias&&t.dias.includes(dow)).sort((a,b)=>a.hora.localeCompare(b.hora));
   const dobj=parseDS(dstr), isPast=dstr<today();
   const lbl=DOW[dow]+', '+dobj.getDate()+' de '+MESES[dobj.getMonth()];
   const det=document.getElementById('agendaDayDetail');
-  if(!turmas.length){ det.innerHTML=`<div class="card"><div style="font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:.06em;text-transform:uppercase">${lbl}</div><div class="text-muted" style="margin-top:4px">Nenhuma turma</div></div>`; return; }
-  det.innerHTML=`<div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em">${lbl}</div>`
+  if(!turmas.length){det.innerHTML=`<div class="card"><div style="font-family:var(--font-display);font-size:18px;letter-spacing:.08em">${lbl}</div><div class="text-muted" style="margin-top:4px">Nenhuma turma</div></div>`;return;}
+  det.innerHTML=`<div class="text-muted" style="margin-bottom:12px">${lbl}</div>`
     +turmas.map(t=>{
       const fixos=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(t.id));
       const precs=S.presencas.filter(p=>p.turmaId===t.id&&p.data===dstr);
       const lista=fixos.map(a=>{const p=precs.find(x=>x.alunoId===a.id);return{...a,status:p?p.status:'confirmado'};});
-      precs.filter(p=>p.status==='recuperacao').forEach(p=>{
-        const a=S.alunos.find(x=>x.id===p.alunoId);
-        if(a&&!lista.find(x=>x.id===a.id)) lista.push({...a,status:'recuperacao'});
-      });
+      precs.filter(p=>p.status==='recuperacao').forEach(p=>{const a=S.alunos.find(x=>x.id===p.alunoId);if(a&&!lista.find(x=>x.id===a.id))lista.push({...a,status:'recuperacao'});});
       const conf=lista.filter(a=>a.status!=='ausente').length, max=t.vagas||8, livres=max-conf;
-      const chips=lista.map(a=>`<span class="slot-chip ${a.status==='ausente'?'ausente':a.status==='recuperacao'?'recuperacao':''}">${a.nome}</span>`).join('');
       return `<div class="agenda-slot">
         <div style="flex:1">
-          <div style="font-family:var(--display);font-size:20px;font-weight:900;letter-spacing:.06em">${t.hora}${t.nome?` <span style="font-size:13px;color:var(--text3)">${t.nome}</span>`:''}</div>
-          <div class="slot-alunos">${chips||'<span style="font-size:11px;color:var(--text3)">sem alunos</span>'}</div>
+          <div style="font-family:var(--font-display);font-size:20px;letter-spacing:.08em">${t.hora}${t.nome?` <span style="font-size:12px;font-family:var(--font-mono);color:var(--text3)">${t.nome}</span>`:''}</div>
+          <div class="slot-alunos">${lista.map(a=>`<span class="slot-chip ${a.status==='ausente'?'ausente':a.status==='recuperacao'?'recuperacao':''}">${a.nome}</span>`).join('')||'<span class="text-muted">sem alunos</span>'}</div>
         </div>
         <div style="text-align:right;flex-shrink:0">
-          <div style="font-family:var(--display);font-size:24px;font-weight:900;color:${livres<=0?'var(--danger)':livres<=2?'#e8a00a':'var(--orange)'}">${livres}</div>
+          <div style="font-family:var(--font-display);font-size:26px;color:${livres<=0?'var(--danger)':livres<=2?'#ff9900':'var(--orange)'}">${livres}</div>
           <div class="vagas-lbl">vagas</div>
           ${!isPast&&livres>0&&S.logado?`<button class="btn btn-sm btn-orange" style="margin-top:6px" onclick="openReserva('${t.id}','${dstr}')">RESERVAR</button>`:''}
         </div>
@@ -880,23 +945,21 @@ function renderAgendaDay(dstr,dow) {
     }).join('');
 }
 
-// ════════════════════════════════════════════════════
-//  RENDER: ALUNOS
-// ════════════════════════════════════════════════════
+// ═══════════ ALUNOS ═══════════
 function renderAlunos() {
   document.getElementById('alunosCount').textContent=S.alunos.length+' alunos cadastrados';
   const c=document.getElementById('alunosContainer');
-  if(!S.alunos.length){ c.innerHTML='<div class="empty-state"><div class="empty-icon">👤</div>Nenhum aluno cadastrado</div>'; return; }
+  if(!S.alunos.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">👤</div>Nenhum aluno cadastrado</div>';return;}
   c.innerHTML=S.alunos.map(a=>{
     const tn=(a.turmasIds||[]).map(tid=>{const t=S.turmas.find(x=>x.id===tid);return t?t.hora+(t.nome?' ('+t.nome+')'):''}).filter(Boolean).join(', ');
     const cpfFmt=a.cpf?a.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,'$1.$2.$3-$4'):'—';
     return `<div class="card card-accent" style="margin-bottom:10px">
       <div class="flex-between">
-        <div style="display:flex;align-items:center;gap:12px">
-          <div class="aluno-avatar" style="width:40px;height:40px;font-size:16px;border-radius:6px">${a.nome.charAt(0)}</div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div class="aluno-avatar" style="width:42px;height:42px;font-size:18px;border-radius:6px">${a.nome.charAt(0)}</div>
           <div>
-            <div style="font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.06em;text-transform:uppercase">${a.nome}</div>
-            <div class="text-muted">${tn||'Sem turma fixa'} &nbsp;·&nbsp; CPF: ${cpfFmt}</div>
+            <div style="font-family:var(--font-display);font-size:16px;letter-spacing:.08em;text-transform:uppercase">${a.nome}</div>
+            <div class="text-muted">${tn||'Sem turma fixa'} &nbsp;·&nbsp; ${cpfFmt}</div>
           </div>
         </div>
         <div class="flex-row">
@@ -909,19 +972,16 @@ function renderAlunos() {
 }
 window.openEditAluno=openEditAluno; window.delAluno=delAluno;
 
-// ════════════════════════════════════════════════════
-//  RENDER: ADMIN
-// ════════════════════════════════════════════════════
+// ═══════════ ADMIN ═══════════
 function renderAdmin() {
   const c=document.getElementById('adminTurmasContainer');
-  if(!S.turmas.length){ c.innerHTML='<div class="empty-state"><div class="empty-icon">⏱️</div>Nenhuma turma</div>'; return; }
-  c.innerHTML=`<div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em">Turmas cadastradas</div>`
-    +S.turmas.map(t=>`
-    <div class="card" style="margin-bottom:10px">
+  if(!S.turmas.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">⏱️</div>Nenhuma turma cadastrada</div>';return;}
+  c.innerHTML=`<div class="text-muted" style="margin-bottom:12px">TURMAS CADASTRADAS</div>`
+    +S.turmas.map(t=>`<div class="card" style="margin-bottom:10px">
       <div class="flex-between">
         <div>
-          <div style="font-family:var(--display);font-size:20px;font-weight:900;letter-spacing:.06em">${t.hora}${t.nome?' — '+t.nome:''}</div>
-          <div class="text-muted">${t.dias.map(d=>DOW[d]).join(' · ')} · máx ${t.vagas||8} alunos</div>
+          <div style="font-family:var(--font-display);font-size:20px;letter-spacing:.08em">${t.hora}${t.nome?' — '+t.nome:''}</div>
+          <div class="text-muted">${(t.dias||[]).map(d=>DOW[d]).join(' · ')} · máx ${t.vagas||8} alunos</div>
         </div>
         <div class="flex-row">
           <button class="btn btn-sm" onclick="openEditTurma('${t.id}')">EDITAR</button>
@@ -932,9 +992,7 @@ function renderAdmin() {
 }
 window.openEditTurma=openEditTurma; window.delTurma=delTurma;
 
-// ════════════════════════════════════════════════════
-//  RENDER: ÁREA DO ALUNO
-// ════════════════════════════════════════════════════
+// ═══════════ ÁREA DO ALUNO ═══════════
 function renderAlunoLink() {
   const al=S.alunoAtivo; if(!al) return;
   const turmasFixas=(al.turmasIds||[]).map(tid=>S.turmas.find(t=>t.id===tid)).filter(Boolean);
@@ -942,7 +1000,7 @@ function renderAlunoLink() {
   for(let i=0;i<30;i++) {
     const dt=new Date(); dt.setDate(dt.getDate()+i);
     const dstr=ds(dt), dow=dt.getDay();
-    turmasFixas.filter(t=>t.dias.includes(dow)).forEach(t=>{
+    turmasFixas.filter(t=>t.dias&&t.dias.includes(dow)).forEach(t=>{
       const p=S.presencas.find(x=>x.alunoId===al.id&&x.turmaId===t.id&&x.data===dstr);
       proximas.push({turma:t,dstr,status:p?p.status:'confirmado'});
     });
@@ -952,7 +1010,7 @@ function renderAlunoLink() {
     const dt=new Date(); dt.setDate(dt.getDate()+i);
     const dstr=ds(dt), dow=dt.getDay();
     S.turmas.forEach(t=>{
-      if(al.turmasIds&&al.turmasIds.includes(t.id)||!t.dias.includes(dow)) return;
+      if((al.turmasIds||[]).includes(t.id)||!t.dias||!t.dias.includes(dow)) return;
       const fixos=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(t.id));
       const precs=S.presencas.filter(p=>p.turmaId===t.id&&p.data===dstr);
       const conf=fixos.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length+precs.filter(p=>p.status==='recuperacao').length;
@@ -967,17 +1025,16 @@ function renderAlunoLink() {
     <div class="aluno-avatar">${al.nome.charAt(0)}</div>
     <div>
       <div class="aluno-hero-name">${al.nome.toUpperCase()}</div>
-      <div class="aluno-hero-turmas">${turmasFixas.map(t=>t.hora+(t.nome?' · '+t.nome:'')).join('  /  ')||'Sem turma fixa'}</div>
+      <div class="aluno-hero-sub">${turmasFixas.map(t=>t.hora+(t.nome?' · '+t.nome:'')).join('  /  ')||'Sem turma fixa'}</div>
     </div>
   </div>
-
-  <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em">Suas próximas aulas</div>
+  <div class="text-muted" style="margin-bottom:12px">PRÓXIMAS AULAS</div>
   ${proximas.slice(0,8).map(({turma,dstr,status})=>{
     const dobj=parseDS(dstr), lbl=DOW[dobj.getDay()]+', '+dobj.getDate()+'/'+pad(dobj.getMonth()+1);
-    return `<div class="card ${status==='ausente'?'':'card-accent'}" style="margin-bottom:8px;border-left-color:${status==='ausente'?'var(--danger)':'var(--orange)'}" >
+    return `<div class="card card-accent" style="margin-bottom:8px;border-left-color:${status==='ausente'?'var(--danger)':'var(--orange)'};background:linear-gradient(90deg,rgba(255,60,0,0.04) 0%,transparent 50%)">
       <div class="flex-between">
         <div>
-          <div style="font-family:var(--display);font-size:18px;font-weight:900;letter-spacing:.06em">${turma.hora} <span style="font-size:12px;color:var(--text3);font-family:var(--mono)">${turma.nome||''}</span></div>
+          <div style="font-family:var(--font-display);font-size:18px;letter-spacing:.08em">${turma.hora} <span style="font-size:11px;font-family:var(--font-mono);color:var(--text3)">${turma.nome||''}</span></div>
           <div class="text-muted">${lbl}</div>
         </div>
         <div class="flex-row">
@@ -988,50 +1045,40 @@ function renderAlunoLink() {
       </div>
     </div>`;
   }).join('')}
-
   <div class="divider"></div>
-  <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em">Vagas disponíveis para recuperação</div>
+  <div class="text-muted" style="margin-bottom:12px">VAGAS PARA RECUPERAÇÃO</div>
   ${vagas.length===0?'<div class="empty-state"><div class="empty-icon">✓</div>Nenhuma vaga disponível</div>':
     vagas.slice(0,10).map(({turma,dstr,livres,jaRes})=>{
       const dobj=parseDS(dstr), lbl=DOW[dobj.getDay()]+', '+dobj.getDate()+'/'+pad(dobj.getMonth()+1);
       return `<div class="card" style="margin-bottom:8px">
         <div class="flex-between">
           <div>
-            <div style="font-family:var(--display);font-size:18px;font-weight:900;letter-spacing:.06em">${turma.hora} <span style="font-size:12px;color:var(--text3);font-family:var(--mono)">${turma.nome||''}</span></div>
+            <div style="font-family:var(--font-display);font-size:18px;letter-spacing:.08em">${turma.hora} <span style="font-size:11px;font-family:var(--font-mono);color:var(--text3)">${turma.nome||''}</span></div>
             <div class="text-muted">${lbl} · ${livres} vaga${livres>1?'s':''} livre${livres>1?'s':''}</div>
           </div>
           ${jaRes?'<span class="badge badge-orange">RESERVADO</span>':`<button class="btn btn-sm btn-orange" onclick="alunoReservar('${turma.id}','${dstr}')">RESERVAR</button>`}
         </div>
       </div>`;
-    }).join('')}
-  `;
+    }).join('')}`;
 }
 window.renderAlunoLink=renderAlunoLink;
 window.alunoFaltar=alunoFaltar; window.alunoConfirmar=alunoConfirmar; window.alunoReservar=alunoReservar;
 
-// ════════════════════════════════════════════════════
-//  AÇÕES
-// ════════════════════════════════════════════════════
-async function setStatus(turmaId,alunoId,d,status) {
-  await setPresenca(alunoId,turmaId,d,status); renderTurmas();
-}
+// ═══════════ AÇÕES ═══════════
+async function setStatus(turmaId,alunoId,d,status) { await setPresenca(alunoId,turmaId,d,status); renderTurmas(); }
 async function rmRecup(turmaId,alunoId,d) {
   const p=S.presencas.find(x=>x.alunoId===alunoId&&x.turmaId===turmaId&&x.data===d);
-  if(p) { if(USE_FIREBASE) await fbDelete('presencas',p.id); S.presencas=S.presencas.filter(x=>x.id!==p.id); saveLocal(); }
+  if(p){ await fbDelete('presencas',p.id); S.presencas=S.presencas.filter(x=>x.id!==p.id); saveLocal(); }
   renderTurmas();
 }
 async function setPresenca(alunoId,turmaId,d,status) {
   const idx=S.presencas.findIndex(p=>p.alunoId===alunoId&&p.turmaId===turmaId&&p.data===d);
   if(idx>=0) {
-    if(status==='confirmado') {
-      const pid=S.presencas[idx].id;
-      S.presencas.splice(idx,1);
-      if(USE_FIREBASE) await fbDelete('presencas',pid);
-    } else { S.presencas[idx].status=status; if(USE_FIREBASE) await fbSet('presencas',S.presencas[idx].id,S.presencas[idx]); }
+    if(status==='confirmado'){ const pid=S.presencas[idx].id; S.presencas.splice(idx,1); await fbDelete('presencas',pid); }
+    else { S.presencas[idx].status=status; await fbSavePresenca(S.presencas[idx]); }
   } else if(status!=='confirmado') {
     const p={id:uid(),alunoId,turmaId,data:d,status};
-    S.presencas.push(p);
-    await syncPresenca(p);
+    S.presencas.push(p); await fbSavePresenca(p);
   }
   saveLocal();
 }
@@ -1047,28 +1094,21 @@ async function alunoReservar(tid,d) {
 }
 function compartilhar(tid,d) {
   const t=S.turmas.find(x=>x.id===tid);
-  const msg=`🐺 *Guará Calistenia — Vaga Disponível!*\nTurma: ${t.hora}${t.nome?' ('+t.nome+')':''}\nData: ${d}\n\nAcesse o sistema e entre com seu CPF para reservar!`;
+  const msg=`🐺 *Guará Calistenia — Vaga Disponível!*\nTurma: ${t.hora}${t.nome?' ('+t.nome+')':''}\nData: ${d}\n\nAcesse o sistema e entre com seu CPF para reservar a vaga!`;
   if(navigator.share) navigator.share({text:msg});
   else navigator.clipboard.writeText(msg).then(()=>toast('Mensagem copiada!','success'));
 }
 
-// ════════════════════════════════════════════════════
-//  MODAIS: TURMA
-// ════════════════════════════════════════════════════
+// ═══════════ MODAIS TURMA ═══════════
 function openModalNovaTurma() { openModal('NOVA <span>TURMA</span>',formTurma(),[{label:'Cancelar',cls:'',action:closeModal},{label:'Salvar',cls:'btn-orange',action:()=>saveTurma(null)}]); }
 function openEditTurma(id) { openModal('EDITAR <span>TURMA</span>',formTurma(S.turmas.find(x=>x.id===id)),[{label:'Cancelar',cls:'',action:closeModal},{label:'Salvar',cls:'btn-orange',action:()=>saveTurma(id)}]); }
 window.openModalNovaTurma=openModalNovaTurma;
 function formTurma(t) {
-  const dias=t?t.dias:[];
-  return `
-    <div class="form-group"><label class="form-label">Nome da turma (opcional)</label>
-      <input class="form-input" id="fTNome" placeholder="Avançado, Iniciante..." value="${t?t.nome||'':''}"/></div>
-    <div class="form-group"><label class="form-label">Horário</label>
-      <input class="form-input" id="fTHora" type="time" value="${t?t.hora:'07:00'}"/></div>
-    <div class="form-group"><label class="form-label">Dias da semana</label>
-      <div class="days-grid">${DOW.map((d,i)=>`<div class="day-btn ${dias.includes(i)?'selected':''}" onclick="this.classList.toggle('selected')" data-day="${i}">${d}</div>`).join('')}</div></div>
-    <div class="form-group"><label class="form-label">Vagas máximas</label>
-      <input class="form-input" id="fTVagas" type="number" min="1" max="50" value="${t?t.vagas||8:8}"/></div>`;
+  const dias=t?t.dias||[]:[];
+  return `<div class="form-group"><label class="form-label">Nome da turma (opcional)</label><input class="form-input" id="fTNome" placeholder="Avançado, Iniciante..." value="${t?t.nome||':''}"/></div>
+    <div class="form-group"><label class="form-label">Horário</label><input class="form-input" id="fTHora" type="time" value="${t?t.hora:'07:00'}"/></div>
+    <div class="form-group"><label class="form-label">Dias da semana</label><div class="days-grid">${DOW.map((d,i)=>`<div class="day-btn ${dias.includes(i)?'selected':''}" onclick="this.classList.toggle('selected')" data-day="${i}">${d}</div>`).join('')}</div></div>
+    <div class="form-group"><label class="form-label">Vagas máximas</label><input class="form-input" id="fTVagas" type="number" min="1" max="50" value="${t?t.vagas||8:8}"/></div>`;
 }
 async function saveTurma(id) {
   const nome=document.getElementById('fTNome').value.trim();
@@ -1077,42 +1117,31 @@ async function saveTurma(id) {
   const dias=[...document.querySelectorAll('.day-btn.selected')].map(el=>+el.dataset.day);
   if(!hora){toast('Horário obrigatório','error');return;}
   if(!dias.length){toast('Selecione ao menos um dia','error');return;}
-  if(id){Object.assign(S.turmas.find(x=>x.id===id),{nome,hora,dias,vagas});await syncTurma(S.turmas.find(x=>x.id===id));}
-  else{const t={id:uid(),nome,hora,dias,vagas};S.turmas.push(t);await syncTurma(t);}
+  if(id){const t=S.turmas.find(x=>x.id===id);Object.assign(t,{nome,hora,dias,vagas});await fbSaveTurma(t);}
+  else{const t={id:uid(),nome,hora,dias,vagas};S.turmas.push(t);await fbSaveTurma(t);}
   closeModal(); renderAdmin(); renderTurmas(); toast('Turma salva!','success');
 }
 async function delTurma(id) {
   if(!confirm('Excluir esta turma?'))return;
-  S.turmas=S.turmas.filter(t=>t.id!==id);
   const pIds=S.presencas.filter(p=>p.turmaId===id).map(p=>p.id);
-  S.presencas=S.presencas.filter(p=>p.turmaId!==id);
+  S.turmas=S.turmas.filter(t=>t.id!==id); S.presencas=S.presencas.filter(p=>p.turmaId!==id);
   S.alunos.forEach(a=>{if(a.turmasIds)a.turmasIds=a.turmasIds.filter(x=>x!==id);});
-  if(USE_FIREBASE){await fbDelete('turmas',id);for(const pid of pIds) await fbDelete('presencas',pid);}
+  await fbDelete('turmas',id); for(const pid of pIds) await fbDelete('presencas',pid);
   saveLocal(); renderAdmin(); renderTurmas(); toast('Turma excluída');
 }
 
-// ════════════════════════════════════════════════════
-//  MODAIS: ALUNO (CPF + SENHA)
-// ════════════════════════════════════════════════════
+// ═══════════ MODAIS ALUNO ═══════════
 function openModalNovoAluno() { openModal('NOVO <span>ALUNO</span>',formAluno(),[{label:'Cancelar',cls:'',action:closeModal},{label:'Salvar',cls:'btn-orange',action:()=>saveAluno(null)}]); }
 window.openModalNovoAluno=openModalNovoAluno;
 function openEditAluno(id) { openModal('EDITAR <span>ALUNO</span>',formAluno(S.alunos.find(x=>x.id===id)),[{label:'Cancelar',cls:'',action:closeModal},{label:'Salvar',cls:'btn-orange',action:()=>saveAluno(id)}]); }
 function formAluno(a) {
   const ids=a?a.turmasIds||[]:[];
   const cpfFmt=a&&a.cpf?a.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,'$1.$2.$3-$4'):'';
-  return `
-    <div class="form-group"><label class="form-label">Nome completo</label>
-      <input class="form-input" id="fANome" placeholder="Nome do aluno" value="${a?a.nome:''}"/></div>
-    <div class="form-group"><label class="form-label">CPF</label>
-      <input class="form-input" id="fACPF" type="text" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" value="${cpfFmt}"/></div>
-    <div class="form-group"><label class="form-label">Senha do aluno</label>
-      <input class="form-input" id="fASenha" type="password" placeholder="${a?'Manter senha atual':'Definir senha'}"/></div>
+  return `<div class="form-group"><label class="form-label">Nome completo</label><input class="form-input" id="fANome" placeholder="Nome do aluno" value="${a?a.nome:''}"/></div>
+    <div class="form-group"><label class="form-label">CPF</label><input class="form-input" id="fACPF" type="text" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" value="${cpfFmt}"/></div>
+    <div class="form-group"><label class="form-label">Senha${a?' (deixe em branco para manter)':''}</label><input class="form-input" id="fASenha" type="password" placeholder="${a?'Nova senha (opcional)':'Definir senha'}"/></div>
     <div class="form-group"><label class="form-label">Turmas fixas</label>
-      ${S.turmas.length===0?'<div class="text-muted">Cadastre turmas primeiro</div>':
-        S.turmas.map(t=>`<label style="display:flex;align-items:center;gap:8px;padding:7px 0;cursor:pointer;font-size:13px">
-          <input type="checkbox" ${ids.includes(t.id)?'checked':''} value="${t.id}" class="atch"/>
-          ${t.hora}${t.nome?' — '+t.nome:''} (${t.dias.map(d=>DOW[d]).join(', ')})
-        </label>`).join('')}
+      ${S.turmas.length===0?'<div class="text-muted">Cadastre turmas primeiro</div>':S.turmas.map(t=>`<label style="display:flex;align-items:center;gap:8px;padding:8px 0;cursor:pointer;font-size:14px;font-family:var(--font-body)"><input type="checkbox" ${ids.includes(t.id)?'checked':''} value="${t.id}" class="atch"/> ${t.hora}${t.nome?' — '+t.nome:''} (${(t.dias||[]).map(d=>DOW[d]).join(', ')})</label>`).join('')}
     </div>`;
 }
 async function saveAluno(id) {
@@ -1122,51 +1151,43 @@ async function saveAluno(id) {
   if(!nome){toast('Nome obrigatório','error');return;}
   if(!cpf||cpf.length!==11){toast('CPF inválido','error');return;}
   const ids=[...document.querySelectorAll('.atch:checked')].map(el=>el.value);
-  // verifica CPF duplicado
   const dup=S.alunos.find(a=>a.cpf===cpf&&a.id!==id);
   if(dup){toast('CPF já cadastrado','error');return;}
-  if(id){
+  if(id) {
     const a=S.alunos.find(x=>x.id===id);
     Object.assign(a,{nome,cpf,turmasIds:ids});
     if(senha) a.senha=senha;
-    await syncAluno(a);
-  }else{
+    await fbSaveAluno(a);
+  } else {
     if(!senha){toast('Defina uma senha para o aluno','error');return;}
     const a={id:uid(),nome,cpf,senha,turmasIds:ids};
-    S.alunos.push(a); await syncAluno(a);
+    S.alunos.push(a); await fbSaveAluno(a);
   }
   closeModal(); renderAlunos(); renderTurmas(); toast('Aluno salvo!','success');
 }
 async function delAluno(id) {
   if(!confirm('Excluir este aluno?'))return;
   const pIds=S.presencas.filter(p=>p.alunoId===id).map(p=>p.id);
-  S.alunos=S.alunos.filter(a=>a.id!==id);
-  S.presencas=S.presencas.filter(p=>p.alunoId!==id);
-  if(USE_FIREBASE){await fbDelete('alunos',id);for(const pid of pIds) await fbDelete('presencas',pid);}
+  S.alunos=S.alunos.filter(a=>a.id!==id); S.presencas=S.presencas.filter(p=>p.alunoId!==id);
+  await fbDelete('alunos',id); for(const pid of pIds) await fbDelete('presencas',pid);
   saveLocal(); renderAlunos(); toast('Aluno excluído');
 }
 
-// ════════════════════════════════════════════════════
-//  MODAL: RESERVA
-// ════════════════════════════════════════════════════
+// ═══════════ MODAL RESERVA ═══════════
 function openReserva(turmaId,d) {
   const fixos=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(turmaId)).map(a=>a.id);
   const jaRes=S.presencas.filter(p=>p.turmaId===turmaId&&p.data===d&&p.status==='recuperacao').map(p=>p.alunoId);
   const disp=S.alunos.filter(a=>!fixos.includes(a.id)&&!jaRes.includes(a.id));
-  openModal('ADICIONAR <span>RECUPERAÇÃO</span>',
-    `<div class="form-group"><label class="form-label">Selecionar aluno</label>
-     <select class="form-select" id="fRes">
-       <option value="">— escolha —</option>
-       ${disp.map(a=>`<option value="${a.id}">${a.nome}</option>`).join('')}
-     </select></div>`,
+  openModal('RECUPERAÇÃO',
+    `<div class="form-group"><label class="form-label">Selecionar aluno</label><select class="form-select" id="fRes"><option value="">— escolha —</option>${disp.map(a=>`<option value="${a.id}">${a.nome}</option>`).join('')}</select></div>`,
     [{label:'Cancelar',cls:'',action:closeModal},
      {label:'Confirmar',cls:'btn-orange',action:async()=>{
        const sel=document.getElementById('fRes').value;
        if(!sel){toast('Selecione um aluno','error');return;}
        const t=S.turmas.find(x=>x.id===turmaId);
        const precs=S.presencas.filter(p=>p.turmaId===turmaId&&p.data===d);
-       const fixosA=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(turmaId));
-       const conf=fixosA.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length+precs.filter(p=>p.status==='recuperacao').length;
+       const fa=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(turmaId));
+       const conf=fa.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length+precs.filter(p=>p.status==='recuperacao').length;
        if(conf>=(t.vagas||8)){toast('Turma lotada!','error');return;}
        await setPresenca(sel,turmaId,d,'recuperacao');
        closeModal(); renderTurmas(); renderCalendar(); toast('Aluno adicionado!','success');
@@ -1174,41 +1195,35 @@ function openReserva(turmaId,d) {
   );
 }
 
-// ════════════════════════════════════════════════════
-//  MODAL: SENHA ADMIN
-// ════════════════════════════════════════════════════
+// ═══════════ MODAL SENHA ═══════════
 async function openModalSenha() {
   openModal('ALTERAR <span>SENHA</span>',
     `<div class="form-group"><label class="form-label">Nova senha</label><input class="form-input" id="fS1" type="password" placeholder="••••••••"/></div>
      <div class="form-group"><label class="form-label">Confirmar</label><input class="form-input" id="fS2" type="password" placeholder="••••••••"/></div>`,
     [{label:'Cancelar',cls:'',action:closeModal},
      {label:'Salvar',cls:'btn-orange',action:async()=>{
-       const s=document.getElementById('fS1').value, s2=document.getElementById('fS2').value;
+       const s=document.getElementById('fS1').value,s2=document.getElementById('fS2').value;
        if(!s||s.length<4){toast('Senha muito curta','error');return;}
        if(s!==s2){toast('Senhas não conferem','error');return;}
-       S.config.senha=s; await syncConfig(); closeModal(); toast('Senha alterada!','success');
+       S.config.senha=s; await fbSaveConfig(); closeModal(); toast('Senha alterada!','success');
      }}]
   );
 }
 window.openModalSenha=openModalSenha;
 
-// ════════════════════════════════════════════════════
-//  MODAL ENGINE
-// ════════════════════════════════════════════════════
+// ═══════════ MODAL ENGINE ═══════════
 function openModal(title,body,buttons) {
   document.getElementById('modalTitle').innerHTML=title;
   document.getElementById('modalBody').innerHTML=body;
   const f=document.getElementById('modalFooter'); f.innerHTML='';
-  buttons.forEach(b=>{ const el=document.createElement('button'); el.className='btn '+(b.cls||''); el.textContent=b.label; el.onclick=b.action; f.appendChild(el); });
+  buttons.forEach(b=>{const el=document.createElement('button');el.className='btn '+(b.cls||'');el.textContent=b.label;el.onclick=b.action;f.appendChild(el);});
   document.getElementById('modalOverlay').classList.remove('hidden');
 }
 function closeModal() { document.getElementById('modalOverlay').classList.add('hidden'); }
 window.closeModal=closeModal;
-document.getElementById('modalOverlay').addEventListener('click',e=>{ if(e.target===document.getElementById('modalOverlay')) closeModal(); });
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('modalOverlay'))closeModal();});
 
-// ════════════════════════════════════════════════════
-//  TOAST
-// ════════════════════════════════════════════════════
+// ═══════════ TOAST ═══════════
 let _tt;
 function toast(msg,type='') {
   const el=document.getElementById('toast');
@@ -1216,22 +1231,19 @@ function toast(msg,type='') {
   clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),3200);
 }
 
-// ════════════════════════════════════════════════════
-//  UTILS
-// ════════════════════════════════════════════════════
-function uid() { return Math.random().toString(36).slice(2,9)+Date.now().toString(36); }
+// ═══════════ UTILS ═══════════
+const uid = () => Math.random().toString(36).slice(2,9)+Date.now().toString(36);
 
-// ════════════════════════════════════════════════════
-//  INIT
-// ════════════════════════════════════════════════════
+// ═══════════ INIT ═══════════
 async function init() {
   loadLocal();
-  if(USE_FIREBASE) {
-    toast('Conectando ao Firebase...','');
-    await syncFromFirebase();
-    toast('Dados sincronizados!','success');
-  } else {
-    console.log('Firebase não configurado — usando localStorage');
+  toast('Conectando...','');
+  try {
+    await syncAll();
+    toast('Pronto!','success');
+  } catch(e) {
+    console.error('Sync error:',e);
+    toast('Modo offline','');
   }
   viewDate=new Date();
 }
