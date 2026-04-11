@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Rajdhani:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 :root {
+  --accent-yellow: #C89B3C;
   --orange: #ff3c00; --orange2: #ff5520; --orange-dim: #cc3000;
   --orange-bg: #1f0800; --orange-bg2: #2a0a00;
   --black: #000000; --black2: #0d0d0d; --black3: #141414;
@@ -427,7 +428,9 @@ input[type="checkbox"] { accent-color:var(--orange); }
 }
 
 /* ── ALUNO NAV TABS ── */
-.nav-tab-aluno { display:none; }
+.nav-tab-aluno { display:none; font-family:var(--font-display); font-size:12px; letter-spacing:0.15em; text-transform:uppercase; padding:15px 20px 13px; cursor:pointer; color:var(--text3); border-bottom:2px solid transparent; margin-bottom:-1px; white-space:nowrap; transition:color .15s,border-color .15s; }
+.nav-tab-aluno:hover { color:var(--text2); }
+.nav-tab-aluno.active { color:var(--orange); border-bottom-color:var(--orange); }
 
 /* ── INNER TABS (aluno) ── */
 .inner-tab-row { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:20px; }
@@ -699,7 +702,7 @@ async function doLoginAluno() {
     document.getElementById('userLabel').textContent = aluno.nome.split(' ')[0].toUpperCase();
     // Nav do aluno: apenas Agenda, Calendário, Ranking
     document.querySelectorAll('.nav-tab').forEach(el => el.style.display='none');
-    document.querySelectorAll('.nav-tab-aluno').forEach(el => el.style.display='');
+    document.querySelectorAll('.nav-tab-aluno').forEach(el => el.style.display='flex');
     switchView('aluno-agenda');
   } else {
     toast('CPF ou senha incorretos','error');
@@ -934,15 +937,25 @@ function renderAgendaDay(dstr,dow,isAluno) {
       ?'<div class="aula-alunos-grid">'+chipsFixo+chipsExtra+'</div>'
       :'<div class="aula-alunos-empty">Sem alunos</div>';
 
-    // Botão reservar para aluno
+    // Botão para aluno
     let btnAluno='';
-    if(isAluno&&!isPast&&livres>0) {
+    if(isAluno&&!isPast) {
       const al=S.alunoAtivo;
       const ehFixo=al&&al.turmasIds&&al.turmasIds.includes(t.id);
-      if(!ehFixo&&al) {
+      if(ehFixo&&al) {
+        // Turma fixa: pode informar falta ou confirmar presença
+        const pAluno=precs.find(p=>p.alunoId===al.id);
+        const statusAluno=pAluno?pAluno.status:'confirmado';
+        if(statusAluno==='ausente') {
+          btnAluno='<button class="btn btn-sm btn-orange" onclick="alunoConfirmarCal(\''+t.id+'\',\''+dstr+'\')">VOU!</button>';
+        } else {
+          btnAluno='<button class="btn btn-sm btn-danger" onclick="alunoFaltarCal(\''+t.id+'\',\''+dstr+'\')">NÃO IREI</button>';
+        }
+      } else if(!ehFixo&&al&&livres>0) {
+        // Não é fixo: pode reservar/cancelar recuperação
         const jaRes=!!precs.find(p=>p.alunoId===al.id&&p.status==='recuperacao');
         if(jaRes) {
-          btnAluno='<button class="btn btn-sm" style="background:#0a2010;border-color:#0a4020;color:#22cc44" onclick="alunoReservarCal(\''+t.id+'\',\''+dstr+'\')">✓ CANCELAR</button>';
+          btnAluno='<button class="btn btn-sm" style="background:#051505;border-color:#22cc44;color:#22cc44;font-weight:600" onclick="alunoReservarCal(\''+t.id+'\',\''+dstr+'\')">CONFIRMADO</button>';
         } else {
           btnAluno='<button class="btn btn-sm btn-orange" onclick="alunoReservarCal(\''+t.id+'\',\''+dstr+'\')">RESERVAR</button>';
         }
@@ -1109,13 +1122,16 @@ function renderAlunoAgenda() {
       const dobj=parseDS(dstr),lbl=DOW[dobj.getDay()]+', '+dobj.getDate()+'/'+pad(dobj.getMonth()+1);
       const corBrd=status==='ausente'?'var(--danger)':'var(--orange)';
       const nE=turma.nome?'<span style="font-size:11px;font-family:var(--font-mono);color:var(--text3)">'+turma.nome+'</span>':'';
+      const profA=turma.professorId?S.professores.find(x=>x.id===turma.professorId):null;
+      const profLineA=profA?'<div style="font-size:10px;font-family:var(--font-mono);color:'+profA.cor+';margin-top:2px"><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:'+profA.cor+';margin-right:4px;vertical-align:middle"></span>'+profA.nome+'</div>':'';
       const btns=status==='ausente'
         ?'<span class="badge badge-red">AUSENTE</span><button class="btn btn-sm btn-orange" onclick="alunoConfirmar(\''+turma.id+'\',\''+dstr+'\')">VOU!</button>'
         :'<span class="badge badge-green">CONFIRMADO</span><button class="btn btn-sm btn-danger" onclick="alunoFaltar(\''+turma.id+'\',\''+dstr+'\')">NÃO IREI</button>';
       html+='<div class="card card-accent" style="margin-bottom:8px;border-left-color:'+corBrd+'">'
         +'<div class="flex-between"><div>'
         +'<div style="font-family:var(--font-display);font-size:18px;letter-spacing:.06em">'+turma.hora+' '+nE+'</div>'
-        +'<div class="text-muted">'+lbl+'</div></div>'
+        +'<div class="text-muted">'+lbl+'</div>'
+        +profLineA+'</div>'
         +'<div class="flex-row">'+btns+'</div></div></div>';
     });
   }
@@ -1129,13 +1145,16 @@ function renderAlunoAgenda() {
       const pl=livres>1?'s':'';
       const nE=turma.nome?'<span style="font-size:11px;font-family:var(--font-mono);color:var(--text3)">'+turma.nome+'</span>':'';
       // Botão: verde se reservado (permite cancelar), laranja se disponível
+      const profV=turma.professorId?S.professores.find(x=>x.id===turma.professorId):null;
+      const profBadgeV=profV?'<span style="display:inline-flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:9px;color:'+profV.cor+';margin-top:3px"><span style="width:5px;height:5px;border-radius:50%;background:'+profV.cor+';display:inline-block"></span>'+profV.nome+'</span>':'';
       const btn=jaRes
-        ?'<button class="btn btn-sm" style="background:#0a2010;border-color:#0a4020;color:#22cc44" onclick="alunoReservar(\''+turma.id+'\',\''+dstr+'\')">✓ CANCELAR</button>'
+        ?'<button class="btn btn-sm" style="background:#051505;border-color:#22cc44;color:#22cc44;font-weight:600" onclick="alunoReservar(\''+turma.id+'\',\''+dstr+'\')">CONFIRMADO</button>'
         :'<button class="btn btn-sm btn-orange" onclick="alunoReservar(\''+turma.id+'\',\''+dstr+'\')">RESERVAR</button>';
       html+='<div class="card" style="margin-bottom:8px">'
         +'<div class="flex-between"><div>'
         +'<div style="font-family:var(--font-display);font-size:18px;letter-spacing:.06em">'+turma.hora+' '+nE+'</div>'
-        +'<div class="text-muted">'+lbl+' · '+livres+' vaga'+pl+' livre'+pl+'</div></div>'+btn+'</div></div>';
+        +'<div class="text-muted">'+lbl+' · '+livres+' vaga'+pl+' livre'+pl+'</div>'
+        +profBadgeV+'</div>'+btn+'</div></div>';
     });
   }
   document.getElementById('alunoAgendaContent').innerHTML=html;
@@ -1528,6 +1547,21 @@ async function delProfessor(id) {
   saveLocal();renderAdmin();renderConfigTurmas();toast('Professor excluído');
 }
 
+async function alunoFaltarCal(tid,d) {
+  await setPresenca(S.alunoAtivo.id,tid,d,'ausente');
+  toast('Falta registrada — vaga liberada','success');
+  renderAgendaDay(d,parseDS(d).getDay(),true);
+  renderAlunoCalendar();
+}
+async function alunoConfirmarCal(tid,d) {
+  await setPresenca(S.alunoAtivo.id,tid,d,'confirmado');
+  toast('Presença confirmada!','success');
+  renderAgendaDay(d,parseDS(d).getDay(),true);
+  renderAlunoCalendar();
+}
+window.alunoFaltarCal=alunoFaltarCal;
+window.alunoConfirmarCal=alunoConfirmarCal;
+
 // ── MODAL RESERVA ─────────────────────────────
 function openReserva(turmaId,d) {
   const fixos=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(turmaId)).map(a=>a.id);
@@ -1601,9 +1635,11 @@ function buildAulasSection(dstr,dowLocal,offsetIdx) {
     const conf=fixos.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length+precs.filter(p=>p.status==='recuperacao').length;
     const max=t.vagas||8,livres=max-conf,pct=Math.round((conf/max)*100);
     const corV=livres<=0?'var(--danger)':livres<=2?'#ff9900':'var(--orange)';
-    const barClr=pct>=100?'var(--danger)':pct>=75?'#ff9900':'var(--orange)';
+    const barClr=pct>=100?'var(--danger)':'var(--accent-yellow)';
     const barW=Math.min(100,pct);
     const vagasLabel=livres<=0?'LOTADA':livres===1?'VAGA':'VAGAS';
+    const prof=t.professorId?S.professores.find(x=>x.id===t.professorId):null;
+    const profLine=prof?'<div style="font-size:9px;font-family:var(--font-mono);color:'+prof.cor+';letter-spacing:.04em;margin-top:2px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:'+prof.cor+';margin-right:4px;vertical-align:middle"></span>'+prof.nome+'</div>':'';
     const fixoChips=fixos.map(a=>{const p=precs.find(x=>x.alunoId===a.id);const aus=p&&p.status==='ausente';return '<span class="aluno-chip-pub fixo'+(aus?' ausente':'')+'">'+( aus?'✕ ':'✓ ')+a.nome+'</span>';}).join('');
     const extraChips=precs.filter(p=>p.status==='recuperacao').map(p=>{const a=S.alunos.find(x=>x.id===p.alunoId);if(!a||fixos.find(x=>x.id===a.id))return '';return '<span class="aluno-chip-pub extra">↺ '+a.nome+'</span>';}).filter(Boolean).join('');
     const chipsHtml=(fixoChips||extraChips)?'<div class="aula-alunos-grid">'+fixoChips+extraChips+'</div>':'<div class="aula-alunos-empty">Nenhum aluno vinculado</div>';
@@ -1612,7 +1648,8 @@ function buildAulasSection(dstr,dowLocal,offsetIdx) {
       +'<div class="aula-card-header" onclick="toggleAulaExp('+idx+')">'
       +'<div class="aula-card-left"><div class="aula-card-hora">'+t.hora+'</div>'
       +'<div class="aula-card-meta">'+(t.nome?'<div class="aula-card-nome">'+t.nome+'</div>':'')
-      +'<div class="aula-card-dias">'+( t.dias||[]).map(x=>DOW[x]).join(' · ')+'</div></div></div>'
+      +'<div class="aula-card-dias">'+( t.dias||[]).map(x=>DOW[x]).join(' · ')+'</div>'
+      +profLine+'</div></div>'
       +'<div class="aula-card-right"><div class="aula-vagas-bloco">'
       +'<div class="aula-vagas-n" style="color:'+corV+'">'+livres+'</div>'
       +'<div class="aula-vagas-t">'+vagasLabel+'</div></div>'
