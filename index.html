@@ -451,6 +451,473 @@ input[type="checkbox"] { accent-color:var(--orange); }
 @keyframes card-glow { 0%,100%{box-shadow:0 0 0 1px var(--orange-dim),0 0 14px rgba(255,60,0,.2)} 50%{box-shadow:0 0 0 1px var(--orange),0 0 28px rgba(255,60,0,.45)} }
 .aula-card-pub.proxima-aula .aula-card-hora { color:var(--orange); }
 .proxima-badge { display:inline-flex;align-items:center;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);background:var(--orange-bg2);border:1px solid var(--orange-dim);padding:2px 8px;border-radius:3px;margin-left:8px;vertical-align:middle; }
+ lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Guará Calistenia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Rajdhani:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --accent-yellow: #C89B3C;
+  --orange: #ff3c00; --orange2: #ff5520; --orange-dim: #cc3000;
+  --orange-bg: #1f0800; --orange-bg2: #2a0a00;
+  --black: #000000; --black2: #0d0d0d; --black3: #141414;
+  --black4: #1c1c1c; --black5: #242424;
+  --border: #282828; --border2: #333333;
+  --text: #f5f5f5; --text2: #888888; --text3: #484848;
+  --danger: #ff2222; --danger-bg: #1a0505;
+  --success: #22cc44; --success-bg: #051505;
+  --info: #3aa8e8; --info-bg: #051020;
+  --radius: 6px; --radius-lg: 12px;
+  --font-display: 'Black Ops One', cursive;
+  --font-body: 'Rajdhani', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+html,body { background:var(--black); color:var(--text); font-family:var(--font-body); font-size:15px; min-height:100vh; -webkit-font-smoothing:antialiased; }
+
+body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc0MCcgaGVpZ2h0PSc0MCc+PHBvbHlnb24gcG9pbnRzPScyMCwyIDM4LDIwIDIwLDM4IDIsMjAnIGZpbGw9J25vbmUnIHN0cm9rZT0ncmdiYSgyNTUsNjAsMCwwLjE4KScgc3Ryb2tlLXdpZHRoPScxJy8+PHBvbHlnb24gcG9pbnRzPScyMCw4IDMyLDIwIDIwLDMyIDgsMjAnIGZpbGw9J25vbmUnIHN0cm9rZT0ncmdiYSgyNTUsNjAsMCwwLjEpJyBzdHJva2Utd2lkdGg9JzEnLz48L3N2Zz4="); background-size:40px 40px; opacity:0.5; pointer-events:none; z-index:0; }
+
+.header,.nav,.main,.overlay,.modal-overlay { position:relative; z-index:1; }
+
+/* HEADER */
+.header { display:flex; align-items:center; justify-content:space-between; padding:0 24px; height:58px; border-bottom:1px solid var(--border); background:rgba(0,0,0,0.93); backdrop-filter:blur(16px); position:sticky; top:0; z-index:100; }
+.logo-wrap { display:flex; align-items:center; gap:12px; }
+.logo-img { width:40px; height:40px; object-fit:contain; filter:drop-shadow(0 0 8px rgba(255,60,0,0.5)); transition:filter .3s; }
+.logo-wrap:hover .logo-img { filter:drop-shadow(0 0 14px rgba(255,60,0,0.8)); }
+.logo-text { display:flex; flex-direction:column; line-height:1; }
+.logo-name { font-family:var(--font-display); font-size:20px; letter-spacing:0.12em; color:var(--text); text-transform:uppercase; }
+.logo-name span { color:var(--orange); }
+.logo-sub { font-family:var(--font-mono); font-size:8px; letter-spacing:0.2em; color:var(--text3); text-transform:uppercase; margin-top:2px; }
+.user-badge { display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:11px; color:var(--text2); background:var(--black3); border:1px solid var(--border); padding:6px 14px; border-radius:4px; cursor:pointer; transition:all .2s; letter-spacing:.05em; }
+.user-badge:hover { border-color:var(--orange-dim); color:var(--orange); }
+.user-dot { width:6px; height:6px; border-radius:50%; background:var(--orange); flex-shrink:0; box-shadow:0 0 6px var(--orange); }
+
+/* NAV */
+.nav { display:flex; padding:0 24px; border-bottom:1px solid var(--border); background:rgba(0,0,0,0.88); backdrop-filter:blur(12px); overflow-x:auto; }
+.nav-tab { font-family:var(--font-display); font-size:12px; letter-spacing:0.15em; text-transform:uppercase; padding:15px 20px 13px; cursor:pointer; color:var(--text3); border-bottom:2px solid transparent; margin-bottom:-1px; white-space:nowrap; transition:color .15s,border-color .15s; }
+.nav-tab:hover { color:var(--text2); }
+.nav-tab.active { color:var(--orange); border-bottom-color:var(--orange); }
+
+/* MAIN */
+.main { padding:28px 24px; max-width:1080px; margin:0 auto; }
+.view { display:none; }
+.view.active { display:block; }
+
+/* SECTION */
+.section-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:24px; gap:12px; flex-wrap:wrap; }
+.section-title { font-family:var(--font-display); font-size:28px; letter-spacing:0.1em; text-transform:uppercase; line-height:1; }
+.section-title .hl { color:var(--orange); }
+.section-sub { font-family:var(--font-mono); font-size:10px; color:var(--text3); margin-top:5px; letter-spacing:.08em; text-transform:uppercase; }
+
+/* BUTTONS */
+.btn { display:inline-flex; align-items:center; gap:7px; font-family:var(--font-display); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; padding:9px 20px; border-radius:var(--radius); border:1px solid var(--border2); background:var(--black3); color:var(--text2); cursor:pointer; transition:all .15s; white-space:nowrap; }
+.btn:hover { background:var(--black4); border-color:var(--text3); color:var(--text); }
+.btn-orange { background:var(--orange-bg2); border-color:var(--orange-dim); color:var(--orange); }
+.btn-orange:hover { background:var(--orange); color:var(--black); border-color:var(--orange); box-shadow:0 0 20px rgba(255,60,0,0.4); }
+.btn-danger { background:var(--danger-bg); border-color:#550000; color:var(--danger); }
+.btn-danger:hover { background:var(--danger); color:#fff; border-color:var(--danger); }
+.btn-sm { padding:6px 12px; font-size:10px; }
+.btn-full { width:100%; justify-content:center; }
+
+/* CARDS */
+.card { background:var(--black2); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; transition:border-color .2s; }
+.card:hover { border-color:var(--border2); }
+.card-accent { border-left:3px solid var(--orange); }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+@media(max-width:720px){.grid-2{grid-template-columns:1fr;}}
+
+/* FORMS */
+.form-group { margin-bottom:16px; }
+.form-label { display:block; font-family:var(--font-mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text3); margin-bottom:7px; }
+.form-input,.form-select { width:100%; background:var(--black3); border:1px solid var(--border); border-radius:var(--radius); padding:11px 14px; color:var(--text); font-family:var(--font-body); font-size:15px; outline:none; transition:border-color .15s,box-shadow .15s; }
+.form-input:focus,.form-select:focus { border-color:var(--orange-dim); box-shadow:0 0 0 2px rgba(255,60,0,0.12); }
+.form-select option { background:var(--black3); }
+input[type="password"] { letter-spacing:.2em; font-size:18px; }
+input[type="password"]::placeholder { letter-spacing:0; font-size:14px; }
+.days-grid { display:flex; gap:6px; flex-wrap:wrap; }
+.day-btn { font-family:var(--font-mono); font-size:10px; letter-spacing:0.06em; padding:7px 11px; border-radius:var(--radius); border:1px solid var(--border); background:var(--black3); color:var(--text3); cursor:pointer; transition:all .15s; user-select:none; }
+.day-btn.selected { background:var(--orange-bg2); border-color:var(--orange-dim); color:var(--orange); }
+
+/* BADGES */
+.badge { display:inline-flex; align-items:center; font-family:var(--font-mono); font-size:10px; padding:3px 9px; border-radius:3px; letter-spacing:0.06em; }
+.badge-green { background:var(--success-bg); color:var(--success); border:1px solid #0a3a0a; }
+.badge-red { background:var(--danger-bg); color:var(--danger); border:1px solid #550000; }
+.badge-orange { background:var(--orange-bg2); color:var(--orange); border:1px solid var(--orange-dim); }
+.badge-info { background:var(--info-bg); color:var(--info); border:1px solid #0a2a40; }
+.badge-gray { background:var(--black3); color:var(--text3); border:1px solid var(--border); }
+
+/* TURMA CARD */
+.turma-card { background:var(--black2); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; transition:border-color .2s; margin-bottom:14px; }
+.turma-card:hover { border-color:var(--border2); }
+.turma-header { padding:14px 22px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); background:linear-gradient(90deg,rgba(255,60,0,0.06) 0%,transparent 60%); position:relative; overflow:hidden; }
+.turma-header::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--orange); }
+.turma-time { font-family:var(--font-display); font-size:32px; letter-spacing:0.06em; line-height:1; }
+.turma-meta { font-family:var(--font-mono); font-size:10px; color:var(--text3); letter-spacing:0.06em; margin-top:4px; text-transform:uppercase; }
+.turma-body { padding:16px 22px; }
+.aluno-row { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border); gap:8px; }
+.aluno-row:last-child { border-bottom:none; }
+.aluno-name { font-size:14px; font-weight:600; flex:1; letter-spacing:.02em; }
+.aluno-name.ausente { color:var(--danger); text-decoration:line-through; opacity:.7; }
+.aluno-name.recuperacao { color:var(--info); }
+.aluno-tipo { font-family:var(--font-mono); font-size:9px; color:var(--text3); margin-top:1px; text-transform:uppercase; }
+.vagas-display { text-align:right; }
+.vagas-num { font-family:var(--font-display); font-size:36px; letter-spacing:0.04em; line-height:1; }
+.vagas-lbl { font-family:var(--font-mono); font-size:9px; color:var(--text3); letter-spacing:.06em; text-transform:uppercase; }
+.progress-wrap { height:2px; background:var(--black5); border-radius:999px; overflow:hidden; margin-top:6px; }
+.progress-fill { height:100%; border-radius:999px; background:var(--orange); transition:width .4s; }
+.progress-fill.quase { background:#ff9900; }
+.progress-fill.cheio { background:var(--danger); }
+
+/* CALENDÁRIO */
+.cal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.cal-month { font-family:var(--font-display); font-size:18px; letter-spacing:0.1em; text-transform:uppercase; }
+.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
+.cal-dow { font-family:var(--font-mono); font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:var(--text3); text-align:center; padding:4px 0 8px; }
+.cal-cell { aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:5px; cursor:pointer; font-size:12px; font-family:var(--font-mono); border:1px solid transparent; transition:all .15s; position:relative; }
+.cal-cell:hover:not(.empty-cell):not(.past) { background:var(--black3); border-color:var(--border); }
+.cal-cell.today-cell { background:var(--orange-bg2); border-color:var(--orange-dim); color:var(--orange); }
+.cal-cell.has-aula::after { content:''; width:3px; height:3px; background:var(--orange); border-radius:50%; position:absolute; bottom:3px; }
+.cal-cell.selected-cell { background:var(--orange); color:var(--black); border-color:var(--orange); font-weight:700; }
+.cal-cell.selected-cell::after { background:var(--black); }
+.cal-cell.past { opacity:.2; cursor:default; }
+.cal-cell.empty-cell { cursor:default; }
+.cal-cell.has-vagas { border-color:rgba(255,60,0,.35); }
+.agenda-slot { background:var(--black2); border:1px solid var(--border); border-radius:var(--radius-lg); padding:14px 18px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; transition:border-color .2s; }
+.agenda-slot:hover { border-color:var(--border2); }
+.slot-alunos { display:flex; gap:4px; flex-wrap:wrap; margin-top:6px; }
+.slot-chip { font-family:var(--font-mono); font-size:9px; padding:3px 8px; border-radius:3px; border:1px solid var(--border); background:var(--black3); color:var(--text2); }
+.slot-chip.ausente { color:var(--danger); border-color:#550000; background:var(--danger-bg); }
+.slot-chip.recuperacao { color:var(--info); border-color:#0a2a40; background:var(--info-bg); }
+
+/* LOGIN */
+.overlay { position:fixed; inset:0; background:var(--black); display:flex; align-items:flex-start; justify-content:center; z-index:999; overflow-y:auto; padding:32px 20px 40px; }
+.overlay.hidden { display:none; }
+.overlay::before { content:''; position:fixed; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,transparent,var(--orange),transparent); }
+.login-wrap { width:100%; max-width:400px; }
+.login-logo-block { text-align:center; margin-bottom:28px; position:relative; }
+.login-wolf-img { width:120px; height:120px; object-fit:contain; position:relative; filter:drop-shadow(0 0 22px rgba(255,60,0,0.55)); }
+@keyframes glow-pulse { 0%,100%{filter:drop-shadow(0 0 18px rgba(255,60,0,0.5))} 50%{filter:drop-shadow(0 0 32px rgba(255,60,0,0.85))} }
+.login-brand-name { font-family:var(--font-display); font-size:36px; letter-spacing:0.18em; text-transform:uppercase; color:var(--text); line-height:1; margin-top:12px; }
+.login-brand-name span { color:var(--orange); }
+.login-brand-sub { font-family:var(--font-mono); font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--text3); margin-top:5px; }
+.login-box { background:var(--black2); border:1px solid var(--border2); border-radius:var(--radius-lg); overflow:hidden; }
+.login-tab-row { display:flex; border-bottom:1px solid var(--border); }
+.login-tab { flex:1; text-align:center; font-family:var(--font-display); font-size:13px; letter-spacing:0.14em; text-transform:uppercase; padding:14px 0 12px; cursor:pointer; color:var(--text3); border-bottom:2px solid transparent; margin-bottom:-1px; transition:all .2s; background:transparent; user-select:none; }
+.login-tab:hover { color:var(--text2); background:rgba(255,255,255,.02); }
+.login-tab.active { color:var(--orange); border-bottom-color:var(--orange); background:rgba(255,60,0,.04); }
+.login-panels { padding:24px 24px 20px; }
+.login-panel { display:none; }
+.login-panel.active { display:block; }
+.login-footer { text-align:center; font-family:var(--font-mono); font-size:10px; color:var(--text3); padding:14px; border-top:1px solid var(--border); letter-spacing:.08em; text-transform:uppercase; }
+
+/* MODAL */
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.88); display:flex; align-items:center; justify-content:center; z-index:500; backdrop-filter:blur(6px); }
+.modal-overlay.hidden { display:none; }
+.modal-box { background:var(--black2); border:1px solid var(--border2); border-top:2px solid var(--orange); border-radius:var(--radius-lg); padding:28px; width:100%; max-width:480px; max-height:90vh; overflow-y:auto; }
+.modal-title { font-family:var(--font-display); font-size:20px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:20px; }
+.modal-title span { color:var(--orange); }
+
+/* ALUNO VIEW */
+.aluno-hero { background:linear-gradient(90deg,rgba(255,60,0,.05) 0%,transparent 50%); border:1px solid var(--border); border-left:3px solid var(--orange); border-radius:var(--radius-lg); padding:22px 26px; margin-bottom:22px; display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+.aluno-avatar { width:54px; height:54px; border-radius:8px; background:var(--orange-bg2); border:1px solid var(--orange-dim); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:24px; color:var(--orange); flex-shrink:0; box-shadow:0 0 12px rgba(255,60,0,.2); }
+.aluno-hero-name { font-family:var(--font-display); font-size:24px; letter-spacing:.08em; text-transform:uppercase; }
+.aluno-hero-sub { font-family:var(--font-mono); font-size:10px; color:var(--text3); margin-top:3px; letter-spacing:.06em; text-transform:uppercase; }
+
+/* MISC */
+.divider { height:1px; background:var(--border); margin:24px 0; }
+.flex-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.flex-between { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.text-muted { color:var(--text3); font-size:12px; font-family:var(--font-mono); letter-spacing:.04em; }
+.empty-state { text-align:center; padding:56px 20px; color:var(--text3); font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; }
+.empty-icon { font-size:32px; margin-bottom:14px; opacity:.3; }
+
+/* TOAST */
+.toast { position:fixed; bottom:24px; right:24px; background:var(--black2); border:1px solid var(--border2); border-left:3px solid var(--orange); border-radius:var(--radius); padding:13px 18px; font-family:var(--font-mono); font-size:11px; color:var(--text); z-index:9999; opacity:0; transform:translateY(8px); transition:all .25s; pointer-events:none; max-width:300px; letter-spacing:.04em; }
+.toast.show { opacity:1; transform:translateY(0); }
+.toast.success { border-left-color:var(--success); color:var(--success); }
+.toast.error { border-left-color:var(--danger); color:var(--danger); }
+
+input[type="time"]::-webkit-calendar-picker-indicator { filter:invert(.5) sepia(1) saturate(5) hue-rotate(320deg); }
+input[type="checkbox"] { accent-color:var(--orange); }
+
+/* REMOVIDO */
+.public-panel {
+  position:fixed; inset:0;
+  background:var(--black);
+  display:flex; flex-direction:column;
+  z-index:998; overflow-y:auto;
+}
+.public-panel.hidden { display:none; }
+
+.public-top {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:20px 24px 16px;
+  border-bottom:1px solid var(--border);
+  background:rgba(0,0,0,0.95);
+  position:sticky; top:0; z-index:10;
+  backdrop-filter:blur(12px);
+}
+.public-logo {
+  display:flex; align-items:center; gap:10px;
+}
+.public-logo img { width:36px; height:36px; object-fit:contain; filter:drop-shadow(0 0 8px rgba(255,60,0,.5)); }
+.public-logo-text { font-family:var(--font-display); font-size:18px; letter-spacing:.12em; color:var(--text); }
+.public-logo-text span { color:var(--orange); }
+.public-date-block { text-align:right; }
+.public-date-day { font-family:var(--font-display); font-size:22px; letter-spacing:.06em; color:var(--text); }
+.public-date-sub { font-family:var(--font-mono); font-size:10px; color:var(--text3); letter-spacing:.08em; text-transform:uppercase; margin-top:2px; }
+
+.public-body { padding:20px 24px; max-width:600px; margin:0 auto; width:100%; }
+
+.public-heading {
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--text3); margin-bottom:16px;
+}
+.public-heading span { color:var(--orange); margin-left:6px; }
+
+.aula-bloco {
+  background:var(--black2);
+  border:1px solid var(--border);
+  border-left:3px solid var(--orange);
+  border-radius:var(--radius-lg);
+  padding:16px 20px;
+  margin-bottom:10px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  transition:border-color .2s;
+}
+.aula-bloco.lotada { border-left-color:var(--danger); }
+.aula-bloco.quase  { border-left-color:#ff9900; }
+
+.aula-hora {
+  font-family:var(--font-display); font-size:30px; font-weight:400;
+  letter-spacing:.04em; line-height:1; color:var(--text);
+  flex-shrink:0;
+}
+.aula-info { flex:1; min-width:0; }
+.aula-nome { font-size:13px; color:var(--text2); font-family:var(--font-mono); letter-spacing:.04em; margin-top:3px; }
+.aula-dias { font-size:10px; color:var(--text3); font-family:var(--font-mono); letter-spacing:.04em; margin-top:2px; text-transform:uppercase; }
+
+.aula-vagas { text-align:center; flex-shrink:0; min-width:64px; }
+.aula-vagas-num {
+  font-family:var(--font-display); font-size:36px; letter-spacing:.04em;
+  line-height:1;
+}
+.aula-vagas-lbl { font-family:var(--font-mono); font-size:9px; color:var(--text3); letter-spacing:.06em; text-transform:uppercase; margin-top:2px; }
+
+.aula-bar { height:2px; background:var(--black4); border-radius:999px; margin-top:10px; overflow:hidden; }
+.aula-bar-fill { height:100%; border-radius:999px; background:var(--orange); transition:width .4s; }
+
+.public-footer {
+  padding:24px;
+  text-align:center;
+}
+.public-btn-login {
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--font-display); font-size:13px; letter-spacing:.14em; text-transform:uppercase;
+  padding:13px 32px; border-radius:var(--radius);
+  background:var(--orange); color:var(--black); border:none; cursor:pointer;
+  transition:all .2s; box-shadow:0 0 24px rgba(255,60,0,.35);
+  width:100%; justify-content:center; max-width:320px;
+}
+.public-btn-login:hover { background:var(--orange2); box-shadow:0 0 32px rgba(255,60,0,.5); }
+.public-btn-login-sub {
+  font-family:var(--font-mono); font-size:10px; color:var(--text3);
+  letter-spacing:.06em; margin-top:10px;
+}
+
+.public-empty {
+  text-align:center; padding:48px 20px;
+  font-family:var(--font-mono); font-size:12px; color:var(--text3);
+  letter-spacing:.06em;
+}
+.public-empty-icon { font-size:36px; margin-bottom:14px; opacity:.3; }
+
+/* ── PAINEL DE AULAS NO LOGIN ── */
+.login-aulas-panel {
+  margin-top:20px;
+  width:100%;
+}
+.login-aulas-titulo {
+  font-family:var(--font-mono);
+  font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--text3); margin-bottom:12px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.login-aulas-titulo span { color:var(--orange); }
+
+.aula-card-pub {
+  background:var(--black2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  margin-bottom:8px;
+  transition:border-color .2s;
+}
+.aula-card-pub:hover { border-color:var(--border2); }
+
+.aula-card-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px; cursor:pointer; gap:12px;
+  user-select:none;
+}
+.aula-card-header:hover { background:rgba(255,255,255,.02); }
+
+.aula-card-left { display:flex; align-items:center; gap:14px; flex:1; min-width:0; }
+.aula-card-hora {
+  font-family:var(--font-display);
+  font-size:26px; letter-spacing:.04em; line-height:1;
+  flex-shrink:0;
+}
+.aula-card-meta { min-width:0; }
+.aula-card-nome {
+  font-family:var(--font-mono); font-size:11px; color:var(--text2);
+  letter-spacing:.04em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.aula-card-dias {
+  font-family:var(--font-mono); font-size:9px; color:var(--text3);
+  letter-spacing:.04em; text-transform:uppercase; margin-top:2px;
+}
+
+.aula-card-right { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+.aula-vagas-bloco { text-align:center; }
+.aula-vagas-n {
+  font-family:var(--font-display);
+  font-size:28px; letter-spacing:.04em; line-height:1;
+}
+.aula-vagas-t {
+  font-family:var(--font-mono); font-size:8px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--text3);
+}
+.aula-expand-icon {
+  font-size:16px; color:var(--text3);
+  transition:transform .25s; flex-shrink:0;
+  font-family:var(--font-mono);
+}
+.aula-expand-icon.open { transform:rotate(180deg); }
+
+.aula-bar-pub {
+  height:2px; background:var(--black4);
+  margin:0 16px 0; border-radius:999px; overflow:hidden;
+}
+.aula-bar-pub-fill { height:100%; border-radius:999px; transition:width .4s; }
+
+/* lista de alunos expandida */
+.aula-alunos-list {
+  display:none; padding:12px 16px 14px;
+  border-top:1px solid var(--border);
+  background:rgba(0,0,0,.2);
+}
+.aula-alunos-list.open { display:block; }
+.aula-alunos-grid {
+  display:flex; flex-wrap:wrap; gap:6px;
+}
+.aluno-chip-pub {
+  display:inline-flex; align-items:center; gap:5px;
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.04em;
+  padding:4px 10px; border-radius:4px;
+}
+.aluno-chip-pub.fixo {
+  background:var(--orange-bg2); color:var(--orange); border:1px solid var(--orange-dim);
+}
+.aluno-chip-pub.fixo.ausente {
+  background:var(--danger-bg); color:var(--danger); border:1px solid #550000;
+  text-decoration:line-through; opacity:.7;
+}
+.aluno-chip-pub.extra {
+  background:var(--info-bg); color:var(--info); border:1px solid #0a2a40;
+}
+.aula-alunos-empty {
+  font-family:var(--font-mono); font-size:10px; color:var(--text3);
+  letter-spacing:.04em; padding:4px 0;
+}
+
+/* ── LABELS DE DIA NO PAINEL DE LOGIN ── */
+.login-dia-label {
+  display:flex; align-items:baseline; justify-content:space-between;
+  margin:0 0 10px; flex-wrap:wrap; gap:6px;
+}
+.login-dia-nome {
+  font-family:var(--font-display);
+  font-size:16px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--text);
+}
+.login-dia-data {
+  font-family:var(--font-mono); font-size:10px;
+  color:var(--text3); letter-spacing:.06em; text-transform:uppercase;
+}
+.login-dia-sep {
+  height:1px; background:var(--border);
+  margin:16px 0;
+}
+.login-no-aulas {
+  font-family:var(--font-mono); font-size:11px;
+  color:var(--text3); letter-spacing:.06em;
+  text-align:center; padding:14px 0;
+}
+
+/* ── PRÓXIMA AULA — glow pulsante ── */
+.aula-card-pub.proxima-aula {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 1px var(--orange-dim), 0 0 18px rgba(255,60,0,0.25);
+  animation: card-glow 2.5s ease-in-out infinite;
+}
+@keyframes card-glow {
+  0%,100% { box-shadow: 0 0 0 1px var(--orange-dim), 0 0 14px rgba(255,60,0,0.2); }
+  50%      { box-shadow: 0 0 0 1px var(--orange),     0 0 28px rgba(255,60,0,0.45); }
+}
+.aula-card-pub.proxima-aula .aula-card-hora { color: var(--orange); }
+.proxima-badge {
+  display:inline-flex; align-items:center;
+  font-family:var(--font-mono); font-size:9px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--orange);
+  background:var(--orange-bg2); border:1px solid var(--orange-dim);
+  padding:2px 8px; border-radius:3px; margin-left:8px;
+  vertical-align:middle;
+}
+
+/* ── ALUNO NAV TABS ── */
+.nav-tab-aluno { display:none; font-family:var(--font-display); font-size:12px; letter-spacing:0.15em; text-transform:uppercase; padding:15px 20px 13px; cursor:pointer; color:var(--text3); border-bottom:2px solid transparent; margin-bottom:-1px; white-space:nowrap; transition:color .15s,border-color .15s; }
+.nav-tab-aluno:hover { color:var(--text2); }
+.nav-tab-aluno.active { color:var(--orange); border-bottom-color:var(--orange); }
+
+/* ── INNER TABS (aluno) ── */
+.inner-tab-row { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:20px; }
+.inner-tab { font-family:var(--font-display); font-size:11px; letter-spacing:.12em; text-transform:uppercase; padding:10px 16px 8px; cursor:pointer; color:var(--text3); border-bottom:2px solid transparent; margin-bottom:-1px; transition:all .15s; }
+.inner-tab:hover { color:var(--text2); }
+.inner-tab.active { color:var(--orange); border-bottom-color:var(--orange); }
+.inner-panel { display:none; }
+.inner-panel.active { display:block; }
+
+/* ── RANKING ── */
+.rank-medal { font-size:18px; }
+
+/* ── PROFESSOR COR ── */
+.prof-swatch { width:28px; height:28px; border-radius:50%; cursor:pointer; transition:border-color .15s; }
+
+/* ── PRÓXIMA AULA ── */
+.aula-card-pub.proxima-aula { border-color:var(--orange); box-shadow:0 0 0 1px var(--orange-dim),0 0 18px rgba(255,60,0,.25); animation:card-glow 2.5s ease-in-out infinite; }
+@keyframes card-glow { 0%,100%{box-shadow:0 0 0 1px var(--orange-dim),0 0 14px rgba(255,60,0,.2)} 50%{box-shadow:0 0 0 1px var(--orange),0 0 28px rgba(255,60,0,.45)} }
+.aula-card-pub.proxima-aula .aula-card-hora { color:var(--orange); }
+.proxima-badge { display:inline-flex;align-items:center;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);background:var(--orange-bg2);border:1px solid var(--orange-dim);padding:2px 8px;border-radius:3px;margin-left:8px;vertical-align:middle; }
+
+/* ── DASHBOARD ── */
+.dash-card { background:var(--black2); border:1px solid var(--border); border-radius:var(--radius-lg); padding:18px 20px; margin-bottom:10px; transition:border-color .2s; }
+.dash-card:hover { border-color:var(--border2); }
+.dash-aluno-header { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.dash-bar-wrap { height:6px; background:var(--black4); border-radius:999px; overflow:hidden; margin-top:10px; }
+.dash-bar-fill { height:100%; border-radius:999px; transition:width .5s; }
+.dash-stat { font-family:var(--font-display); font-size:28px; letter-spacing:.04em; line-height:1; }
+.dash-stat-lbl { font-family:var(--font-mono); font-size:9px; color:var(--text3); letter-spacing:.06em; text-transform:uppercase; margin-top:2px; }
+.dash-turma-row { display:flex; align-items:center; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--border); gap:8px; font-size:13px; }
+.dash-turma-row:last-child { border-bottom:none; }
+.dash-expandable { display:none; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); }
+.dash-expandable.open { display:block; }
+.dash-expand-btn { font-family:var(--font-mono); font-size:10px; color:var(--text3); cursor:pointer; display:flex; align-items:center; gap:4px; margin-top:8px; transition:color .15s; }
+.dash-expand-btn:hover { color:var(--text2); }
 </style>
 </head>
 <body>
@@ -507,6 +974,7 @@ input[type="checkbox"] { accent-color:var(--orange); }
 <div class="nav-tab" data-view="agenda" onclick="switchView('agenda')">Agenda</div>
 <div class="nav-tab" data-view="alunos" onclick="switchView('alunos')">Alunos</div>
 <div class="nav-tab" data-view="config-turmas" onclick="switchView('config-turmas')">Turmas</div>
+<div class="nav-tab" data-view="dashboard" onclick="switchView('dashboard')">Dashboard</div>
 <div class="nav-tab" data-view="admin" onclick="switchView('admin')">Admin</div>
 <div class="nav-tab-aluno" data-view="aluno-agenda" onclick="switchView('aluno-agenda')">Agenda</div>
 <div class="nav-tab-aluno" data-view="aluno-cal" onclick="switchView('aluno-cal')">Calendário</div>
@@ -532,6 +1000,17 @@ input[type="checkbox"] { accent-color:var(--orange); }
 <div class="view" id="view-config-turmas">
 <div class="section-header"><div><div class="section-title">TURMAS</div><div class="section-sub">Cadastro e configuração</div></div><button class="btn btn-orange btn-sm" onclick="openModalNovaTurma()">+ NOVA TURMA</button></div>
 <div id="configTurmasContainer"></div>
+</div>
+<div class="view" id="view-dashboard">
+<div class="section-header">
+<div><div class="section-title">DASHBOARD</div><div class="section-sub">Participação mensal dos alunos</div></div>
+<div class="flex-row">
+<button class="btn btn-sm" onclick="dashChangeMonth(-1)">&#8592;</button>
+<div id="dashMonthLabel" style="font-family:var(--font-display);font-size:16px;letter-spacing:.08em;text-transform:uppercase;padding:0 8px"></div>
+<button class="btn btn-sm" onclick="dashChangeMonth(1)">&#8594;</button>
+</div>
+</div>
+<div id="dashboardContent"></div>
 </div>
 <div class="view" id="view-admin">
 <div class="section-header"><div><div class="section-title">ADMIN</div><div class="section-sub">Professores e configurações</div></div><button class="btn btn-orange btn-sm" onclick="openModalNovoProfessor()">+ NOVO PROFESSOR</button></div>
@@ -751,6 +1230,7 @@ function switchView(v) {
   if(v==='alunos')       renderAlunos();
   if(v==='config-turmas') renderConfigTurmas();
   if(v==='admin')        renderAdmin();
+  if(v==='dashboard')    renderDashboard();
   if(v==='aluno-agenda') renderAlunoAgenda();
   if(v==='aluno-cal')    { alunoCalSel=null; renderAlunoCalendar(); document.getElementById('alunoCalDetail').innerHTML='<div class="empty-state"><div class="empty-icon">📅</div>Selecione um dia</div>'; }
   if(v==='aluno-ranking') renderRanking();
@@ -1214,6 +1694,14 @@ async function alunoReservarCal(turmaId,dstr) {
     const conf=fixos.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length
               +precs.filter(p=>p.status==='recuperacao').length;
     if(conf>=(t.vagas||8)){toast('Turma lotada!','error');return;}
+    const chkRC = podeFazerReserva(t, dstr);
+    if(!chkRC.pode) {
+      toast(chkRC.msg,'error');
+      const dowX=parseDS(dstr).getDay();
+      renderAgendaDay(dstr,dowX,true);
+      renderAlunoCalendar();
+      return;
+    }
     await setPresenca(al.id,turmaId,dstr,'recuperacao');
     toast('Vaga reservada!','success');
   }
@@ -1303,6 +1791,9 @@ async function setPresenca(alunoId,turmaId,d,status) {
   saveLocal();
 }
 async function alunoFaltar(tid,d) {
+  const t = S.turmas.find(x=>x.id===tid);
+  const chk = podeMarcarFalta(t, d);
+  if(!chk.pode) { toast(chk.msg,'error'); renderAlunoAgenda(); return; }
   await setPresenca(S.alunoAtivo.id,tid,d,'ausente');
   toast('Falta registrada — vaga liberada','success');
   renderAlunoAgenda();
@@ -1327,6 +1818,12 @@ async function alunoReservar(tid,d) {
     const conf=fixos.filter(a=>{const p=precs.find(x=>x.alunoId===a.id);return !p||p.status!=='ausente';}).length
               +precs.filter(p=>p.status==='recuperacao').length;
     if(conf>=(t.vagas||8)){toast('Turma lotada!','error');return;}
+    const chkR = podeFazerReserva(t, d);
+    if(!chkR.pode) {
+      toast(chkR.msg,'error');
+      renderAlunoAgenda();
+      return;
+    }
     await setPresenca(al.id,tid,d,'recuperacao');
     toast('Vaga reservada!','success');
   }
@@ -1548,6 +2045,9 @@ async function delProfessor(id) {
 }
 
 async function alunoFaltarCal(tid,d) {
+  const t = S.turmas.find(x=>x.id===tid);
+  const chk = podeMarcarFalta(t, d);
+  if(!chk.pode) { toast(chk.msg,'error'); renderAgendaDay(d,parseDS(d).getDay(),true); return; }
   await setPresenca(S.alunoAtivo.id,tid,d,'ausente');
   toast('Falta registrada — vaga liberada','success');
   renderAgendaDay(d,parseDS(d).getDay(),true);
@@ -1622,6 +2122,46 @@ function toast(msg,type=''){
   const el=document.getElementById('toast');
   el.textContent=msg;el.className='toast show'+(type?' '+type:'');
   clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),3200);
+}
+
+// ── HELPERS DE HORÁRIO ────────────────────────
+function getHoraMinutos(horaStr) {
+  // horaStr = "07:30" → retorna minutos totais desde meia-noite
+  const [h,m] = horaStr.split(':').map(Number);
+  return h*60 + m;
+}
+function agora() {
+  const n = new Date();
+  return n.getHours()*60 + n.getMinutes();
+}
+function isHoje(dstr) { return dstr === today(); }
+
+function podeMarcarFalta(turma, dstr) {
+  // Só bloqueia se for hoje E o horário da aula for em menos de 60 min (ou já passou)
+  if(!isHoje(dstr)) return { pode:true };
+  const aulaMin  = getHoraMinutos(turma.hora);
+  const agoraMin = agora();
+  if(agoraMin >= aulaMin - 60) {
+    return {
+      pode: false,
+      msg: 'Tempo limite de cancelamento já ultrapassado, sua aula será considerada como confirmada.'
+    };
+  }
+  return { pode:true };
+}
+
+function podeFazerReserva(turma, dstr) {
+  // Reserva permitida até 10 min depois do início da aula (somente se for hoje)
+  if(!isHoje(dstr)) return { pode:true }; // dias futuros sempre OK
+  const aulaMin  = getHoraMinutos(turma.hora);
+  const agoraMin = agora();
+  if(agoraMin > aulaMin + 10) {
+    return {
+      pode: false,
+      msg: 'Aula não registrada pois limite de horário de reserva foi ultrapassado. Se participar da aula avise o professor.'
+    };
+  }
+  return { pode:true };
 }
 
 // ── PAINEL AULAS DO DIA (LOGIN) ───────────────
@@ -1701,6 +2241,146 @@ function marcarProximaAula() {
   if(horaEl&&!horaEl.querySelector('.proxima-badge')){
     const badge=document.createElement('span');badge.className='proxima-badge';badge.textContent='próxima';horaEl.appendChild(badge);
   }
+}
+
+// ── DASHBOARD ─────────────────────────────────
+let dashYear  = new Date().getFullYear();
+let dashMonth = new Date().getMonth();
+
+function dashChangeMonth(n) {
+  dashMonth += n;
+  if(dashMonth < 0) { dashMonth=11; dashYear--; }
+  if(dashMonth > 11){ dashMonth=0;  dashYear++; }
+  renderDashboard();
+}
+window.dashChangeMonth = dashChangeMonth;
+
+function toggleDashDetail(id) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.classList.toggle('open');
+}
+window.toggleDashDetail = toggleDashDetail;
+
+function renderDashboard() {
+  document.getElementById('dashMonthLabel').textContent =
+    MESES[dashMonth] + ' ' + dashYear;
+
+  // Dias do mês
+  const daysInMonth = new Date(dashYear, dashMonth+1, 0).getDate();
+  const todayStr    = today();
+
+  // Para cada aluno, calcula aulas executadas no mês
+  const dados = S.alunos.map(a => {
+    const turmasIds = a.turmasIds || [];
+    let totalEsperadas = 0; // aulas que o aluno deveria ter
+    let totalExecutadas = 0; // aulas que efetivamente participou
+    let totalFaltas    = 0;
+    let totalExtras    = 0; // recuperações feitas
+
+    // Por turma fixa
+    const porTurma = turmasIds.map(tid => {
+      const t = S.turmas.find(x => x.id===tid);
+      if(!t) return null;
+      let esp=0, exec=0, falt=0;
+      for(let day=1; day<=daysInMonth; day++) {
+        const dstr = dashYear+'-'+pad(dashMonth+1)+'-'+pad(day);
+        if(dstr > todayStr) continue; // só conta dias já passados
+        const dow = new Date(dashYear, dashMonth, day).getDay();
+        if(!t.dias || !t.dias.includes(dow)) continue;
+        esp++;
+        const p = S.presencas.find(x => x.alunoId===a.id && x.turmaId===tid && x.data===dstr);
+        if(p && p.status==='ausente') { falt++; }
+        else { exec++; } // confirmado (sem registro) ou confirmado explícito
+      }
+      return { turma:t, esperadas:esp, executadas:exec, faltas:falt };
+    }).filter(Boolean);
+
+    // Recuperações (aulas extras em turmas que não é fixo)
+    const extras = S.presencas.filter(p => {
+      if(p.alunoId !== a.id || p.status !== 'recuperacao') return false;
+      const [y,m] = (p.data||'').split('-');
+      if(+y !== dashYear || (+m-1) !== dashMonth) return false;
+      if(p.data > todayStr) return false;
+      return true;
+    });
+    totalExtras = extras.length;
+
+    porTurma.forEach(pt => {
+      totalEsperadas  += pt.esperadas;
+      totalExecutadas += pt.executadas;
+      totalFaltas     += pt.faltas;
+    });
+    totalExecutadas += totalExtras;
+
+    return { aluno:a, porTurma, totalEsperadas, totalExecutadas, totalFaltas, totalExtras };
+  }).filter(x => x.totalEsperadas > 0 || x.totalExtras > 0)
+    .sort((a,b) => b.totalExecutadas - a.totalExecutadas);
+
+  const c = document.getElementById('dashboardContent');
+  if(!dados.length) {
+    c.innerHTML = '<div class="empty-state"><div class="empty-icon">📊</div>Nenhum dado para este mês</div>';
+    return;
+  }
+
+  const maxExec = Math.max(...dados.map(d=>d.totalExecutadas), 1);
+
+  c.innerHTML = dados.map((d,i) => {
+    const ini   = d.aluno.nome.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+    const pct   = Math.round((d.totalExecutadas / Math.max(d.totalEsperadas+d.totalExtras,1))*100);
+    const barW  = Math.round((d.totalExecutadas / maxExec)*100);
+    const cor   = pct>=80 ? 'var(--success)' : pct>=50 ? 'var(--accent-yellow)' : 'var(--danger)';
+    const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    const detId = 'dash-det-'+i;
+
+    const turmaRows = d.porTurma.map(pt => {
+      const prof  = pt.turma.professorId ? S.professores.find(x=>x.id===pt.turma.professorId) : null;
+      const dot   = prof ? '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:'+prof.cor+';margin-right:4px;vertical-align:middle"></span>' : '';
+      return '<div class="dash-turma-row">'
+        +'<div style="display:flex;align-items:center;gap:6px">'
+        +dot
+        +'<span style="font-family:var(--font-display);font-size:14px;letter-spacing:.04em">'+pt.turma.hora+'</span>'
+        +(pt.turma.nome?'<span style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">'+pt.turma.nome+'</span>':'')
+        +'</div>'
+        +'<div style="display:flex;gap:16px;font-family:var(--font-mono);font-size:11px">'
+        +'<span style="color:var(--success)">'+pt.executadas+' presente'+(pt.executadas!==1?'s':'')+'</span>'
+        +(pt.faltas?'<span style="color:var(--danger)">'+pt.faltas+' falta'+(pt.faltas!==1?'s':'')+'</span>':'')
+        +'<span style="color:var(--text3)">'+pt.esperadas+' esperada'+(pt.esperadas!==1?'s':'')+'</span>'
+        +'</div></div>';
+    }).join('');
+
+    const extrasRow = d.totalExtras > 0
+      ? '<div class="dash-turma-row"><span style="color:var(--info);font-family:var(--font-mono);font-size:11px">↺ '+d.totalExtras+' aula'+(d.totalExtras!==1?'s':'')+' extra'+(d.totalExtras!==1?'s':'')+' (recuperação)</span></div>'
+      : '';
+
+    return '<div class="dash-card" style="border-left:3px solid '+cor+'">'
+      +'<div class="dash-aluno-header">'
+        +'<div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0">'
+          +(medal?'<span style="font-size:18px">'+medal+'</span>':'<span style="font-family:var(--font-display);font-size:14px;color:var(--text3);width:22px;text-align:center">#'+(i+1)+'</span>')
+          +'<div class="aluno-avatar" style="width:36px;height:36px;font-size:14px;border-radius:6px;flex-shrink:0">'+ini+'</div>'
+          +'<div style="min-width:0">'
+            +'<div style="font-family:var(--font-display);font-size:16px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+d.aluno.nome+'</div>'
+            +'<div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:2px">'+d.totalEsperadas+' aula'+(d.totalEsperadas!==1?'s':'')+' esperada'+(d.totalEsperadas!==1?'s':'')+' no mês</div>'
+          +'</div>'
+        +'</div>'
+        +'<div style="display:flex;gap:20px;flex-shrink:0">'
+          +'<div style="text-align:center">'
+            +'<div class="dash-stat" style="color:'+cor+'">'+d.totalExecutadas+'</div>'
+            +'<div class="dash-stat-lbl">aulas</div>'
+          +'</div>'
+          +(d.totalFaltas?'<div style="text-align:center"><div class="dash-stat" style="color:var(--danger)">'+d.totalFaltas+'</div><div class="dash-stat-lbl">faltas</div></div>':'')
+          +(d.totalExtras?'<div style="text-align:center"><div class="dash-stat" style="color:var(--info)">'+d.totalExtras+'</div><div class="dash-stat-lbl">extras</div></div>':'')
+        +'</div>'
+      +'</div>'
+      +'<div class="dash-bar-wrap"><div class="dash-bar-fill" style="width:'+barW+'%;background:'+cor+'"></div></div>'
+      +(d.porTurma.length?
+        '<div class="dash-expand-btn" onclick="toggleDashDetail(this.dataset.id)" data-id="'+detId+'">'
+        +'<span style="font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:.06em">▾ VER POR TURMA</span>'
+        +'</div>'
+        +'<div class="dash-expandable" id="'+detId+'">'+turmaRows+extrasRow+'</div>'
+      :'')
+      +'</div>';
+  }).join('');
 }
 
 // ── INIT ──────────────────────────────────────
