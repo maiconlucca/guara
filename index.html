@@ -975,6 +975,7 @@ input[type="checkbox"] { accent-color:var(--orange); }
 <div class="nav-tab" data-view="alunos" onclick="switchView('alunos')">Alunos</div>
 <div class="nav-tab" data-view="config-turmas" onclick="switchView('config-turmas')">Turmas</div>
 <div class="nav-tab" data-view="dashboard" onclick="switchView('dashboard')">Dashboard</div>
+<div class="nav-tab" data-view="professores" onclick="switchView('professores')">Professores</div>
 <div class="nav-tab" data-view="admin" onclick="switchView('admin')">Admin</div>
 <div class="nav-tab-aluno" data-view="aluno-agenda" onclick="switchView('aluno-agenda')">Agenda</div>
 <div class="nav-tab-aluno" data-view="aluno-cal" onclick="switchView('aluno-cal')">Calendário</div>
@@ -1012,29 +1013,20 @@ input[type="checkbox"] { accent-color:var(--orange); }
 </div>
 <div id="dashboardContent"></div>
 </div>
-<div class="view" id="view-admin">
-<div class="section-header"><div><div class="section-title">ADMIN</div><div class="section-sub">Professores e configurações</div></div><button class="btn btn-orange btn-sm" onclick="openModalNovoProfessor()">+ NOVO PROFESSOR</button></div>
+<div class="view" id="view-professores">
+<div class="section-header"><div><div class="section-title">PROFESSORES</div><div class="section-sub">Cadastro e gerenciamento</div></div><button class="btn btn-orange btn-sm" onclick="openModalNovoProfessor()">+ NOVO PROFESSOR</button></div>
 <div id="professoresContainer"></div>
+</div>
+<div class="view" id="view-admin">
+<div class="section-header"><div><div class="section-title">ADMIN</div><div class="section-sub">Configurações do sistema</div></div></div>
+<div class="flex-between" style="margin-bottom:16px"><div><div style="font-family:var(--font-display);font-size:16px;letter-spacing:.08em;margin-bottom:3px">SENHA ADMINISTRATIVA</div><div class="text-muted">Alterar senha de acesso ao painel admin</div></div><button class="btn btn-sm" onclick="openModalSenha()">Alterar</button></div>
 <div class="divider"></div>
-<div class="flex-between"><div><div style="font-family:var(--font-display);font-size:16px;letter-spacing:.08em;margin-bottom:3px">SENHA ADMINISTRATIVA</div><div class="text-muted">Alterar senha de acesso</div></div><button class="btn btn-sm" onclick="openModalSenha()">Alterar</button></div>
-</div>
-<div class="view" id="view-aluno-agenda">
-<div id="alunoAgendaContent"></div>
-</div>
-<div class="view" id="view-aluno-cal">
-<div class="section-header"><div><div class="section-title">CALENDÁRIO</div><div class="section-sub">Reserve e cancele aulas</div></div></div>
-<div class="grid-2" style="align-items:start;gap:24px">
-<div><div class="cal-header"><button class="btn btn-sm" onclick="alunoChangeMonth(-1)">&#8592;</button><div class="cal-month" id="alunoCalMonthLabel"></div><button class="btn btn-sm" onclick="alunoChangeMonth(1)">&#8594;</button></div><div class="cal-grid" id="alunoCalGrid"></div></div>
-<div id="alunoCalDetail"><div class="empty-state"><div class="empty-icon">📅</div>Selecione um dia</div></div>
-</div>
-</div>
-<div class="view" id="view-aluno-ranking">
-<div class="section-header"><div><div class="section-title">RANKING</div><div class="section-sub">Frequência dos últimos 90 dias</div></div></div>
-<div id="rankingContent"></div>
-</div>
-</div>
-<div class="toast" id="toast"></div>
-<script type="module">
+<div class="card" style="border-left:3px solid var(--orange);background:var(--black2)">
+  <div style="font-family:var(--font-display);font-size:14px;letter-spacing:.08em;color:var(--text2);margin-bottom:8px;text-transform:uppercase">Sobre o Sistema</div>
+  <div style="font-size:14px;color:var(--text);line-height:1.8">
+    <div><span style="color:var(--orange);font-family:var(--font-display);letter-spacing:.06em">Guará Calistenia</span> — Sistema de Gestão de Turmas</div>
+    <div style="color:var(--text2);margin-top:4px">Versão 1.0 · Abril de 2026</div>
+    <div style="margin-top:8px;color:var(--text3);font-family:var(--font-mono);font-size:11px;letter-spacing:.04em">Desenvolvido por<br><span sty
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, doc, getDocs, setDoc, deleteDoc }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -1230,6 +1222,7 @@ function switchView(v) {
   if(v==='alunos')       renderAlunos();
   if(v==='config-turmas') renderConfigTurmas();
   if(v==='admin')        renderAdmin();
+  if(v==='professores')  renderProfessores();
   if(v==='dashboard')    renderDashboard();
   if(v==='aluno-agenda') renderAlunoAgenda();
   if(v==='aluno-cal')    { alunoCalSel=null; renderAlunoCalendar(); document.getElementById('alunoCalDetail').innerHTML='<div class="empty-state"><div class="empty-icon">📅</div>Selecione um dia</div>'; }
@@ -1475,13 +1468,34 @@ function toggleAgSlot(listId,iconId) {
 window.toggleAgSlot=toggleAgSlot;
 
 // ── ALUNOS VIEW ───────────────────────────────
-function renderAlunos() {
-  document.getElementById('alunosCount').textContent=S.alunos.length+' alunos';
-  const c=document.getElementById('alunosContainer');
-  if(!S.alunos.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">👤</div>Nenhum aluno</div>';return;}
-  c.innerHTML=S.alunos.map(a=>{
-    const nt=(a.turmasIds||[]).map(tid=>{const t=S.turmas.find(x=>x.id===tid);return t?t.hora+(t.nome?' · '+t.nome:''):'';}).filter(Boolean).join('<br>');
-    const ini=a.nome.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+function renderAlunos(filtro) {
+  if(filtro === undefined) {
+    const el = document.getElementById('alunosBusca');
+    filtro = el ? el.value.trim().toLowerCase() : '';
+  }
+  const sorted = [...S.alunos].sort((a,b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+  const lista  = filtro
+    ? sorted.filter(a => a.nome.toLowerCase().includes(filtro) || (a.cpf||'').includes(filtro.replace(/\D/g,'')))
+    : sorted;
+  document.getElementById('alunosCount').textContent = S.alunos.length+' aluno'+(S.alunos.length!==1?'s':'');
+  const c = document.getElementById('alunosContainer');
+
+  const searchHtml = '<div style="margin-bottom:16px">'
+    +'<input class="form-input" id="alunosBusca" type="text" placeholder="🔍  Buscar por nome ou CPF..." '
+    +'value="'+filtro.replace(/"/g,'&quot;')+'" oninput="renderAlunos(this.value.trim().toLowerCase())" '
+    +'style="max-width:360px"/></div>';
+
+  if(!S.alunos.length) {
+    c.innerHTML = searchHtml + '<div class="empty-state"><div class="empty-icon">👤</div>Nenhum aluno cadastrado</div>';
+    return;
+  }
+  if(!lista.length) {
+    c.innerHTML = searchHtml + '<div class="empty-state"><div class="empty-icon">🔍</div>Nenhum aluno encontrado</div>';
+    return;
+  }
+  c.innerHTML = searchHtml + lista.map(a => {
+    const nt = (a.turmasIds||[]).map(tid=>{const t=S.turmas.find(x=>x.id===tid);return t?t.hora+(t.nome?' · '+t.nome:''):'';}).filter(Boolean).join('<br>');
+    const ini = a.nome.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
     return '<div class="card card-accent" style="margin-bottom:10px">'
       +'<div class="flex-between" style="align-items:flex-start">'
       +'<div style="display:flex;align-items:center;gap:14px;flex:1">'
@@ -1497,23 +1511,59 @@ function renderAlunos() {
       +'</div></div></div>';
   }).join('');
 }
+
+window.renderAlunos=renderAlunos;
 window.openEditAluno=openEditAluno;
 window.delAluno=delAluno;
 
 // ── CONFIG TURMAS (ex-admin de turmas) ───────
-function renderConfigTurmas() {
-  const c=document.getElementById('configTurmasContainer');
-  if(!S.turmas.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">⏱️</div>Nenhuma turma<br><span style="font-size:11px;margin-top:8px;display:block">Use o botão + NOVA TURMA acima</span></div>';return;}
-  let html='<div class="text-muted" style="margin-bottom:12px">'+S.turmas.length+' turma'+(S.turmas.length>1?'s':'')+' cadastrada'+(S.turmas.length>1?'s':'')+'</div>';
-  S.turmas.sort((a,b)=>a.hora.localeCompare(b.hora)).forEach(t=>{
-    const diasStr=(t.dias||[]).map(d=>DOW[d]).join(' · ');
-    const alnTurma=S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(t.id));
-    const prof=t.professorId?S.professores.find(x=>x.id===t.professorId):null;
-    const repB=t.repetir===false?'<span class="badge badge-warn" style="font-size:9px;margin-left:6px">ÚNICA</span>':'<span class="badge badge-green" style="font-size:9px;margin-left:6px">SEMANAL</span>';
-    const profBadge=prof?'<span style="display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:9px;padding:2px 8px;border-radius:3px;background:rgba(0,0,0,.3);border:1px solid '+prof.cor+'30;color:'+prof.cor+'"><span style="width:6px;height:6px;border-radius:50%;background:'+prof.cor+';display:inline-block"></span>'+prof.nome+'</span>':'';
-    html+='<div class="card" style="margin-bottom:10px;border-left:3px solid '+(prof?prof.cor:'var(--orange)')+'">'
-      +'<div class="flex-between" style="flex-wrap:wrap;gap:10px">'
-      +'<div>'
+function renderConfigTurmas(filtDow) {
+  if(filtDow === undefined) {
+    const sel = document.getElementById('turmaFiltDow');
+    filtDow = sel ? parseInt(sel.value) : -1;
+  }
+  const c = document.getElementById('configTurmasContainer');
+
+  // Ordena: primeiro dia da semana (menor), depois hora
+  const sorted = [...S.turmas].sort((a,b) => {
+    const dA = Math.min(...(a.dias||[99]));
+    const dB = Math.min(...(b.dias||[99]));
+    if(dA !== dB) return dA - dB;
+    return a.hora.localeCompare(b.hora);
+  });
+  const lista = filtDow >= 0 ? sorted.filter(t => t.dias && t.dias.includes(filtDow)) : sorted;
+
+  if(!S.turmas.length) {
+    c.innerHTML='<div class="empty-state"><div class="empty-icon">⏱️</div>Nenhuma turma<br><span style="font-size:11px;margin-top:8px;display:block">Use o botão + NOVA TURMA acima</span></div>';
+    return;
+  }
+
+  // Filtro de dia
+  const filterHtml = '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:16px">'
+    + '<div class="text-muted" style="margin-right:4px">Filtrar por dia:</div>'
+    + '<div class="days-grid">'
+    + '<div class="day-btn'+(filtDow===-1?' selected':'')+'" onclick="renderConfigTurmas(-1)" style="cursor:pointer">Todos</div>'
+    + DOW.map((d,i)=>'<div class="day-btn'+(filtDow===i?' selected':'')+'" onclick="renderConfigTurmas('+i+')" style="cursor:pointer">'+d+'</div>').join('')
+    + '<input type="hidden" id="turmaFiltDow" value="'+(filtDow>=0?filtDow:-1)+'">'
+    + '</div></div>'
+    + '<div class="text-muted" style="margin-bottom:12px">'+lista.length+' turma'+(lista.length!==1?'s':'')+' encontrada'+(lista.length!==1?'s':'')+'</div>';
+
+  if(!lista.length) {
+    c.innerHTML = filterHtml + '<div class="empty-state" style="padding:24px 0"><div class="empty-icon">🔍</div>Nenhuma turma neste dia</div>';
+    return;
+  }
+
+  c.innerHTML = filterHtml + lista.map(t => {
+    const diasStr = (t.dias||[]).map(d=>DOW[d]).join(' · ');
+    const alnTurma = S.alunos.filter(a=>a.turmasIds&&a.turmasIds.includes(t.id));
+    const prof = t.professorId ? S.professores.find(x=>x.id===t.professorId) : null;
+    const repB = t.repetir===false
+      ?'<span class="badge badge-warn" style="font-size:9px;margin-left:6px">ÚNICA</span>'
+      :'<span class="badge badge-green" style="font-size:9px;margin-left:6px">SEMANAL</span>';
+    const profBadge = prof
+      ?'<span style="display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:9px;padding:2px 8px;border-radius:3px;background:rgba(0,0,0,.3);border:1px solid '+prof.cor+'30;color:'+prof.cor+'"><span style="width:6px;height:6px;border-radius:50%;background:'+prof.cor+';display:inline-block"></span>'+prof.nome+'</span>':'';
+    return '<div class="card" style="margin-bottom:10px;border-left:3px solid '+(prof?prof.cor:'var(--orange)')+'">'
+      +'<div class="flex-between" style="flex-wrap:wrap;gap:10px"><div>'
       +'<div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px">'
       +'<span style="font-family:var(--font-display);font-size:22px;letter-spacing:.06em">'+t.hora+'</span>'
       +(t.nome?'<span style="font-size:14px;color:var(--text2)">'+t.nome+'</span>':'')
@@ -1525,15 +1575,16 @@ function renderConfigTurmas() {
       +'<button class="btn btn-sm" onclick="openEditTurma(\''+t.id+'\')">EDITAR</button>'
       +'<button class="btn btn-sm btn-danger" onclick="delTurma(\''+t.id+'\')">×</button>'
       +'</div></div></div>';
-  });
-  c.innerHTML=html;
+  }).join('');
 }
+
+window.renderConfigTurmas=renderConfigTurmas;
 window.openEditTurma=openEditTurma;
 window.delTurma=delTurma;
 
 // ── ADMIN (senha + professores) ───────────────
 function renderAdmin() {
-  renderProfessores();
+  // Apenas exibe a view — conteúdo estático já está no HTML
 }
 
 function renderProfessores() {
@@ -2166,7 +2217,18 @@ function podeFazerReserva(turma, dstr) {
 
 // ── PAINEL AULAS DO DIA (LOGIN) ───────────────
 function buildAulasSection(dstr,dowLocal,offsetIdx) {
-  const turmas=S.turmas.filter(t=>t.dias&&t.dias.includes(dowLocal)).sort((a,b)=>a.hora.localeCompare(b.hora));
+  const todayStr = today();
+  const agoraMin = (new Date()).getHours()*60 + (new Date()).getMinutes();
+  const turmas = S.turmas.filter(t => {
+    if(!t.dias || !t.dias.includes(dowLocal)) return false;
+    // Se for hoje, esconde aula que passou há mais de 30 min
+    if(dstr === todayStr) {
+      const [h,m] = t.hora.split(':').map(Number);
+      const aulaMin = h*60 + m;
+      if(agoraMin > aulaMin + 30) return false;
+    }
+    return true;
+  }).sort((a,b) => a.hora.localeCompare(b.hora));
   if(!turmas.length) return '';
   return turmas.map((t,i)=>{
     const idx=offsetIdx+i;
@@ -2370,6 +2432,32 @@ function renderDashboard() {
           +'</div>'
           +(d.totalFaltas?'<div style="text-align:center"><div class="dash-stat" style="color:var(--danger)">'+d.totalFaltas+'</div><div class="dash-stat-lbl">faltas</div></div>':'')
           +(d.totalExtras?'<div style="text-align:center"><div class="dash-stat" style="color:var(--info)">'+d.totalExtras+'</div><div class="dash-stat-lbl">extras</div></div>':'')
+        +'</div>'
+      +'</div>'
+      +'<div class="dash-bar-wrap"><div class="dash-bar-fill" style="width:'+barW+'%;background:'+cor+'"></div></div>'
+      +(d.porTurma.length?
+        '<div class="dash-expand-btn" onclick="toggleDashDetail(this.dataset.id)" data-id="'+detId+'">'
+        +'<span style="font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:.06em">▾ VER POR TURMA</span>'
+        +'</div>'
+        +'<div class="dash-expandable" id="'+detId+'">'+turmaRows+extrasRow+'</div>'
+      :'')
+      +'</div>';
+  }).join('');
+}
+
+// ── INIT ──────────────────────────────────────
+async function init() {
+  loadLocal();
+  try { await syncAll(); } catch(e) { console.error('Sync error:',e); }
+  renderLoginAulas();
+  marcarProximaAula();
+  viewDate=new Date();
+  document.getElementById('tab-aluno-btn').addEventListener('click',()=>switchLoginTab('aluno'));
+  document.getElementById('tab-admin-btn').addEventListener('click',()=>switchLoginTab('admin'));
+}
+init();
+
+         +(d.totalExtras?'<div style="text-align:center"><div class="dash-stat" style="color:var(--info)">'+d.totalExtras+'</div><div class="dash-stat-lbl">extras</div></div>':'')
         +'</div>'
       +'</div>'
       +'<div class="dash-bar-wrap"><div class="dash-bar-fill" style="width:'+barW+'%;background:'+cor+'"></div></div>'
